@@ -1,12 +1,125 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}bienvenue!!!{% endblock %}</title>
+    {% block stylesheets %}
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+              integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+              crossorigin="anonymous">
+
+        <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">
+
+        <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Monoton&display=swap"
+              rel="stylesheet">
+
+        <link rel="stylesheet" href="{{ asset('style.css') }}">
+
+
+
+    {% endblock %}
+
+
+<body class="home">
+
+<h2>Commandeur</h2>
+
+
+<nav class="row navbar navbar-expand-lg navbar-light bg-light">
+    <div class="col-md-9">
+        <span class="text-right mr-5" style="color: white;font-family: 'Comic Sans MS';font-size: large">Nous sommes le : {{ date('now')|date('d/m/Y') }}</span>
+        <span class="text-right mr-5" style="color: white;font-family: 'Comic Sans MS';font-size: large">
+    Il est : <strong> {{ date('')|date('H:i') }} </strong></span>
+        <span class="text-right mr-5" id="temperature"></span>
+
+    </div>
+
+    <form class="col-md-3 form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="text" placeholder="Search">
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+    </form>
+
+</nav>
+
+
+<div class="  container-fluid">
+
+
+    {% for type, messages in app.session.flashBag.all %}
+
+        {% if type == 'error' %}
+            {% set type='danger' %}
+        {% endif %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }} mt-2">
+                {{ message | raw }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+
+
+
+    {% block body %}{% endblock %}
+
+</div>
+
+
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>{# besoin de la version 2.2.4 pour fair fonctionner la meteo #}
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="{{ asset('script.js') }}"></script>
+
+    {# ---------------------------------------------------------------------------- #}
+
+
+    <script>
+
+
+
+        $(document).ready(function () {
+
+            $('#temperature').empty();
+
+
+
+            // appel AJAX
+
+            $.ajax(
+                {
+                    type: "GET",
+
+                    url: 'https://api.openweathermap.org/data/2.5/weather?q=paris&appid=eef24502bad886b5c5d3b7158a13a575&units=metric',
+
+
+                    success: function (data) {
+                        console.log(data);
+                        console.log(data.main.temp);
+                        //$('#temperature').html(data.main.temp + " °C");
+                        $('#temperature').append(`<span style="color: white">${data.name} : ${data.main.temp} °C</span>`)
+
+                    }
+                }
+            )
+
+
+
+
+        })
+    </script>
+
+
+{% endblock %}
+</body>
 </html>

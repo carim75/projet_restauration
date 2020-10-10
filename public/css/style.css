@@ -1,0 +1,147 @@
+body {
+    min-height: 100vh;
+}
+
+body .ma-nav {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+    background-color: #4F759B;
+    padding-bottom: 1% !important;
+    padding-top: 1% !important;
+}
+
+body .ma-nav img{
+    width: 45%;/*modif*/
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
+
+}
+
+.loupe{
+    position: absolute;
+    top: 10px;
+    right: 1%;
+}
+
+.entete2 th {
+    position: sticky;
+    top: 13%; /*modif*/
+    /*width: 100%;*/
+}
+
+.container{
+    padding-bottom: 1%;
+}
+
+.container .entete1 th {
+    position: sticky;
+    top: 13%;
+    /*width: 100%;*/
+}
+
+li.vidal.nav-item{
+    transform: rotate(45deg);
+    width: 7%;
+    margin-top: 2%;
+}
+
+li.vidal.nav-item:hover{
+    transform: rotate(45deg) scale(1.2);
+}
+.fichevisite {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 3vh;
+}
+
+.table {
+    font-family: 'Kalam', cursive;
+}
+
+.fichedetail {
+    border-radius: 15%;
+}
+
+.imgminion img {
+    width: 200px;
+    height: auto;
+}
+
+.fiche {
+    color: whitesmoke;
+    border-radius: 10px;
+    font-family: 'Kalam', cursive;
+}
+
+.fiche .milieu {
+    background-color: #43291F;
+    border-radius: 10px;
+}
+
+.container .droite {
+    color: whitesmoke;
+    background-color: #4F759B;
+    border-radius: 10px;
+}
+
+.fiche .gauche {
+    background-color: #637074;
+    border-radius: 10px;
+    padding: 1em;
+}
+
+.container .fiche_visite_gauche {
+    background-color: #60712F;
+    color: white;
+    border-radius: 5px;
+}
+
+.container .fiche_visite_droite {
+    background-color: #1B998B;
+    color: white;
+    border-radius: 5px;
+}
+
+.container .fiche_visite_gauche:hover {
+    transform: scale(1.3);
+}
+
+#card-rdv{
+    background-color: #4F759B;
+    color: whitesmoke;
+    margin-bottom: 2%;
+}
+#histo-visite p span{
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+button:hover {
+    transform: scale(1.3);
+}
+
+.imgbtn img:hover {
+    transform: scale(1.1);
+}
+
+div.container.historique {
+    background-color: white;
+    border-radius: 5px;
+}
+div.antecedents{
+    box-sizing: border-box;
+}
+
+body .formcreate{
+    opacity: 0.8;
+}
+.logo{
+    width: 10%;
+}
+ul.navbar-nav.fontbase{
+    margin-top: 2%;
+}

@@ -1,0 +1,89 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0 auto;
+    font: 400 16px/1.5 Arial, sans-serif;
+    min-height: 100vh;
+
+}
+
+
+.home {
+
+    background: url("chef.jpg") center top / cover;
+
+
+}
+
+
+h2 {
+    margin-top: 20px;
+    margin-left: 10px;
+    font-size: 70px;
+    font-family: 'Monoton', cursive;
+
+
+}
+.main{
+    width: 80%;
+    background-color: white;
+    margin: 0 auto;
+    opacity: 0.8;
+}
+
+nav {
+    position: fixed;
+    opacity: 0.8;
+    max-height: 10vh;
+
+}
+ul{
+    display: flex;
+    flex-direction: row;
+}
+
+ul>li{
+
+    list-style: none;
+}
+
+.liste{
+    width: 20%;
+    color: white;
+
+
+}
+.panier{
+    width: 40%;
+    background-color: white;
+    opacity: 0.8;
+}
+
+.navbar {
+
+
+    background: black !important;
+    margin-top: 15px;
+
+    height: 100px;
+
+
+}
+
+.navbar-brand {
+    font-size: 30px !important;
+    font-family: 'Fredericka the Great', cursive;
+
+
+}
+
+a {
+    font-size: 20px;
+    color: #916319 !important;
+}
+
+
+
+

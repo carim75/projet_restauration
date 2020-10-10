@@ -1,0 +1,126 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link " href="{{ path('app_index_homepage') }}">Accueil</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('app_index_livraison') }}">Livraison</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('app_index_listecommande') }}">Commandes</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="{{ path('app_index_listeproduit') }}">Liste des produits</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('app_index_editproduit') }}">Ajout/Suppression de produit</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('app_index_promos') }}">Promotions</a>
+        </li>
+        {% if is_granted('ROLE_ADMIN') %}
+            <li class="nav-item">
+                <a  class="nav-link" href="{{ path('app_admin_utilisateur_listeutilisateurs') }}">Clients</a>
+            </li>
+        {% else %}
+            <li class="nav-item">
+                <a  class="nav-link" href="{{ path('app_utilisateur_connexion') }}">Connexion</a>
+            </li>
+        {% endif %}
+    </ul>
+    <main class="row">
+        <section class="col-md-8 liste">
+            <h3>Liste des produits</h3>
+            <div class="row justify-content-around align-items-start">
+                <form method="get">
+                    <label for="societe">Par Société :  </label>
+                    <select name="societe" id="societe">
+                        {% for societe in societes %}
+                            <option name="societe" value="{{ societe.nom }}">{{ societe.nom }}</option>
+                        {% endfor %}
+                    </select>
+                    <a class="btn btn-info" href="{{ path('app_index_listeproduit', {'societe': societeid}) }}"><button type="submit">OK</button></a>
+                </form>
+            </div>
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                <tr>
+                    <th class="text-center" scope="col">Nom</th>
+                    <th class="text-center" scope="col">Catégorie</th>
+                    <th class="text-center" scope="col">Prix</th>
+                    <th class="text-center" scope="col">Unité</th>
+                    <th class="text-center" scope="col">Promotion</th>
+                    <th class="text-center" scope="col">Description</th>
+                    <th class="text-center" scope="col"><span class="btn btn-info">-</span> / <span
+                                class="btn btn-info">+</span></th>
+                    <th class="text-center" scope="col">Annuler</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% if nom is not empty  %}
+                    <tr>
+                        <th class="text-center table-success " colspan="9">{{ nom.societe }}</th>
+                    </tr>
+                {% endif %}
+                {% for produit in produits %}
+
+                    <tr>
+                        <th id="nom" class="text-center" scope="row">{{ produit.nom }}</th>
+                        <td class="text-center">{{ produit.categorie }}</td>
+                        <td id="prix" class="text-center">{{ produit.prix }}</td>
+                        <td id="unite" class="text-center">{{ produit.unite }}</td>
+                        <td class="text-center">{{ produit.promotion }}</td>
+                        <td class="text-center">{{ produit.description }}</td>
+                        <td class="text-center">
+                            <a href="{{ path('app_index_panierremove', {'id': produit.id}) }}"><span id="remove"
+                                                                                                     class="btn btn-info mr-1">-</span></a>
+
+
+                            <input id="quantite" class="text-center" value="{% for item in items %}{% if item.produit.id == produit.id %}{{ item.quantite }}{% endif %}{% endfor %}" style="width: 15%;" type="text">
+
+
+                            <a href="{{ path('app_index_panieradd', {'id': produit.id}) }}"><span id="add"
+                                                                                                  class="ml-1 btn btn-info">+</span></a>
+                        </td>
+                        <td><a href="{{ path('app_index_panierdelete', {'id': produit.id}) }}"><span class="btn btn-danger">Annuler</span></a></td>
+                    </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
+        </section>
+        <section style="min-height: 20vh" class="col-md-4 panier card">
+            <h3>Commande</h3>
+
+            <table>
+                <tr>
+                    <th>Nom</th>
+                    <th>Quantité</th>
+                    <th>Unité</th>
+                    <th>Prix unité</th>
+                    <th>Prix</th>
+                </tr>
+                {% for item in items %}
+                    <tr>
+                        <td>{{ item.produit.nom }}  </td>
+                        <td>{{ item.quantite }}  </td>
+                        <td>{{ item.produit.unite }}  </td>
+                        <td>{{ item.produit.prix }} €  </td>
+                        <td>{{ item.produit.prix * item.quantite }}  </td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <div class="row" style="position: absolute;bottom: 5vh">
+                <div class="col-md-8"><h5>Total de la commande : {{ total }} €</h5></div>
+                <div class="col-md-4"><a href="{{ path('app_index_commande') }}"><button class="btn btn-success">Commander</button></a></div>
+            </div>
+        </section>
+    </main>
+
+
+{% endblock body %}

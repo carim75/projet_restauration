@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>MedicalHelp | Login</title>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://bootswatch.com/4/flatly/bootstrap.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Sriracha&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&family=Sriracha&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{{ asset('css/login_style.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/create.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/homepage.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/titles.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/visite.css') }}">
+    {% endblock %}
+</head>
+
+<body>
+
+<div id="main_container" style="border-radius: 10px">
+    {% block body %}
+
+        <main id="login_container" style="border-radius: 10px">
+
+
+            <div id="form_container" class="animate__animated animate__lightSpeedInLeft">
+
+                <h2>Bienvenue</h2>
+
+                <div class="container animate__animated animate__lightSpeedInLeft" >
+                    {% for type, messages in app.session.flashBag.all %}
+
+                        {% if type == 'error' %}
+                            {% set type = 'danger' %}
+                        {% endif %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ type }} mt-2">
+                                {{ message|raw }}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+
+                <form method="post">
+                    <fieldset>
+
+                        <div class="form-group">
+                            <label class="col-form-label" for="pseudo">Pseudo</label>
+                            <input type="text" class="form-control" id="pseudo" name="_username">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Mot de passe</label>
+                            <input type="password" class="form-control" id="password" name="_password">
+                        </div>
+
+                        <input type="hidden" name="_target_path" value="{{ path('app_index_homepage') }}">
+                        <button type="submit" class="btn btn-primary">Connexion</button>
+
+                    </fieldset>
+                </form>
+
+            </div>
+
+        </main>
+    {% endblock %}
+</div>
+
+</body>
+
+</html>

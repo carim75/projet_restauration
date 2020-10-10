@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <main class="main">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a  class="nav-link" href="{{ path('app_index_homepage') }}">Accueil</a>
+            </li>
+            <li class="nav-item">
+                <a  class="nav-link active" href="{{ path('app_index_livraison') }}">Livraison</a>
+            </li>
+            <li class="nav-item">
+                <a  class="nav-link" href="{{ path('app_index_listecommande') }}">Commandes</a>
+            </li>
+            <li class="nav-item">
+                <a  class="nav-link" href="{{ path('app_index_listeproduit') }}">Liste des produits</a>
+            </li>
+            <li class="nav-item">
+                <a  class="nav-link" href="{{ path('app_index_editproduit') }}">Ajout/Suppression de produit</a>
+            </li>
+            <li class="nav-item">
+                <a  class="nav-link" href="{{path('app_index_promos')}}">Promotions</a>
+            </li>
+        </ul>
+
+
+        <h1>Livraisons à venir</h1>
+    </main>
+{% endblock %}

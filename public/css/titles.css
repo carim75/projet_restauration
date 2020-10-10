@@ -1,0 +1,25 @@
+h1{
+    font-family: 'Sriracha', cursive;
+    color: darkslategray;
+    text-align: center;
+    margin-bottom: 2%;
+}
+h3{
+    color: darkslategray;
+    text-align: center;
+    margin-bottom: 2%;
+}
+th{
+    text-align: center;
+}
+td{
+    text-align: center;
+}
+
+.bonjour {
+    color: darkslategray;
+}
+
+.formcreate label{
+    color: darkslategray;
+}
