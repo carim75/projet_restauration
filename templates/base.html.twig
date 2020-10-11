@@ -28,16 +28,17 @@
 
 <nav class="row navbar navbar-expand-lg navbar-light bg-light">
     <div class="col-md-9">
-        <span class="text-right mr-5" style="color: white;font-family: 'Comic Sans MS';font-size: large">Nous sommes le : {{ date('now')|date('d/m/Y') }}</span>
-        <span class="text-right mr-5" style="color: white;font-family: 'Comic Sans MS';font-size: large">
-    Il est : <strong> {{ date('')|date('H:i') }} </strong></span>
+        <span class="text-right mr-3" style="color: white;font-family: 'Comic Sans MS';font-size: large">Bienvenue {{ app.user.pseudo }} !!</span>
+        <span class="text-right mr-3" style="color: white;font-family: 'Comic Sans MS';font-size: large">Le : {{ date('now')|date('d/m/Y') }}</span>
+        <span class="text-right mr-3" style="color: white;font-family: 'Comic Sans MS';font-size: large">
+     <strong> {{ date('')|date('H') }}H{{ date('')|date('i') }} </strong></span>
         <span class="text-right mr-5" id="temperature"></span>
 
     </div>
 
-    <form class="col-md-3 form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="text" placeholder="Search">
-        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+    <form class="col-md-3 form-inline my-2 my-lg-0" method="get" action="{{ path('app_search_search') }}">
+        <input id="searchbar" name="search"  class="form-control mr-sm-2" type="text" placeholder="search">
+        <button id="search-btn" class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
     </form>
 
 </nav>
@@ -70,7 +71,8 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
             integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
             crossorigin="anonymous"></script>{# besoin de la version 2.2.4 pour fair fonctionner la meteo #}
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+            integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
             integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
@@ -87,11 +89,9 @@
     <script>
 
 
-
         $(document).ready(function () {
 
             $('#temperature').empty();
-
 
 
             // appel AJAX
@@ -100,22 +100,41 @@
                 {
                     type: "GET",
 
-                    url: 'https://api.openweathermap.org/data/2.5/weather?q=paris&appid=eef24502bad886b5c5d3b7158a13a575&units=metric',
+                    url: 'https://api.openweathermap.org/data/2.5/weather?q=paris&appid=606da65020eac77f5b8add700d11dbb7&units=metric',
 
 
                     success: function (data) {
                         console.log(data);
                         console.log(data.main.temp);
+                        console.log(data.weather[0]['main']);
                         //$('#temperature').html(data.main.temp + " °C");
-                        $('#temperature').append(`<span style="color: white">${data.name} : ${data.main.temp} °C</span>`)
+                        if (data.weather[0]['main'] == 'Clouds') {
+                            $('#temperature').append(`<span style="color: white">${data.name} : ${Math.round(data.main.temp)} °C / </span><span style="color: white"> Min: ${Math.round(data.main.temp_min)} °C</span><span style="color: white"> Max: ${Math.round(data.main.temp_max)} °C </span><img src="{{ asset('img/nuage.png') }}" alt="">`)
+                        } else if (data.weather[0]['main'] == 'Clear') {
+                            $('#temperature').append(`<span style="color: white">${data.name} : ${Math.round(data.main.temp)} °C</span><span style="color: white">${Math.round(data.main.temp_min)}</span><span style="color: white">${Math.round(data.main.temp_max)}</span><img src="{{ asset('img/soleil.png') }}" alt="">`)
+                        }
 
                     }
                 }
             )
 
 
-
-
+            $("#searchbar").autocomplete({
+                source: function (request, response) {
+                    $.get({
+                        url: "{{ path('app_search_autocomplete') }}",
+                        data: {
+                            query: request.term,
+                        },
+                        dataType: 'json',
+                        method: 'get'
+                    }).done(function (data) {
+                        response(data);
+                    });
+                },
+                delay: 100,
+                minLength: 2
+            })
         })
     </script>
 

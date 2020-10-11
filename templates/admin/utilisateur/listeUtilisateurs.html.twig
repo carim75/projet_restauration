@@ -16,8 +16,9 @@
         <table class="table table-light table-hover" style="border-radius: 5px">
             <thead class="thead-dark">
             <tr>
-                <th scope="col">Identifiant</th>
+
                 <th scope="col">Pseudo</th>
+                <th scope="col">Nom complet</th>
                 <th scope="col">Fonction</th>
                 <th scope="col">Modifier</th>
                 <th scope="col">Supprimer</th>
@@ -27,9 +28,9 @@
 
             {% for utilisateur in utilisateurs %}
                 <tr>
-                    <td>{{ utilisateur.pseudo }}</td>
-                    <td>{{ utilisateur.nomcomplet }}</td>
-                    <td>{{ utilisateur.fonction }}</td>
+                    <td class="text-center">{{ utilisateur.pseudo }}</td>
+                    <td class="text-center">{{ utilisateur.nomcomplet }}</td>
+                    <td class="text-center">{{ utilisateur.fonction }}</td>
                     <td class="text-center">
                         <a href="{{ path('utilisateur_edit', {id:utilisateur.id}) }}"> <img src="{{ asset('img/user.png') }}" alt="edition utilisateur"> </a>
                     </td>
@@ -47,22 +48,6 @@
 
     </div>
 
-    <div class="modal fade animate__animated animate__backInDown" id="modal_delete" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <p>Etes-vous sûr de vouloir supprimer cet utilisateur ?</p>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btn-confirm-delete">Oui</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Non</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
 {% endblock %}
 

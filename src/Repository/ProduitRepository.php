@@ -31,6 +31,46 @@ class ProduitRepository extends ServiceEntityRepository
             ->getResult();
 
     }
+
+    // méthode permettant de récupérer la donnée 'nom' de la table produit en bdd
+    public function search(string $filter)
+    {
+        $builder = $this->createQueryBuilder('prod');
+
+        $builder
+            ->andWhere('prod.nom LIKE :nom')
+            ->setParameter('nom', '%'. $filter . '%')
+        ;
+
+        $query = $builder->getQuery();
+
+        return $query->getResult();
+
+    }
+
+    // méthode liée à l'autocomplétion de la barre de recherche
+
+    public function autocomplete($term)
+    {
+        $qb = $this->createQueryBuilder('produit');
+
+        $qb->select('produit.nom')
+            ->where('produit.nom LIKE :term')
+            ->setParameter('term', '%' . $term . '%');
+
+        $arrayAss = $qb->getQuery()
+            ->getResult();
+
+        $array = array();
+
+        // le résultat de la requête est bouclé afin d'effectuer la recherche sur chaque ligne de la table produit
+        foreach ($arrayAss as $data) {
+
+            $array[] = $data['nom'];
+        }
+
+        return $array;
+    }
     // /**
     //  * @return Produit[] Returns an array of Produit objects
     //  */

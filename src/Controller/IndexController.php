@@ -35,6 +35,8 @@ class IndexController extends AbstractController
         ]);
     }
 
+
+
     /**
      * @Route ("/accueil")
      */

@@ -52,7 +52,7 @@ class UtilisateurController extends AbstractController
                     $this->addFlash('update', 'L\'utilisateur a été mis à jour');
                 }
 
-                return $this->redirectToRoute('app_admin_utilisateur_listeutilisateurs', [
+                return $this->redirectToRoute('app_index_index', [
                     'id' => $utilisateur->getId()
                 ]);
             }
@@ -78,7 +78,7 @@ class UtilisateurController extends AbstractController
 
         $utilisateurs = $repo->findAll();
 
-        $utilisateurs = $repo->findBy(array(), array('username' => 'ASC'));
+        $utilisateurs = $repo->findBy(array(), array('pseudo' => 'ASC'));
 
 
 
