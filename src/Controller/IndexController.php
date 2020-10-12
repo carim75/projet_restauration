@@ -14,6 +14,7 @@ use App\Repository\SocieteRepository;
 use App\Repository\UtilisateurRepository;
 use App\Service\Panier\PanierService;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\OrderBy;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -36,7 +37,6 @@ class IndexController extends AbstractController
     }
 
 
-
     /**
      * @Route ("/accueil")
      */
@@ -44,6 +44,8 @@ class IndexController extends AbstractController
     {
         return $this->render('index/index.html.twig');
     }
+
+
 
 
 
@@ -153,7 +155,7 @@ class IndexController extends AbstractController
     /**
      * @Route("/commande")
      */
-    public function listeCommande()
+    public function listeCommande(ProduitRepository $produitRepository, Produit $produit)
     {
         $rep=$this->getDoctrine()->getRepository(Societe::class);
         $societes=$rep->findAll();
@@ -165,13 +167,20 @@ class IndexController extends AbstractController
         $produits=$repos->findAll();
 
         $reposi=$this->getDoctrine()->getRepository(Achat::class);
-        $achats=$reposi->findAll();
+        $achats=$reposi->findBy(array('commande'));
 
 
         dump($produits);
-        dump($achats);
         dump($commandes);
         dump($societes);
+
+        for ($i=0; $i<count($achats); $i++){
+
+            $societe =$achats[$i]->getProduit()->getSociete();
+
+            dump($societe);
+        };
+
 
         return $this->render('index/commandes.html.twig',[
 
@@ -192,9 +201,14 @@ class IndexController extends AbstractController
 
         $panier=$panierService->getFullPanier();
 
+
+
+
         $commande=new Commande();
 
-        foreach ($panier as $item) {
+
+
+       foreach ($panier as $item) {
 
             $achat = new Achat();
             $achat->setProduit( $item['produit'] );
@@ -202,8 +216,7 @@ class IndexController extends AbstractController
             $achat->setPrix($item['produit']->getPrix());
             $manager->persist($achat);
             $achat->setCommande($commande);
-            $panierService->delete($item['produit']->getId());
-
+           $panierService->delete($item['produit']->getId());
 
         }
 
@@ -214,10 +227,9 @@ class IndexController extends AbstractController
         $manager->persist($commande);
         $manager->flush();
 
-        $panierService->getEmptyPanier();
 
 
-        return $this->redirectToRoute('app_index_commande');
+        return $this->redirectToRoute('app_index_listecommande');
     }
 
 

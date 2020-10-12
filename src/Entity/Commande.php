@@ -20,26 +20,11 @@ class Commande
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Societe::class, inversedBy="commandes")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $societe;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Produit::class, inversedBy="commandes")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $produit;
-
-    /**
      * @ORM\Column(type="date")
      */
     private $date;
 
-    /**
-     * @ORM\Column(type="float")
-     */
-    private $quantite;
+
 
     /**
      * @ORM\OneToMany(targetEntity=Achat::class, mappedBy="commande")
@@ -56,30 +41,6 @@ class Commande
         return $this->id;
     }
 
-    public function getSociete(): ?Societe
-    {
-        return $this->societe;
-    }
-
-    public function setSociete(?Societe $societe): self
-    {
-        $this->societe = $societe;
-
-        return $this;
-    }
-
-    public function getProduit(): ?Produit
-    {
-        return $this->produit;
-    }
-
-    public function setProduit(?Produit $produit): self
-    {
-        $this->produit = $produit;
-
-        return $this;
-    }
-
     public function getDate(): ?\DateTimeInterface
     {
         return $this->date;
@@ -92,17 +53,6 @@ class Commande
         return $this;
     }
 
-    public function getQuantite(): ?float
-    {
-        return $this->quantite;
-    }
-
-    public function setQuantite(float $quantite): self
-    {
-        $this->quantite = $quantite;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Achat[]

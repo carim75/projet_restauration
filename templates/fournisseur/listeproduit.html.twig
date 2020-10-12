@@ -76,7 +76,12 @@
                         <td id="unite" class="text-center">{{ produit.unite }}</td>
                         <td class="text-center">{{ produit.promotion }}</td>
                         <td class="text-center">{{ produit.description }}</td>
+
+                        {% if app.user.fonction == 'Fournisseur' %}
+
+
                         <td class="text-center">
+
                             <a href="{{ path('app_index_panierremove', {'id': produit.id}) }}"><span id="remove"
                                                                                                      class="btn btn-info mr-1">-</span></a>
 
@@ -87,7 +92,16 @@
                             <a href="{{ path('app_index_panieradd', {'id': produit.id}) }}"><span id="add"
                                                                                                   class="ml-1 btn btn-info">+</span></a>
                         </td>
+
                         <td><a href="{{ path('app_index_panierdelete', {'id': produit.id}) }}"><span class="btn btn-danger">Annuler</span></a></td>
+                            {% else %}
+                            <td>
+                                <a href="" class="btn btn-primary">Modifier</a>
+                            </td>
+                                <td>
+                                    <a href="" class="btn btn-danger">Supprimer</a>
+                                </td>
+                        {% endif %}
                     </tr>
 
                 {% endfor %}
@@ -105,6 +119,9 @@
                     <th>Prix unité</th>
                     <th>Prix</th>
                 </tr>
+                {% if nom is not empty %}
+                <tr><th colspan="5" class="text-center table-success">{{ nom.societe }}</th></tr>
+                {% endif %}
                 {% for item in items %}
                     <tr>
                         <td>{{ item.produit.nom }}  </td>
