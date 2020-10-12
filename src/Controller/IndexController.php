@@ -14,7 +14,6 @@ use App\Repository\SocieteRepository;
 use App\Repository\UtilisateurRepository;
 use App\Service\Panier\PanierService;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\OrderBy;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -47,8 +46,6 @@ class IndexController extends AbstractController
 
 
 
-
-
     /**
      * @Route ("/listeproduit/{societeid}", defaults={"societeid": ""} )
      */
@@ -62,12 +59,15 @@ class IndexController extends AbstractController
 
         dump($panierService->getFullPanier());
 
-
+        $soc='';
         $societeid=$rep->findBy([
             'nom'=> $nom]);
 
         $repo=$this->getDoctrine()->getRepository(Produit::class);
-        $produits=$repo->findAllOrderBy($societeid);
+        $prods=$repo->findAllOrderBy($societeid);
+
+        $reposi=$this->getDoctrine()->getRepository(Produit::class);
+        $produits=$reposi->findAll();
 
         return $this->render('fournisseur/listeproduit.html.twig',[
             'items'=>$panierService->getFullPanier(),
@@ -75,7 +75,9 @@ class IndexController extends AbstractController
             'produits'=>$produits,
             'societes'=>$societes,
             'nom'=>$nom,
-            'societeid'=>$societeid
+            'societeid'=>$societeid,
+            'soc'=>$soc,
+            'prods'=>$prods
         ]);
     }
 
@@ -155,7 +157,7 @@ class IndexController extends AbstractController
     /**
      * @Route("/commande")
      */
-    public function listeCommande(ProduitRepository $produitRepository, Produit $produit)
+    public function listeCommande()
     {
         $rep=$this->getDoctrine()->getRepository(Societe::class);
         $societes=$rep->findAll();
@@ -167,19 +169,11 @@ class IndexController extends AbstractController
         $produits=$repos->findAll();
 
         $reposi=$this->getDoctrine()->getRepository(Achat::class);
-        $achats=$reposi->findBy(array('commande'));
+        $achats=$reposi->findBy(array(), array('commande'=>'ASC'));
 
 
-        dump($produits);
-        dump($commandes);
-        dump($societes);
+        $soc='';
 
-        for ($i=0; $i<count($achats); $i++){
-
-            $societe =$achats[$i]->getProduit()->getSociete();
-
-            dump($societe);
-        };
 
 
         return $this->render('index/commandes.html.twig',[
@@ -188,6 +182,7 @@ class IndexController extends AbstractController
             'commandes'=>$commandes,
             'achats'=>$achats,
             'produits'=>$produits,
+            'soc'=>$soc
         ]);
 
     }

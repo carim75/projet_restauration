@@ -62,12 +62,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% if nom is not empty  %}
-                    <tr>
-                        <th class="text-center table-success " colspan="9">{{ nom.societe }}</th>
-                    </tr>
-                {% endif %}
+                {% if nom is empty %}
                 {% for produit in produits %}
+
+
+
+
 
                     <tr>
                         <th id="nom" class="text-center" scope="row">{{ produit.nom }}</th>
@@ -105,6 +105,51 @@
                     </tr>
 
                 {% endfor %}
+                {% else %}
+                    {% for prod in prods %}
+                        {% if soc != prod.societe.nom %}
+                            {% set soc=prod.societe.nom %}
+                            <tr ><th colspan="8" class="table-success text-center">{{ soc }}</th></tr>
+                        {% endif %}
+
+
+                <tr>
+                    <th id="nom" class="text-center" scope="row">{{ prod.nom }}</th>
+                    <td class="text-center">{{ prod.categorie }}</td>
+                    <td id="prix" class="text-center">{{ prod.prix }}</td>
+                    <td id="unite" class="text-center">{{ prod.unite }}</td>
+                    <td class="text-center">{{ prod.promotion }}</td>
+                    <td class="text-center">{{ prod.description }}</td>
+
+                    {% if app.user.fonction == 'Fournisseur' %}
+
+
+                        <td class="text-center">
+
+                            <a href="{{ path('app_index_panierremove', {'id': prod.id}) }}"><span id="remove"
+                                                                                                     class="btn btn-info mr-1">-</span></a>
+
+
+                            <input id="quantite" class="text-center" value="{% for item in items %}{% if item.produit.id == prod.id %}{{ item.quantite }}{% endif %}{% endfor %}" style="width: 15%;" type="text">
+
+
+                            <a href="{{ path('app_index_panieradd', {'id': prod.id}) }}"><span id="add"
+                                                                                                  class="ml-1 btn btn-info">+</span></a>
+                        </td>
+
+                        <td><a href="{{ path('app_index_panierdelete', {'id': prod.id}) }}"><span class="btn btn-danger">Annuler</span></a></td>
+                    {% else %}
+                        <td>
+                            <a href="" class="btn btn-primary">Modifier</a>
+                        </td>
+                        <td>
+                            <a href="" class="btn btn-danger">Supprimer</a>
+                        </td>
+                    {% endif %}
+                </tr>
+
+                {% endfor %}
+                {% endif %}
                 </tbody>
             </table>
         </section>
