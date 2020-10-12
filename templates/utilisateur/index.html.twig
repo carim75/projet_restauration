@@ -1,11 +1,21 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets%}
+
+    <link rel="stylesheet" href="{{ asset('restyle.css') }}">
+
+{% endblock %}
+
 {% block body %}
+
     <h3>{{ app.user.pseudo }}</h3>
+
     <main class="main">
-        <ul class="nav nav-tabs">
+
+        <ul class="nav nav-tabs" id="media">
+
             <li class="nav-item">
-                <a id="accueil" class="nav-link active" href="">Accueil</a>
+                <a id="accueil" class="nav-link active" href="">A</a>
             </li>
             <li class="nav-item">
                 <a id="livraison" class="nav-link" href="">Livraison</a>
@@ -32,10 +42,12 @@
                     <a  class="nav-link" href="">Connexion</a>
                 </li>
             {% endif %}
+
         </ul>
 
         <h1>Accueil</h1>
 
 
     </main>
+
 {% endblock %}

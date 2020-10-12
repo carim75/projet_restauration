@@ -23,6 +23,9 @@
                 <a class="nav-link" href="{{ path('app_index_promos') }}">Promotions</a>
             </li>
         </ul>
+
+            
+
         <h1>Commandes</h1>
         <table class="table table-bordered">
             <thead class="thead-dark">
@@ -36,10 +39,10 @@
             </thead>
             <tbody>
 
-
+            {% for societe in societes %}
             {% for commande in commandes %}
                 {% for achat in achats %}
-                    {% if achat.commande.id == commande.id %}
+                    {% if achat.commande.id == commande.id and achat.produit.societe.id == societe.id %}
                         <tr>
                             <td class="text-center">{{ achat.produit.nom }}</td>
                             <td class="text-center">{{ achat.prix }} €</td>
@@ -51,7 +54,7 @@
 
                 {% endfor %}
             {% endfor %}
-
+            {% endfor %}
             </tbody>
             <tfoot>
             <tr>
@@ -60,7 +63,13 @@
             </tr>
             </tfoot>
         </table>
-
+        {% if app.user.fonction == 'Restaurateur' %}
+                <form action="" method="post">
+                    <label for="date_livraison">Date livraison</label>
+                    <input type="text">
+                    <button class="btn btn-primary">Valider la commande</button>
+                </form>
+        {% endif %}
 
     </main>
 {% endblock %}

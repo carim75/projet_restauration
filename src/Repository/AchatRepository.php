@@ -19,6 +19,8 @@ class AchatRepository extends ServiceEntityRepository
         parent::__construct($registry, Achat::class);
     }
 
+
+
     // /**
     //  * @return Achat[] Returns an array of Achat objects
     //  */
