@@ -33,5 +33,35 @@
         </ul>
 
         <h1>Promotions en cours</h1>
+
+        <table class="table table-light table-hover" style="border-radius: 5px">
+            <thead class="thead-dark">
+            <tr>
+                <th class="text-center" scope="col">Nom</th>
+                <th class="text-center" scope="col">Photo</th>
+                <th class="text-center" scope="col">Catégorie</th>
+                <th class="text-center" scope="col">Prix</th>
+                <th class="text-center" scope="col">Description</th>
+                <th class="text-center" scope="col">Promotion</th>
+                {% if app.user.fonction == 'Fournisseur' %}
+
+                    <th class="text-center" scope="col">Modifier</th>
+                    <th class="text-center" scope="col">Annuler la promotion</th>
+
+                {% endif %}
+            </tr>
+            </thead>
+            <tbody>
+                {% for produit in produits %}
+                    <tr>
+                        <th id="nom" class="text-center" scope="row">{{ produit.nom }}</th>
+                        <th id="nom" class="text-center" scope="row">{{ produit.photo }}</th>
+                        <td class="text-center">{{ produit.categorie }}</td>
+                        <td id="prix" class="text-center">{{ produit.prix }}</td>
+                        <td class="text-center">{{ produit.description }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </main>
 {% endblock %}
