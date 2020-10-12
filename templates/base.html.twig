@@ -196,6 +196,58 @@
     <script src="{{asset('script.js')}}"></script>
 
 {% endblock %}
+<script>
+
+
+    $(document).ready(function () {
+
+        $('#temperature').empty();
+
+
+        // appel AJAX
+
+        $.ajax(
+            {
+                type: "GET",
+
+                url: 'https://api.openweathermap.org/data/2.5/weather?q=&appid=606da65020eac77f5b8add700d11dbb7&units=metric',
+
+
+                success: function (data) {
+                    console.log(data);
+                    console.log(data.main.temp);
+                    console.log(data.weather[0]['main']);
+                    //$('#temperature').html(data.main.temp + " °C");
+                    if (data.weather[0]['main'] == 'Clouds') {
+                        $('#temperature').append(`<span style="color: white">${data.name} : ${Math.round(data.main.temp)} °C / </span><span style="color: white"> Min: ${Math.round(data.main.temp_min)} °C</span><span style="color: white"> Max: ${Math.round(data.main.temp_max)} °C </span><img src="{{ asset('img/nuage.png') }}" alt="">`)
+                    } else if (data.weather[0]['main'] == 'Clear') {
+                        $('#temperature').append(`<span style="color: white">${data.name} : ${Math.round(data.main.temp)} °C</span><span style="color: white">${Math.round(data.main.temp_min)}</span><span style="color: white">${Math.round(data.main.temp_max)}</span><img src="{{ asset('img/soleil.png') }}" alt="">`)
+                    }
+
+                }
+            }
+        )
+
+
+        $("#searchbar").autocomplete({
+            source: function (request, response) {
+                $.get({
+                    url: "{{ path('app_search_autocomplete') }}",
+                    data: {
+                        query: request.term,
+                    },
+                    dataType: 'json',
+                    method: 'get'
+                }).done(function (data) {
+                    response(data);
+                });
+            },
+            delay: 100,
+            minLength: 2
+        })
+    })
+</script>
+
 
 </body>
 

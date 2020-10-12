@@ -43,6 +43,11 @@
             {% for commande in commandes %}
                 {% for achat in achats %}
                     {% if achat.commande.id == commande.id and achat.produit.societe.id == societe.id %}
+                        {% if soc != achat.produit.societe.nom %}
+                          {% set soc=achat.produit.societe.nom %}
+                            <tr ><th colspan="5" class="table-success text-center">{{ soc }}</th></tr>
+                        {% endif %}
+
                         <tr>
                             <td class="text-center">{{ achat.produit.nom }}</td>
                             <td class="text-center">{{ achat.prix }} €</td>
