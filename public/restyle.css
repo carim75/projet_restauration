@@ -2,6 +2,7 @@
     box-sizing: border-box;
 }
 
+
 body {
     margin: 0 auto;
     font: 400 16px/1.5 Arial, sans-serif;
@@ -49,17 +50,20 @@ ul>li{
     list-style: none;
 }
 
+
 .liste{
-    width: 20%;
-    color: white;
-
-
+    width: 60%;
+    background-color: white;
+    opacity: 0.8;
 }
+
+
 .panier{
     width: 40%;
     background-color: white;
     opacity: 0.8;
 }
+
 
 .navbar {
 
@@ -72,10 +76,10 @@ ul>li{
 
 }
 
+
 .navbar-brand {
     font-size: 30px !important;
     font-family: 'Fredericka the Great', cursive;
-
 
 }
 
@@ -85,5 +89,17 @@ a {
 }
 
 
+
+
+
+@media screen and (min-width: 360px) and (max-width: 1024px) {
+
+    #media {
+        display: flex;
+        flex-flow:column wrap;
+        margin-top: 130px;
+
+    }
+}
 
 
