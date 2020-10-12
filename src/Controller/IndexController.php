@@ -29,7 +29,6 @@ class IndexController extends AbstractController
      */
     public function index()
     {
-
         return $this->render('index/index.html.twig', [
             'controller_name' => 'IndexController',
         ]);
@@ -234,34 +233,66 @@ class IndexController extends AbstractController
     /**
      *
      * @Route("/editproduit")
+     * @Route("redit/{id}", name="redit_produit")
      */
-    public function editProduit(Request $request, EntityManagerInterface $manager,ProduitRepository $produitRepository){
-        $produit=new Produit();
+    public function editProduit(Produit $produit=null,Request $request, EntityManagerInterface $manager,ProduitRepository $produitRepository)
+    {
 
-        $form=$this->createForm(ProduitType::class, $produit);
+        if (!$produit) {
+            $creation = true;
+            $produit = new Produit();
+        }
+
+
+        $form = $this->createForm(ProduitType::class, $produit);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $manager->persist($produit);
             $manager->flush();
             $this->addFlash('success', 'Produit ajouté avec succès');
-            return $this->redirectToRoute('app_index_listeproduit');
+            return $this->redirectToRoute('app_index_listeproduit', [
+                'id' => $produit->getId()
+            ]);
         }
 
-        return $this->render('fournisseur/editproduit.html.twig',[
-            'FormProduit'=>$form->createView()
-
+        return $this->render('fournisseur/editproduit.html.twig', [
+            'FormProduit' => $form->createView(),
+            'editMode' => $produit->getId() !== null
         ]);
 
     }
+        /**
+         * @Route("/deleteproduit/{id}")
+         */
+        public function deleteProduit(Request $request, Produit $produit)
+        {
 
-    /**
-     * @Route ("/promos")
-     */
-    public function promos()
-    {
-        return $this->render('index/promotions.html.twig');
-    }
+            $delete = $this->getDoctrine()->getManager();
+            $delete->remove($produit);
+            $delete->flush();
+            $this->addFlash('success', 'Produit supprimé avec succés');
+            return $this->redirectToRoute('app_index_listeproduit');
+        }
+
+
+        /**
+         * @Route ("/promos")
+         */
+        public function promos()
+        {
+
+            $repos=$this->getDoctrine()->getRepository(Produit::class);
+            $produits=$repos->findAll();
+
+
+            return $this->render('index/promotions.html.twig',[
+
+                'produits'=>$produits,
+            ]);
+
+        }
+
 
 
 }
