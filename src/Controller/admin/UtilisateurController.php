@@ -52,7 +52,7 @@ class UtilisateurController extends AbstractController
                     $this->addFlash('update', 'L\'utilisateur a été mis à jour');
                 }
 
-                return $this->redirectToRoute('app_index_index', [
+                return $this->redirectToRoute('app_utilisateur_connexion', [
                     'id' => $utilisateur->getId()
                 ]);
             }

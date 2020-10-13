@@ -15,17 +15,8 @@
             <a class="nav-link" href="{{ path('app_index_listecommande') }}">Commandes</a>
         </li>
         <li class="nav-item">
-            {% if app.user.fonction == 'Fournisseur' %}
-                <a class="nav-link active" href="{{ path('app_index_listeprodfourn', {'id': app.user.societe.id}) }}">Liste des produits</a>
-            {% else %}
                 <a class="nav-link active" href="{{ path('app_index_listeproduit') }}">Liste des produits</a>
-            {% endif %}
         </li>
-        {% if app.user.fonction == 'Fournisseur'  %}
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_index_editproduit') }}">Ajout de produit</a>
-            </li>
-        {% endif %}
         <li class="nav-item">
             <a class="nav-link" href="{{ path('app_index_promos') }}">Promotions</a>
         </li>
@@ -33,16 +24,15 @@
             <li class="nav-item">
                 <a  class="nav-link" href="{{ path('app_admin_utilisateur_listeutilisateurs') }}">Liste utilisateurs</a>
             </li>
-        {% else %}
+        {% endif %}
             <li class="nav-item">
                 <a  class="nav-link" href="{{ path('app_utilisateur_deconnexion') }}">Déconnexion</a>
             </li>
-        {% endif %}
+
     </ul>
 
         <section class="col-md-8 liste">
             <h3>Liste des produits</h3>
-            {% if app.user.fonction == 'Restaurateur'  %}
             <div class="row justify-content-around align-items-start">
                 <form method="get">
                     <label for="societe">Par Société :  </label>
@@ -54,7 +44,6 @@
                     <a class="btn btn-info" href="{{ path('app_index_listeproduit', {'societe': societeid}) }}"><button type="submit">OK</button></a>
                 </form>
             </div>
-            {% endif %}
             <table class="table table-bordered">
                 <thead class="thead-dark">
                 <tr>
@@ -64,14 +53,10 @@
                     <th class="text-center" scope="col">Unité</th>
                     <th class="text-center" scope="col">Promotion</th>
                     <th class="text-center" scope="col">Description</th>
-                    {% if app.user.fonction == 'Restaurateur' %}
 
                     <th class="text-center" scope="col"><span class="btn btn-info">-</span> / <span
                                 class="btn btn-info">+</span></th>
                     <th class="text-center" scope="col">Annuler</th>
-                        {% else %}
-                            <th colspan="2"  class="text-center" scope="col">Actions</th>
-                    {% endif %}
 
                 </tr>
                 </thead>
@@ -90,8 +75,6 @@
                         <td id="unite" class="text-center">{{ produit.unite }}</td>
                         <td class="text-center">{{ produit.promotion }}</td>
                         <td class="text-center">{{ produit.description }}</td>
-                        {% if app.user.fonction == 'Restaurateur'  %}
-
 
                         <td class="text-center">
                             <a href="{{ path('app_index_panierremove', {'id': produit.id}) }}"><span id="remove"
@@ -106,11 +89,6 @@
                         </td>
                         <td><a href="{{ path('app_index_panierdelete', {'id': produit.id}) }}"><span class="btn btn-danger">Annuler</span></a></td>
 
-                            {% else %}
-
-                                <td><a href="{{ path('redit_produit', {'id': produit.id}) }}"><span class="btn btn-primary">Modifier</span></a></td>
-                                <td><a href="{{ path('app_index_deleteproduit', {'id': produit.id}) }}" id="confirm"><span class="btn btn-danger">Supprimer</span></a></td>
-                        {% endif %}
                     </tr>
 
                 {% endfor %}
@@ -130,9 +108,6 @@
                     <td class="text-center">{{ prod.promotion }}</td>
                     <td class="text-center">{{ prod.description }}</td>
 
-                    {% if app.user.fonction == 'Fournisseur'  %}
-
-
                         <td class="text-center">
 
                             <a href="{{ path('app_index_panierremove', {'id': prod.id}) }}"><span id="remove"
@@ -147,14 +122,7 @@
                         </td>
 
                         <td><a href="{{ path('app_index_panierdelete', {'id': prod.id}) }}"><span class="btn btn-danger">Annuler</span></a></td>
-                    {% else %}
-                        <td>
-                            <a href="" class="btn btn-primary">Modifier</a>
-                        </td>
-                        <td>
-                            <a href="" class="btn btn-danger">Supprimer</a>
-                        </td>
-                    {% endif %}
+
                 </tr>
 
                 {% endfor %}
@@ -162,7 +130,6 @@
                 </tbody>
             </table>
         </section>
-        {% if app.user.fonction == 'Restaurateur' %}
 
         <section style="min-height: 20vh" class="col-md-4 panier card">
             <h3>Commande</h3>
@@ -176,6 +143,10 @@
                     <th>Prix</th>
                 </tr>
                 {% for item in items %}
+                    {% if soc != item.produit.societe.nom %}
+                        {% set soc=item.produit.societe.nom %}
+                        <tr ><th colspan="8" class="table-success text-center">{{ soc }}</th></tr>
+                    {% endif %}
                     <tr>
                         <td>{{ item.produit.nom }}  </td>
                         <td>{{ item.quantite }}  </td>
@@ -190,7 +161,6 @@
                 <div class="col-md-4"><a href="{{ path('app_index_commande') }}"><button class="btn btn-success">Commander</button></a></div>
             </div>
         </section>
-        {% endif %}
     </main>
 
 

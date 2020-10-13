@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Societe;
 use App\Entity\Utilisateur;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -29,6 +30,11 @@ class UtilisateurType extends AbstractType
                     'label' => 'Nom complet'
                 ]
             )
+            ->add('societe', EntityType::class,
+                [
+                    'class'=>Societe::class,
+                    'choice_label'=>'nom'
+                ])
             ->add('fonction',
                 ChoiceType::class,
                 [
