@@ -44,7 +44,21 @@ class IndexController extends AbstractController
         return $this->render('index/index.html.twig');
     }
 
+    /**
+     *@route("listeprodfourn/{id}")
+     */
+public function listeProdFourn($id)
+{
 
+    $repo=$this->getDoctrine()->getRepository(Produit::class);
+
+    $produits=$repo->findAllOrderBy($id);
+
+
+    return $this->render("listeprodfourn.html.twig" ,[
+        'produits'=>$produits
+    ]);
+}
 
 
 
