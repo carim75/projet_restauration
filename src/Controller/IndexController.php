@@ -60,24 +60,6 @@ class IndexController extends AbstractController
 
 
 
-    /**
-     *
-     *@Route("/listeprodfourn/{id}")
-     *
-     */
-    public function listeProdFourn($id) {
-
-
-        $rep=$this->getDoctrine()->getRepository(Produit::class);
-        $produits=$rep->findAllOrderBy($id);
-
-        return $this->render('listeprodfourn.html.twig',[
-            'produits' => $produits
-
-        ]);
-
-
-    }
 
     /**
      * @Route ("/listeproduit/{societeid}", defaults={"societeid": ""} )
