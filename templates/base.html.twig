@@ -70,6 +70,7 @@
 
         <ul class="navbar-nav mr-auto ">
 
+            <span class="text-right mr-5" id="temperature"></span>
 
             <li class="nav-item active ml-3">
 
@@ -186,6 +187,9 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
             integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
             crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
             integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
             crossorigin="anonymous"></script>
@@ -210,19 +214,43 @@
             {
                 type: "GET",
 
-                url: 'https://api.openweathermap.org/data/2.5/weather?q=&appid=606da65020eac77f5b8add700d11dbb7&units=metric',
+                url: 'https://api.openweathermap.org/data/2.5/weather?q=paris&appid=eef24502bad886b5c5d3b7158a13a575&units=metric',
 
 
                 success: function (data) {
                     console.log(data);
-                    console.log(data.main.temp);
+
                     console.log(data.weather[0]['main']);
                     //$('#temperature').html(data.main.temp + " °C");
                     if (data.weather[0]['main'] == 'Clouds') {
-                        $('#temperature').append(`<span style="color: white">${data.name} : ${Math.round(data.main.temp)} °C / </span><span style="color: white"> Min: ${Math.round(data.main.temp_min)} °C</span><span style="color: white"> Max: ${Math.round(data.main.temp_max)} °C </span><img src="{{ asset('img/nuage.png') }}" alt="">`)
+                        $('#temperature').append(`<span style="color: white">${data.name} : ${Math.round(data.main.temp)} °C / </span><span style="color: white"> Min: ${Math.round(data.main.temp_min)} °C</span><spans style="color: white"> Max: ${Math.round(data.main.temp_max)} °C </span><img class="mb-2" src="{{ asset('img/nunu.png') }}" alt="meteo nuage et soleil">`)
                     } else if (data.weather[0]['main'] == 'Clear') {
-                        $('#temperature').append(`<span style="color: white">${data.name} : ${Math.round(data.main.temp)} °C</span><span style="color: white">${Math.round(data.main.temp_min)}</span><span style="color: white">${Math.round(data.main.temp_max)}</span><img src="{{ asset('img/soleil.png') }}" alt="">`)
+                        $('#temperature').append(`<span style="color: white">${data.name} : ${Math.round(data.main.temp)} °C</span><span style="color: white">${Math.round(data.main.temp_min)}</span><span style="color: white">${Math.round(data.main.temp_max)}</span><img class="mb-2" src="{{ asset('img/clear.png') }}" alt="soleil">`)
                     }
+
+                    else if (data.weather[0]['main'] == 'Thunderstorm') {
+                        $('#temperature').append(`<span style="color: white">${data.name} : ${Math.round(data.main.temp)} °C</span><span style="color: white">${Math.round(data.main.temp_min)}</span><span style="color: white">${Math.round(data.main.temp_max)}</span><img class="mb-2" src="{{ asset('img/orage.png') }}" alt="meteo orage">`)
+                    }
+
+                    else if (data.weather[0]['main'] == 'Drizzle') {
+                        $('#temperature').append(`<span style="color: white">${data.name} : ${Math.round(data.main.temp)} °C</span><span style="color: white">${Math.round(data.main.temp_min)}</span><span style="color: white">${Math.round(data.main.temp_max)}</span><img class="mb-2" src="{{ asset('img/pluie.png') }}" alt="meteo plui">`)
+                    }
+
+                    else if (data.weather[0]['main'] == 'Rain') {
+                        $('#temperature').append(`<span style="color: white">${data.name} : ${Math.round(data.main.temp)} °C</span><span style="color: white">${Math.round(data.main.temp_min)}</span><span style="color: white">${Math.round(data.main.temp_max)}</span><img class="mb-2" src="{{ asset('img/moit.png') }}" alt=" meteo plui soleil">`)
+                    }
+
+                    else if (data.weather[0]['main'] == 'Snow') {
+                        $('#temperature').append(`<span style="color: white">${data.name} : ${Math.round(data.main.temp)} °C</span><span style="color: white">${Math.round(data.main.temp_min)}</span><span style="color: white">${Math.round(data.main.temp_max)}</span><img class="mb-2" src="{{ asset('img/neige.png') }}" alt="meteo neige">`)
+                    }
+
+                    else if (data.weather[0]['main'] == 'Atmosphere') {
+                        $('#temperature').append(`<span style="color: white">${data.name} : ${Math.round(data.main.temp)} °C</span><span style="color: white">${Math.round(data.main.temp_min)}</span><span style="color: white">${Math.round(data.main.temp_max)}</span><img class="mb-2" src="{{ asset('img/brouillard.png') }}" alt="meteo brouillard">`)
+                    }
+
+
+
+
 
                 }
             }
