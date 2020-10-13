@@ -47,24 +47,6 @@ class IndexController extends AbstractController
 
 
 
-    /**
-     *
-     *@Route("/listeprodfourn/{id}")
-     *
-     */
-    public function listeProdFourn($id) {
-
-
-        $rep=$this->getDoctrine()->getRepository(Produit::class);
-        $produits=$rep->findAllOrderBy($id);
-
-        return $this->render('listeprodfourn.html.twig',[
-            'produits' => $produits
-
-        ]);
-
-
-    }
 
     /**
      * @Route ("/listeproduit/{societeid}", defaults={"societeid": ""} )
@@ -197,8 +179,9 @@ class IndexController extends AbstractController
         $reposi=$this->getDoctrine()->getRepository(Achat::class);
         $achats=$reposi->findBy(array(), array('commande'=>'ASC'));
 
-
         $soc='';
+
+        $tot='';
 
 
 
@@ -208,7 +191,8 @@ class IndexController extends AbstractController
             'commandes'=>$commandes,
             'achats'=>$achats,
             'produits'=>$produits,
-            'soc'=>$soc
+            'soc'=>$soc,
+            'tot'=>$tot
         ]);
 
     }
@@ -225,10 +209,11 @@ class IndexController extends AbstractController
 
 
 
+
         $commande=new Commande();
 
 
-
+        $commande->setTotal($panierService->getTotal());
        foreach ($panier as $item) {
 
             $achat = new Achat();
@@ -259,33 +244,28 @@ class IndexController extends AbstractController
 
     /**
      *
-     * @Route("/editproduit")
-     * @Route("redit/{id}", name="redit_produit")
+     * @Route("/editproduit/{idsoc}")
+     *
      */
-    public function editProduit(Produit $produit=null,Request $request, EntityManagerInterface $manager,ProduitRepository $produitRepository)
+    public function editProduit($idsoc,Produit $produit=null,Request $request, EntityManagerInterface $manager,ProduitRepository $produitRepository, SocieteRepository $societeRepository)
     {
 
-        if (!$produit) {
-            $creation = true;
-            $produit = new Produit();
-        }
 
+            $produit = new Produit();
 
         $form = $this->createForm(ProduitType::class, $produit);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $produit->setSociete($societeRepository->find($idsoc));
             $manager->persist($produit);
             $manager->flush();
             $this->addFlash('success', 'Produit ajouté avec succès');
-            return $this->redirectToRoute('app_index_listeproduit', [
-                'id' => $produit->getId()
-            ]);
+            return $this->redirectToRoute('app_index_index');
         }
 
         return $this->render('fournisseur/editproduit.html.twig', [
             'FormProduit' => $form->createView(),
-            'editMode' => $produit->getId() !== null
         ]);
 
     }
@@ -302,8 +282,35 @@ class IndexController extends AbstractController
             return $this->redirectToRoute('app_index_listeproduit');
         }
 
+    /**
+     *
+     *@Route("redit/{id}", name="redit_produit")
+     *
+     */
+    public function modifprod(EntityManagerInterface $manager, Request $request,Produit $produit)
+    {
 
-        /**
+
+        $form = $this->createForm(ProduitType::class, $produit);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->persist($produit);
+            $manager->flush();
+            $this->addFlash('success', 'Produit modifié avec succès');
+            return $this->redirectToRoute('app_index_index');
+        }
+
+        return $this->render('fournisseur/editproduit.html.twig', [
+            'FormProduit' => $form->createView(),
+        ]);
+
+    }
+
+
+
+
+    /**
          * @Route ("/promos")
          */
         public function promos()

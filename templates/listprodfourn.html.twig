@@ -26,7 +26,7 @@
         {% endif %}
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{ path('app_index_editproduit') }}">Ajout de produit</a>
+        <a class="nav-link" href="{{ path('app_index_editproduit', {'idsoc': app.user.societe.id}) }}">Ajout de produit</a>
     </li>
 
     <li class="nav-item">
@@ -36,11 +36,10 @@
         <li class="nav-item">
             <a class="nav-link" href="{{ path('app_admin_utilisateur_listeutilisateurs') }}">Liste utilisateurs</a>
         </li>
-    {% else %}
+    {% endif %}
         <li class="nav-item">
             <a class="nav-link" href="{{ path('app_utilisateur_deconnexion') }}">Déconnexion</a>
         </li>
-    {% endif %}
 </ul>
 
 
