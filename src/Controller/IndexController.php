@@ -14,7 +14,6 @@ use App\Repository\SocieteRepository;
 use App\Repository\UtilisateurRepository;
 use App\Service\Panier\PanierService;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\OrderBy;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,6 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class IndexController extends AbstractController
 {
@@ -49,15 +49,35 @@ class IndexController extends AbstractController
      */
     public function listeProdFourn($id)
     {
-        $repo=$this->getDoctrine()->getRepository(Produit::class);
-        $produits=$repo->findAllOrderBy($id);
+        $rep=$this->getDoctrine()->getRepository(Produit::class);
+        $produits=$rep->findAllOrderBy($id);
 
-        return $this->render("listprodfourn.html.twig", [
-            'produits' => $produits
+
+        return $this->render('listprodfourn.html.twig',[
+            'produits'=>$produits
         ]);
     }
 
 
+
+    /**
+     *
+     *@Route("/listeprodfourn/{id}")
+     *
+     */
+    public function listeProdFourn($id) {
+
+
+        $rep=$this->getDoctrine()->getRepository(Produit::class);
+        $produits=$rep->findAllOrderBy($id);
+
+        return $this->render('listeprodfourn.html.twig',[
+            'produits' => $produits
+
+        ]);
+
+
+    }
 
     /**
      * @Route ("/listeproduit/{societeid}", defaults={"societeid": ""} )
@@ -72,12 +92,19 @@ class IndexController extends AbstractController
 
         dump($panierService->getFullPanier());
 
-
+        $soc='';
         $societeid=$rep->findBy([
             'nom'=> $nom]);
 
+        $so='';
         $repo=$this->getDoctrine()->getRepository(Produit::class);
-        $produits=$repo->findAllOrderBy($societeid);
+        $prods=$repo->findAllOrderBy($societeid);
+
+        $reposi=$this->getDoctrine()->getRepository(Produit::class);
+        $produits=$reposi->findAll();
+
+        $reposito=$this->getDoctrine()->getRepository(Produit::class);
+        $ps=$reposito->findAllOrderBy($so);
 
         return $this->render('fournisseur/listeproduit.html.twig',[
             'items'=>$panierService->getFullPanier(),
@@ -85,7 +112,11 @@ class IndexController extends AbstractController
             'produits'=>$produits,
             'societes'=>$societes,
             'nom'=>$nom,
-            'societeid'=>$societeid
+            'societeid'=>$societeid,
+            'soc'=>$soc,
+            'prods'=>$prods,
+            'so'=>$so,
+            'ps'=>$ps
         ]);
     }
 
@@ -165,7 +196,7 @@ class IndexController extends AbstractController
     /**
      * @Route("/commande")
      */
-    public function listeCommande(ProduitRepository $produitRepository, Produit $produit)
+    public function listeCommande()
     {
         $rep=$this->getDoctrine()->getRepository(Societe::class);
         $societes=$rep->findAll();
@@ -177,19 +208,11 @@ class IndexController extends AbstractController
         $produits=$repos->findAll();
 
         $reposi=$this->getDoctrine()->getRepository(Achat::class);
-        $achats=$reposi->findBy(array('commande'));
+        $achats=$reposi->findBy(array(), array('commande'=>'ASC'));
 
 
-        dump($produits);
-        dump($commandes);
-        dump($societes);
+        $soc='';
 
-        for ($i=0; $i<count($achats); $i++){
-
-            $societe =$achats[$i]->getProduit()->getSociete();
-
-            dump($societe);
-        };
 
 
         return $this->render('index/commandes.html.twig',[
@@ -198,6 +221,7 @@ class IndexController extends AbstractController
             'commandes'=>$commandes,
             'achats'=>$achats,
             'produits'=>$produits,
+            'soc'=>$soc
         ]);
 
     }
