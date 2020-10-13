@@ -1,10 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block stylesheets%}
 
-    <link rel="stylesheet" href="{{ asset('restyle.css') }}">
-
-{% endblock %}
 
 {% block body %}
 
@@ -12,37 +8,40 @@
 
     <main class="main">
 
-        <ul class="nav nav-tabs" id="media">
-
+        <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a id="accueil" class="nav-link active" href="">A</a>
+                <a class="nav-link " href="{{ path('app_index_homepage') }}">Accueil</a>
             </li>
             <li class="nav-item">
-                <a id="livraison" class="nav-link" href="">Livraison</a>
+                <a class="nav-link" href="{{ path('app_index_livraison') }}">Livraison</a>
             </li>
             <li class="nav-item">
-                <a  class="nav-link" href="">Commandes</a>
+                <a class="nav-link" href="{{ path('app_index_listecommande') }}">Commandes</a>
             </li>
             <li class="nav-item">
-                <a  class="nav-link" href="">Liste des produits</a>
+                {% if app.user.fonction == 'Fournisseur'%}
+                    <a class="nav-link active" href="{{ path('app_index_listeprodfourn', {'id': app.user.societe.id}) }}">Liste des produits</a>
+                {% else %}
+                    <a class="nav-link active" href="{{ path('app_index_listeproduit') }}">Liste des produits</a>
+                {% endif %}
             </li>
+            {% if app.user.fonction == 'Fournisseur'  %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_index_editproduit') }}">Ajout de produit</a>
+                </li>
+            {% endif %}
             <li class="nav-item">
-                <a  class="nav-link" href="">Ajout/Suppression de produit</a>
-            </li>
-            <li class="nav-item">
-                <a  class="nav-link" href="">Promotions</a>
+                <a class="nav-link" href="{{ path('app_index_promos') }}">Promotions</a>
             </li>
             {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item">
-                    <a  class="nav-link" href="{{ path('app_admin_utilisateur_listeutilisateurs') }}">Utilisateurs</a>
+                    <a  class="nav-link" href="{{ path('app_admin_utilisateur_listeutilisateurs') }}">Liste utilisateurs</a>
                 </li>
-                <li class="nav-item"><a class="nav-link" href="{{ path('app_admin_utilisateur_inscription') }}">Inscription</a></li>
             {% else %}
                 <li class="nav-item">
-                    <a  class="nav-link" href="">Connexion</a>
+                    <a  class="nav-link" href="{{ path('app_utilisateur_deconnexion') }}">Déconnexion</a>
                 </li>
             {% endif %}
-
         </ul>
 
         <h1>Accueil</h1>
