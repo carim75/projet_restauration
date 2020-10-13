@@ -14,7 +14,6 @@ use App\Repository\SocieteRepository;
 use App\Repository\UtilisateurRepository;
 use App\Service\Panier\PanierService;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\OrderBy;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,6 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class IndexController extends AbstractController
 {
@@ -45,20 +45,19 @@ class IndexController extends AbstractController
     }
 
     /**
-     *@route("listeprodfourn/{id}")
+     * @Route("/listeprodfourn/{id}")
      */
-public function listeProdFourn($id)
-{
-
-    $repo=$this->getDoctrine()->getRepository(Produit::class);
-
-    $produits=$repo->findAllOrderBy($id);
+    public function listeProdFourn($id)
+    {
+        $rep=$this->getDoctrine()->getRepository(Produit::class);
+        $produits=$rep->findAllOrderBy($id);
 
 
-    return $this->render("listeprodfourn.html.twig" ,[
-        'produits'=>$produits
-    ]);
-}
+        return $this->render('listprodfourn.html.twig',[
+            'produits'=>$produits
+        ]);
+    }
+
 
 
 
@@ -75,12 +74,19 @@ public function listeProdFourn($id)
 
         dump($panierService->getFullPanier());
 
-
+        $soc='';
         $societeid=$rep->findBy([
             'nom'=> $nom]);
 
+        $so='';
         $repo=$this->getDoctrine()->getRepository(Produit::class);
-        $produits=$repo->findAllOrderBy($societeid);
+        $prods=$repo->findAllOrderBy($societeid);
+
+        $reposi=$this->getDoctrine()->getRepository(Produit::class);
+        $produits=$reposi->findAll();
+
+        $reposito=$this->getDoctrine()->getRepository(Produit::class);
+        $ps=$reposito->findAllOrderBy($so);
 
         return $this->render('fournisseur/listeproduit.html.twig',[
             'items'=>$panierService->getFullPanier(),
@@ -88,7 +94,11 @@ public function listeProdFourn($id)
             'produits'=>$produits,
             'societes'=>$societes,
             'nom'=>$nom,
-            'societeid'=>$societeid
+            'societeid'=>$societeid,
+            'soc'=>$soc,
+            'prods'=>$prods,
+            'so'=>$so,
+            'ps'=>$ps
         ]);
     }
 
@@ -168,7 +178,7 @@ public function listeProdFourn($id)
     /**
      * @Route("/commande")
      */
-    public function listeCommande(ProduitRepository $produitRepository, Produit $produit)
+    public function listeCommande()
     {
         $rep=$this->getDoctrine()->getRepository(Societe::class);
         $societes=$rep->findAll();
@@ -180,19 +190,11 @@ public function listeProdFourn($id)
         $produits=$repos->findAll();
 
         $reposi=$this->getDoctrine()->getRepository(Achat::class);
-        $achats=$reposi->findBy(array('commande'));
+        $achats=$reposi->findBy(array(), array('commande'=>'ASC'));
 
 
-        dump($produits);
-        dump($commandes);
-        dump($societes);
+        $soc='';
 
-        for ($i=0; $i<count($achats); $i++){
-
-            $societe =$achats[$i]->getProduit()->getSociete();
-
-            dump($societe);
-        };
 
 
         return $this->render('index/commandes.html.twig',[
@@ -201,6 +203,7 @@ public function listeProdFourn($id)
             'commandes'=>$commandes,
             'achats'=>$achats,
             'produits'=>$produits,
+            'soc'=>$soc
         ]);
 
     }
@@ -252,34 +255,66 @@ public function listeProdFourn($id)
     /**
      *
      * @Route("/editproduit")
+     * @Route("redit/{id}", name="redit_produit")
      */
-    public function editProduit(Request $request, EntityManagerInterface $manager,ProduitRepository $produitRepository){
-        $produit=new Produit();
+    public function editProduit(Produit $produit=null,Request $request, EntityManagerInterface $manager,ProduitRepository $produitRepository)
+    {
 
-        $form=$this->createForm(ProduitType::class, $produit);
+        if (!$produit) {
+            $creation = true;
+            $produit = new Produit();
+        }
+
+
+        $form = $this->createForm(ProduitType::class, $produit);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $manager->persist($produit);
             $manager->flush();
             $this->addFlash('success', 'Produit ajouté avec succès');
-            return $this->redirectToRoute('app_index_listeproduit');
+            return $this->redirectToRoute('app_index_listeproduit', [
+                'id' => $produit->getId()
+            ]);
         }
 
-        return $this->render('fournisseur/editproduit.html.twig',[
-            'FormProduit'=>$form->createView()
-
+        return $this->render('fournisseur/editproduit.html.twig', [
+            'FormProduit' => $form->createView(),
+            'editMode' => $produit->getId() !== null
         ]);
 
     }
+        /**
+         * @Route("/deleteproduit/{id}")
+         */
+        public function deleteProduit(Request $request, Produit $produit)
+        {
 
-    /**
-     * @Route ("/promos")
-     */
-    public function promos()
-    {
-        return $this->render('index/promotions.html.twig');
-    }
+            $delete = $this->getDoctrine()->getManager();
+            $delete->remove($produit);
+            $delete->flush();
+            $this->addFlash('success', 'Produit supprimé avec succés');
+            return $this->redirectToRoute('app_index_listeproduit');
+        }
+
+
+        /**
+         * @Route ("/promos")
+         */
+        public function promos()
+        {
+
+            $repos=$this->getDoctrine()->getRepository(Produit::class);
+            $produits=$repos->findAll();
+
+
+            return $this->render('index/promotions.html.twig',[
+
+                'produits'=>$produits,
+            ]);
+
+        }
+
 
 
 }
