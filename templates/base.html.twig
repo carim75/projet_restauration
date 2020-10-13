@@ -17,6 +17,7 @@
 
         <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Monoton&display=swap" rel="stylesheet">
 
+
         <link rel="stylesheet" href="{{asset('restyle.css')}}">
 
 
@@ -30,27 +31,7 @@
 
 <h2 id="effect"></h2>
 
-<script>
 
-    var x =0;
-
-    var textEffect = ".Commandeur.";
-    var container = document.getElementById('effect');
-
-
-    function animate () {
-
-        if (x < textEffect.length){
-
-            container.innerHTML+= textEffect.charAt(x);
-
-            x++;
-            setTimeout(animate,70);
-        }
-    }
-    animate();
-
-</script>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 
@@ -70,31 +51,27 @@
 
         <ul class="navbar-nav mr-auto ">
 
+            <a class="nav-link" href="#">
 
-            <li class="nav-item active ml-3">
+                <span class="date text-right " style="color: white;font-family: 'Comic Sans MS';font-size: medium">Le {{ date('now')|date('d/m/Y') }}</span>
+
+            </a>
+            <span class="sr-only">(current)</span>
+
+
+            </li>
+
 
 
                 <a class="nav-link" href="#">
 
+                    <span class="text-right " style="color: white;font-family: 'Comic Sans MS';font-size: medium">
 
-                    <span class="text-right " style="color: white;font-family: 'Comic Sans MS';font-size: medium">Le {{ date('now')|date('d/m/Y') }}</span></a>
+                        <strong>à {{ date('')|date('H:i') }} </strong></span>
 
-                <span class="sr-only">(current)</span>
-
-
-            </li>
-
-            <li class="nav-item active ml-3">
+                </a>
 
 
-
-                <a class="nav-link" href="#"><span class="text-right " style="color: white;font-family: 'Comic Sans MS';font-size: medium">
-
-                        <strong>à {{ date('')|date('H:i') }} </strong></span></a>
-
-
-
-            </li>
 
         </ul>
 
@@ -117,49 +94,6 @@
 </nav>
 
 
-
-
-{#  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-
-
-    <a class="navbar-brand" href="#">Bienvenue sur Commandeur.</a>
-
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-
-    <div class="collapse navbar-collapse" id="navbarColor01">
-
-
-        <ul class="navbar-nav mr-auto">
-
-            <li class="nav-item active">
-
-                <a class="nav-link" href="#"><span class="text-right mr-5" style="color: white;font-family: 'Comic Sans MS';font-size: large"> Le {{ date('now')|date('d/m/Y') }}</span></a>
-
-            </li>
-
-            <div class="col-md-9">
-
-                <a class="nav-link" href="#"><span class="text-right mr-5" style="color: white;font-family: 'Comic Sans MS';font-size: large">
-
-    <strong> : {{ date('')|date('H:i') }} </strong></span></a>
-
-            </div>
-
-            <form class="col-md-5 form-inline my-2 my-lg-0">
-
-                <input class="form-control mr-sm-2" type="text" placeholder="Search">
-
-            </form>
-
-            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-
-
-</nav>
-
-#}
 
 {% for type, messages in app.session.flashBag.all %}
 

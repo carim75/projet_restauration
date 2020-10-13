@@ -2,13 +2,40 @@
 
 
 
+
 {% block body %}
+
+    <script>
+
+        var x =0;
+
+        var textEffect = ".Commandeur.";
+        var container = document.getElementById('effect');
+
+
+        function animate (e) {
+
+            if (x < textEffect.length){
+
+                container.innerHTML+= textEffect.charAt(x);
+
+                x++;
+                setTimeout(animate,70);
+                e.preventDefault();
+            }
+        }
+        animate();
+
+    </script>
+
+
 
     <h3>{{ app.user.pseudo }}</h3>
 
     <main class="main">
 
-        <ul class="nav nav-tabs">
+        <ul class="nav nav-tabs" id="media">
+
             <li class="nav-item">
                 <a class="nav-link " href="{{ path('app_index_homepage') }}">Accueil</a>
             </li>
@@ -43,8 +70,6 @@
                 </li>
             {% endif %}
         </ul>
-
-        <h1>Accueil</h1>
 
 
     </main>

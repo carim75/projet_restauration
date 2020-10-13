@@ -1,37 +1,50 @@
 {% block stylesheet %}
 
-<link rel="stylesheet" href="{{ asset('css/login_style.css') }}">
-<link rel="stylesheet" href="{{ asset('css/create.css') }}">
-<link rel="stylesheet" href="{{ asset('css/homepage.css') }}">
-<link rel="stylesheet" href="{{ asset('css/restyle.css') }}">
-<link rel="stylesheet" href="{{ asset('css/titles.css') }}">
-<link rel="stylesheet" href="{{ asset('css/visite.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+          crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Monoton&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ asset('css/login_style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/create.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/homepage.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/titles.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/visite.css') }}">
+
 
 {% endblock %}
 
-    {% block body %}
-        <div class="container animate__animated animate__backInDown" style="width: 60%">
-            {% if editMode %}
-                <h1 class="text-left">Modification utilisateur</h1>
-            {% else %}
-                <h1 class="text-left">Inscription utilisateur</h1>
-            {% endif %}
+{% block body %}
 
-            {{ form_start(form) }}
+    <div class="container animateanimated animatebackInDown" style="width: 40%">
 
-            {{ form_row(form.pseudo) }}
-            {{ form_row(form.nomComplet) }}
-            {{ form_row(form.fonction) }}
-            {{ form_row(form.plainMdp) }}
+        {% if editMode %}
+            <h5 class="mt-4 text-center">Modification utilisateur</h5>
+        {% else %}
+            <h5 class="mt-4 text-center">Inscription utilisateur</h5>
+        {% endif %}
+        <hr>
 
-            <button type="submit" class="btn btn-primary">
-                {% if editMode %}
-                    Mettre à jour
-                {% else %}
-                    Enregistrer
-                {% endif %}
-            </button>
+        {{ form_start(form) }}
 
-            {{ form_end(form) }}
-        </div>
-    {% endblock %}
+        {{ form_row(form.pseudo) }}
+        {{ form_row(form.nomComplet) }}
+        {{ form_row(form.fonction) }}
+        {{ form_row(form.plainMdp) }}
+
+        {% if editMode %}
+
+            <input type="submit" value="Mettre à jour" class="btn btn-dark btn-lg btn-block mt-4">
+
+        {% else %}
+
+            <input type="submit" value="Enregistrer" class="btn btn-dark btn-lg btn-block mt-4">
+
+        {% endif %}
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
