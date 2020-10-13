@@ -49,10 +49,16 @@ class Societe
      */
     private $commandes;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Utilisateur::class, mappedBy="societe")
+     */
+    private $utilisateurs;
+
     public function __construct()
     {
         $this->produits = new ArrayCollection();
         $this->commandes = new ArrayCollection();
+        $this->utilisateurs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -164,6 +170,37 @@ class Societe
             // set the owning side to null (unless already changed)
             if ($commande->getSociete() === $this) {
                 $commande->setSociete(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Utilisateur[]
+     */
+    public function getUtilisateurs(): Collection
+    {
+        return $this->utilisateurs;
+    }
+
+    public function addUtilisateur(Utilisateur $utilisateur): self
+    {
+        if (!$this->utilisateurs->contains($utilisateur)) {
+            $this->utilisateurs[] = $utilisateur;
+            $utilisateur->setSociete($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUtilisateur(Utilisateur $utilisateur): self
+    {
+        if ($this->utilisateurs->contains($utilisateur)) {
+            $this->utilisateurs->removeElement($utilisateur);
+            // set the owning side to null (unless already changed)
+            if ($utilisateur->getSociete() === $this) {
+                $utilisateur->setSociete(null);
             }
         }
 

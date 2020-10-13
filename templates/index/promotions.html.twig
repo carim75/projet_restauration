@@ -15,19 +15,21 @@
             <li class="nav-item">
                 <a id="liste" class="nav-link" href="{{ path('app_index_listeproduit') }}">Liste des produits</a>
             </li>
+            {% if app.user.fonction == 'Fournisseur'  %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_index_editproduit') }}">Ajout de produit</a>
+                </li>
+            {% endif %}
             <li class="nav-item">
-                <a id="ajout" class="nav-link" href="{{ path('app_index_editproduit') }}">Ajout/Suppression de produit</a>
-            </li>
-            <li class="nav-item">
-                <a id="promo" class="nav-link active" href="{{path('app_index_promos')}}">Promotions</a>
+                <a class="nav-link" href="{{ path('app_index_promos') }}">Promotions</a>
             </li>
             {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item">
-                    <a  class="nav-link" href="{{ path('app_admin_utilisateur_listeutilisateurs') }}">Clients</a>
+                    <a  class="nav-link" href="{{ path('app_admin_utilisateur_listeutilisateurs') }}">Liste utilisateurs</a>
                 </li>
             {% else %}
                 <li class="nav-item">
-                    <a  class="nav-link" href="{{ path('app_utilisateur_connexion') }}">Connexion</a>
+                    <a  class="nav-link" href="{{ path('app_utilisateur_deconnexion') }}">Déconnexion</a>
                 </li>
             {% endif %}
         </ul>

@@ -54,6 +54,12 @@ class Utilisateur implements UserInterface
      */
     private $plainMdp;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Societe::class, inversedBy="utilisateurs")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $societe;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -157,6 +163,18 @@ class Utilisateur implements UserInterface
     public function eraseCredentials()
     {
 
+    }
+
+    public function getSociete(): ?Societe
+    {
+        return $this->societe;
+    }
+
+    public function setSociete(?Societe $societe): self
+    {
+        $this->societe = $societe;
+
+        return $this;
     }
 
 }
