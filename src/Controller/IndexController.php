@@ -45,22 +45,6 @@ class IndexController extends AbstractController
     }
 
     /**
-     * @Route("/listeprodfourn/{id}")
-     */
-    public function listeProdFourn($id)
-    {
-        $rep=$this->getDoctrine()->getRepository(Produit::class);
-        $produits=$rep->findAllOrderBy($id);
-
-
-        return $this->render('listprodfourn.html.twig',[
-            'produits'=>$produits
-        ]);
-    }
-
-
-
-    /**
      *
      *@Route("/listeprodfourn/{id}")
      *
@@ -317,19 +301,50 @@ class IndexController extends AbstractController
 
 
         /**
-         * @Route ("/promos")
+         * @Route ("/promos/{societeid}", defaults={"societeid": ""})
          */
-        public function promos()
+        public function promos(ProduitRepository $produitRepository,SocieteRepository $societeRepository, EntityManagerInterface $manager,Request $request,$societeid)
         {
-
             $repos=$this->getDoctrine()->getRepository(Produit::class);
-            $produits=$repos->findAll();
+            $produitsEnPromo=$repos->findAll();
 
+            $nom=$request->query->all();
+            $repo=$this->getDoctrine()->getRepository(Societe::class);
+            $soc='';
+            $societeid=$repo->findBy([
+                'nom'=> $nom]);
 
             return $this->render('index/promotions.html.twig',[
 
-                'produits'=>$produits,
+                'produits'=>$produitsEnPromo,
+                'societeid'=>$societeid,
+                'soc'=>$soc,
+                'nom'=>$nom
             ]);
+
+        }
+
+        /**
+         *
+         * @Route("/listepromofourn/{id}")
+         *
+         */
+        public function listePromoFourn(Request $request, $id) {
+
+
+            $rep=$this->getDoctrine()->getRepository(Produit::class);
+            $produits=$rep->findAllOrderBy($id);
+
+            $promotion=$request->query->all();
+            $produitsEnPromo = $rep->findBy([
+               'promotion' => $promotion
+            ]);
+
+            return $this->render('listepromofourn.html.twig',[
+                'produits' => $produits,
+                'promotion' => $produitsEnPromo
+            ]);
+
 
         }
 
