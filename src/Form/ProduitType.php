@@ -74,11 +74,6 @@ class ProduitType extends AbstractType
                     'multiple'=>false,
                     'placeholder'=>false
                 ])
-            ->add('societe', EntityType::class,
-                [
-                    'class'=>Societe::class,
-                    'choice_label'=>'nom'
-                ])
             ->add('description', TextareaType::class,
                 [
                     'label'=>'Description',

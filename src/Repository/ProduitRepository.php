@@ -23,7 +23,6 @@ class ProduitRepository extends ServiceEntityRepository
 
     public function findAllOrderBy($value)
     {
-
         return $this->createQueryBuilder('p')
             ->andWhere('p.societe = :val')
             ->setParameter('val', $value)

@@ -4,8 +4,9 @@
 
 {% block body %}
 
-    <main class="main">
-        <ul class="nav nav-tabs">
+    <main class="main px-4 py-5" style="width: 60%">
+
+        <ul class="nav nav-tabs"id="media">
             <li class="nav-item">
                 <a  class="nav-link" href="{{ path('app_index_homepage') }}">Accueil</a>
             </li>
@@ -16,25 +17,27 @@
                 <a  class="nav-link" href="{{ path('app_index_listecommande') }}">Commandes</a>
             </li>
             <li class="nav-item">
-                <a  class="nav-link" href="{{ path('app_index_listeproduit') }}">Liste des produits</a>
-            </li>
+                {% if app.user.fonction == 'Fournisseur' %}
+                    <a class="nav-link " href="{{ path('app_index_listeprodfourn', {'id': app.user.societe.id}) }}">Liste des produits</a>
+                {% else %}
+                    <a class="nav-link " href="{{ path('app_index_listeproduit') }}">Liste des produits</a>
+                {% endif %}
             {% if app.user.fonction == 'Fournisseur'  %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_index_editproduit') }}">Ajout de produit</a>
+                    <a class="nav-link active" href="{{ path('app_index_editproduit', {'idsoc': app.user.societe.id}) }}">Ajout de produit</a>
                 </li>
             {% endif %}
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_index_promos') }}">Promotions</a>
+                <a  class="nav-link" href="{{path('app_index_promos')}}">Promotions</a>
             </li>
             {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item">
                     <a  class="nav-link" href="{{ path('app_admin_utilisateur_listeutilisateurs') }}">Liste utilisateurs</a>
                 </li>
-            {% else %}
+            {% endif %}
                 <li class="nav-item">
                     <a  class="nav-link" href="{{ path('app_utilisateur_deconnexion') }}">Déconnexion</a>
                 </li>
-            {% endif %}
         </ul>
         <h1>Création produit</h1>
 
@@ -47,7 +50,8 @@
         {{ form_row(FormProduit.societe) }}
         {{ form_row(FormProduit.description,{'label': 'Description', 'attr':{'placeholder' : 'Origine, Conditionnement, si possibilité de colis renseigner poids moyen ou quantité...' }}) }}
         {{ form_row(FormProduit.promotion,{'label' : 'Promotion'}) }}
-        <button class="btn btn-primary" type="submit">Enregistrer</button>
+        <!--<button class="btn btn-primary" type="submit">Enregistrer</button>-->
+        <input type="submit" value="Enregistrer" class="btn btn-dark btn-lg btn-block mt-4">
 
         {{ form_end(FormProduit) }}
 
