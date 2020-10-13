@@ -12,7 +12,11 @@
         <a class="nav-link" href="{{ path('app_index_listecommande') }}">Commandes</a>
     </li>
     <li class="nav-item">
+        {% if app.user.fonction == 'Fournisseur' %}
+            <a class="nav-link active" href="{{ path('app_index_listeprodfourn', {'id': app.user.societe.id}) }}">Liste des produits</a>
+            {% else %}
         <a class="nav-link active" href="{{ path('app_index_listeproduit') }}">Liste des produits</a>
+        {% endif %}
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{ path('app_index_editproduit') }}">Ajout de produit</a>
@@ -47,9 +51,13 @@
         </tr>
         </thead>
         <tbody>
+
+
+
         <tr>
-            <th colspan="8" class="table-success text-center">{{ soc }}</th>
+            <th colspan="8" class="table-success text-center">{{ app.user.societe.nom }}</th>
         </tr>
+        {% for produit in produits %}
         <tr>
             <th id="nom" class="text-center" scope="row">{{ produit.nom }}</th>
             <td class="text-center">{{ produit.categorie }}</td>
@@ -62,9 +70,11 @@
             <td><a href="{{ path('app_index_deleteproduit', {'id': produit.id}) }}" id="confirm"><span
                             class="btn btn-danger">Supprimer</span></a></td>
         </tr>
+        {% endfor %}
         </tbody>
     </table>
 </section>
+
 
 
 {% endblock %}
