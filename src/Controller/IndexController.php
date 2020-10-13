@@ -44,6 +44,19 @@ class IndexController extends AbstractController
         return $this->render('index/index.html.twig');
     }
 
+    /**
+     * @Route("/listeprodfourn/{id}")
+     */
+    public function listeProdFourn($id)
+    {
+        $rep=$this->getDoctrine()->getRepository(Produit::class);
+        $produits=$rep->findAllOrderBy($id);
+
+
+        return $this->render('listeprodfourn.html.twig',[
+            'produits'=>$produits
+        ]);
+    }
 
 
 
@@ -214,7 +227,7 @@ class IndexController extends AbstractController
 
 
         $commande->setTotal($panierService->getTotal());
-       foreach ($panier as $item) {
+        foreach ($panier as $item) {
 
             $achat = new Achat();
             $achat->setProduit( $item['produit'] );
@@ -222,7 +235,7 @@ class IndexController extends AbstractController
             $achat->setPrix($item['produit']->getPrix());
             $manager->persist($achat);
             $achat->setCommande($commande);
-           $panierService->delete($item['produit']->getId());
+            $panierService->delete($item['produit']->getId());
 
         }
 
@@ -251,7 +264,7 @@ class IndexController extends AbstractController
     {
 
 
-            $produit = new Produit();
+        $produit = new Produit();
 
         $form = $this->createForm(ProduitType::class, $produit);
         $form->handleRequest($request);
@@ -269,18 +282,18 @@ class IndexController extends AbstractController
         ]);
 
     }
-        /**
-         * @Route("/deleteproduit/{id}")
-         */
-        public function deleteProduit(Request $request, Produit $produit)
-        {
+    /**
+     * @Route("/deleteproduit/{id}")
+     */
+    public function deleteProduit(Request $request, Produit $produit)
+    {
 
-            $delete = $this->getDoctrine()->getManager();
-            $delete->remove($produit);
-            $delete->flush();
-            $this->addFlash('success', 'Produit supprimé avec succés');
-            return $this->redirectToRoute('app_index_listeproduit');
-        }
+        $delete = $this->getDoctrine()->getManager();
+        $delete->remove($produit);
+        $delete->flush();
+        $this->addFlash('success', 'Produit supprimé avec succés');
+        return $this->redirectToRoute('app_index_listeproduit');
+    }
 
     /**
      *
@@ -311,21 +324,21 @@ class IndexController extends AbstractController
 
 
     /**
-         * @Route ("/promos")
-         */
-        public function promos()
-        {
+     * @Route ("/promos")
+     */
+    public function promos()
+    {
 
-            $repos=$this->getDoctrine()->getRepository(Produit::class);
-            $produits=$repos->findAll();
+        $repos=$this->getDoctrine()->getRepository(Produit::class);
+        $produits=$repos->findAll();
 
 
-            return $this->render('index/promotions.html.twig',[
+        return $this->render('index/promotions.html.twig',[
 
-                'produits'=>$produits,
-            ]);
+            'produits'=>$produits,
+        ]);
 
-        }
+    }
 
 
 
