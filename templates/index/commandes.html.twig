@@ -14,14 +14,29 @@
                 <a class="nav-link active" href="{{ path('app_index_listecommande') }}">Commandes</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_index_listeproduit') }}">Liste des produits</a>
+                {% if app.user.fonction == 'Fournisseur' %}
+                    <a class="nav-link active" href="{{ path('app_index_listeprodfourn', {'id': app.user.societe.id}) }}">Liste des produits</a>
+                {% else %}
+                    <a class="nav-link active" href="{{ path('app_index_listeproduit') }}">Liste des produits</a>
+                {% endif %}
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_index_editproduit') }}">Ajout/Suppression de produit</a>
-            </li>
+            {% if app.user.fonction == 'Fournisseur'  %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_index_editproduit') }}">Ajout de produit</a>
+                </li>
+            {% endif %}
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('app_index_promos') }}">Promotions</a>
             </li>
+            {% if is_granted('ROLE_ADMIN') %}
+                <li class="nav-item">
+                    <a  class="nav-link" href="{{ path('app_admin_utilisateur_listeutilisateurs') }}">Liste utilisateurs</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a  class="nav-link" href="{{ path('app_utilisateur_deconnexion') }}">Déconnexion</a>
+                </li>
+            {% endif %}
         </ul>
 
             

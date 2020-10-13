@@ -2,11 +2,10 @@
 
 {% block body %}
 
+    <main class="row">
 
     <ul class="nav nav-tabs">
-
         <li class="nav-item">
-
             <a class="nav-link " href="{{ path('app_index_homepage') }}">Accueil</a>
         </li>
         <li class="nav-item">
@@ -16,28 +15,34 @@
             <a class="nav-link" href="{{ path('app_index_listecommande') }}">Commandes</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link active" href="{{ path('app_index_listeproduit') }}">Liste des produits</a>
+            {% if app.user.fonction == 'Fournisseur' %}
+                <a class="nav-link active" href="{{ path('app_index_listeprodfourn', {'id': app.user.societe.id}) }}">Liste des produits</a>
+            {% else %}
+                <a class="nav-link active" href="{{ path('app_index_listeproduit') }}">Liste des produits</a>
+            {% endif %}
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path('app_index_editproduit') }}">Ajout/Suppression de produit</a>
-        </li>
+        {% if app.user.fonction == 'Fournisseur'  %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_index_editproduit') }}">Ajout de produit</a>
+            </li>
+        {% endif %}
         <li class="nav-item">
             <a class="nav-link" href="{{ path('app_index_promos') }}">Promotions</a>
         </li>
         {% if is_granted('ROLE_ADMIN') %}
             <li class="nav-item">
-                <a  class="nav-link" href="{{ path('app_admin_utilisateur_listeutilisateurs') }}">Clients</a>
+                <a  class="nav-link" href="{{ path('app_admin_utilisateur_listeutilisateurs') }}">Liste utilisateurs</a>
             </li>
         {% else %}
             <li class="nav-item">
-                <a  class="nav-link" href="{{ path('app_utilisateur_connexion') }}">Connexion</a>
+                <a  class="nav-link" href="{{ path('app_utilisateur_deconnexion') }}">Déconnexion</a>
             </li>
         {% endif %}
     </ul>
 
-    <main class="row">
         <section class="col-md-8 liste">
             <h3>Liste des produits</h3>
+            {% if app.user.fonction == 'Restaurateur'  %}
             <div class="row justify-content-around align-items-start">
                 <form method="get">
                     <label for="societe">Par Société :  </label>
@@ -49,10 +54,11 @@
                     <a class="btn btn-info" href="{{ path('app_index_listeproduit', {'societe': societeid}) }}"><button type="submit">OK</button></a>
                 </form>
             </div>
+            {% endif %}
             <table class="table table-bordered">
                 <thead class="thead-dark">
                 <tr>
-                    <th class="tex t-center" scope="col">Nom</th>
+                    <th class="text-center" scope="col">Nom</th>
                     <th class="text-center" scope="col">Catégorie</th>
                     <th class="text-center" scope="col">Prix</th>
                     <th class="text-center" scope="col">Unité</th>
@@ -63,19 +69,20 @@
                     <th class="text-center" scope="col"><span class="btn btn-info">-</span> / <span
                                 class="btn btn-info">+</span></th>
                     <th class="text-center" scope="col">Annuler</th>
-
+                        {% else %}
+                            <th colspan="2"  class="text-center" scope="col">Actions</th>
                     {% endif %}
 
                 </tr>
                 </thead>
                 <tbody>
+
                 {% if nom is empty %}
                 {% for produit in produits %}
-
-
-
-
-
+                    {% if soc != produit.societe.nom %}
+                        {% set soc=produit.societe.nom %}
+                        <tr ><th colspan="8" class="table-success text-center">{{ soc }}</th></tr>
+                    {% endif %}
                     <tr>
                         <th id="nom" class="text-center" scope="row">{{ produit.nom }}</th>
                         <td class="text-center">{{ produit.categorie }}</td>
@@ -123,7 +130,7 @@
                     <td class="text-center">{{ prod.promotion }}</td>
                     <td class="text-center">{{ prod.description }}</td>
 
-                    {% if app.user.fonction == 'Fournisseur' %}
+                    {% if app.user.fonction == 'Fournisseur'  %}
 
 
                         <td class="text-center">
@@ -155,6 +162,7 @@
                 </tbody>
             </table>
         </section>
+        {% if app.user.fonction == 'Restaurateur' %}
 
         <section style="min-height: 20vh" class="col-md-4 panier card">
             <h3>Commande</h3>
@@ -182,6 +190,7 @@
                 <div class="col-md-4"><a href="{{ path('app_index_commande') }}"><button class="btn btn-success">Commander</button></a></div>
             </div>
         </section>
+        {% endif %}
     </main>
 
 

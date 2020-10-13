@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class IndexController extends AbstractController
 {
@@ -42,6 +43,21 @@ class IndexController extends AbstractController
     {
         return $this->render('index/index.html.twig');
     }
+
+    /**
+     * @Route("/listeprodfourn/{id}")
+     */
+    public function listeProdFourn($id)
+    {
+        $rep=$this->getDoctrine()->getRepository(Produit::class);
+        $produits=$rep->findAllOrderBy($id);
+
+
+        return $this->render('listprodfourn.html.twig',[
+            'produits'=>$produits
+        ]);
+    }
+
 
 
     /**
@@ -80,11 +96,15 @@ class IndexController extends AbstractController
         $societeid=$rep->findBy([
             'nom'=> $nom]);
 
+        $so='';
         $repo=$this->getDoctrine()->getRepository(Produit::class);
         $prods=$repo->findAllOrderBy($societeid);
 
         $reposi=$this->getDoctrine()->getRepository(Produit::class);
         $produits=$reposi->findAll();
+
+        $reposito=$this->getDoctrine()->getRepository(Produit::class);
+        $ps=$reposito->findAllOrderBy($so);
 
         return $this->render('fournisseur/listeproduit.html.twig',[
             'items'=>$panierService->getFullPanier(),
@@ -94,7 +114,9 @@ class IndexController extends AbstractController
             'nom'=>$nom,
             'societeid'=>$societeid,
             'soc'=>$soc,
-            'prods'=>$prods
+            'prods'=>$prods,
+            'so'=>$so,
+            'ps'=>$ps
         ]);
     }
 

@@ -50,7 +50,7 @@ class Societe
     private $commandes;
 
     /**
-     * @ORM\OneToMany(targetEntity=Utilisateur::class, mappedBy="Societe")
+     * @ORM\OneToMany(targetEntity=Utilisateur::class, mappedBy="societe")
      */
     private $utilisateurs;
 

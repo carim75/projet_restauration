@@ -58,7 +58,7 @@ class Utilisateur implements UserInterface
      * @ORM\ManyToOne(targetEntity=Societe::class, inversedBy="utilisateurs")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $Societe;
+    private $societe;
 
     public function getId(): ?int
     {
@@ -167,12 +167,12 @@ class Utilisateur implements UserInterface
 
     public function getSociete(): ?Societe
     {
-        return $this->Societe;
+        return $this->societe;
     }
 
-    public function setSociete(?Societe $Societe): self
+    public function setSociete(?Societe $societe): self
     {
-        $this->Societe = $Societe;
+        $this->societe = $societe;
 
         return $this;
     }
