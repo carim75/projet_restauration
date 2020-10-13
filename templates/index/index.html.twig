@@ -2,15 +2,42 @@
 
 
 
+
 {% block body %}
+
+    <script>
+
+        var x =0;
+
+        var textEffect = ".Commandeur.";
+        var container = document.getElementById('effect');
+
+
+        function animate (e) {
+
+            if (x < textEffect.length){
+
+                container.innerHTML+= textEffect.charAt(x);
+
+                x++;
+                setTimeout(animate,70);
+                e.preventDefault();
+            }
+        }
+        animate();
+
+    </script>
+
+
 
     <h3>{{ app.user.pseudo }}</h3>
 
     <main class="main">
 
-        <ul class="nav nav-tabs">
+        <ul class="nav nav-tabs" id="media">
+
             <li class="nav-item">
-                <a class="nav-link " href="{{ path('app_index_homepage') }}">Accueil</a>
+                <a class="nav-link active" href="{{ path('app_index_homepage') }}">Accueil</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('app_index_livraison') }}">Livraison</a>
@@ -20,14 +47,14 @@
             </li>
             <li class="nav-item">
                 {% if app.user.fonction == 'Fournisseur' %}
-                    <a class="nav-link active" href="{{ path('app_index_listeprodfourn', {'id': app.user.societe.id}) }}">Liste des produits</a>
+                    <a class="nav-link " href="{{ path('app_index_listeprodfourn', {'id': app.user.societe.id}) }}">Liste des produits</a>
                 {% else %}
-                    <a class="nav-link active" href="{{ path('app_index_listeproduit') }}">Liste des produits</a>
+                    <a class="nav-link" href="{{ path('app_index_listeproduit') }}">Liste des produits</a>
                 {% endif %}
             </li>
             {% if app.user.fonction == 'Fournisseur'  %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_index_editproduit') }}">Ajout de produit</a>
+                    <a class="nav-link" href="{{ path('app_index_editproduit', {'idsoc': app.user.societe.id}) }}">Ajout de produit</a>
                 </li>
             {% endif %}
             <li class="nav-item">
@@ -42,8 +69,6 @@
                     <a  class="nav-link" href="{{ path('app_utilisateur_deconnexion') }}">Déconnexion</a>
                 </li>
         </ul>
-
-        <h1>Accueil</h1>
 
 
     </main>

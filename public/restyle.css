@@ -15,7 +15,6 @@ body {
 
     background: url("chef.jpg") center top / cover;
 
-
 }
 
 
@@ -27,35 +26,37 @@ h2 {
 
 
 }
-.main{
-    width: 80%;
-    background-color: white;
-    margin: 0 auto;
-    opacity: 0.8;
-}
 
 nav {
-    position: fixed;
+    position: sticky;
+
     opacity: 0.8;
     max-height: 10vh;
 
 }
+
+.main{
+
+    width: 80%;
+
+    margin: 0 auto;
+
+}
+
+
 ul{
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+
 }
 
-ul>li{
-
+ul>li{ background:aliceblue ;
+    border: 1px solid grey;
     list-style: none;
+    box-shadow: 2px 3px 6px;
 }
 
-
-.liste{
-    width: 60%;
-    background-color: white;
-    opacity: 0.8;
-}
 
 
 .panier{
@@ -90,16 +91,33 @@ a {
 
 
 
-
-
-@media screen and (min-width: 360px) and (max-width: 1024px) {
+@media screen and (min-width: 360px) and (max-width: 800px) {
 
     #media {
         display: flex;
+        min-height: 200px;
+
+
         flex-flow:column wrap;
-        margin-top: 160px;
+
+        margin-top:100px ;
 
     }
+
+
 }
 
+
+@media screen and (min-width: 560px) and (max-width: 800px) {
+
+    #media {
+        display: flex;
+            min-height: 200px;
+                flex-flow:column wrap;
+                    margin-top:150px ;
+
+    }
+
+
+}
 
