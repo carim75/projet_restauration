@@ -59,9 +59,6 @@
                 <table class="table table-bordered">
                 <tbody>
             {% for achat in achats %}
-                {% for  in  %}
-
-
                 {% if achat.commande.id == commande.id %}
                     {% if soc != commande.societe %}
                         {% set soc=commande.societe %}
@@ -94,7 +91,6 @@
                             <input class="form-control" type="date" value="" id="example-date-input">
                         </div>
                     </div>
-
             {% endfor %}
 
 

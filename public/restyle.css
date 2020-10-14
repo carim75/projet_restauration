@@ -76,10 +76,16 @@ ul>li{ background:aliceblue ;
 
 }
 
-a {
+span.navbar-brand {
     font-size: 20px;
     color: #916319 !important;
 }
+
+a{
+    font-size: 20px;
+    color: #916319 !important;
+}
+
 
 
 
