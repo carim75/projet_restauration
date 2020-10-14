@@ -177,9 +177,9 @@ class IndexController extends AbstractController
     }
 
     /**
-     * @Route("/commandefourn")
+     * @Route("/commandefourn/{id}")
      */
-    public function commandesFourn()
+    public function commandesFourn($id)
     {
 
         $rep=$this->getDoctrine()->getRepository(Societe::class);
@@ -188,8 +188,13 @@ class IndexController extends AbstractController
         $repo=$this->getDoctrine()->getRepository(Commande::class);
         $commandes=$repo->findAll();
 
+        foreach ($commandes as $commande){
+           dump($commande->getSociete());
+        }
+
         $repos=$this->getDoctrine()->getRepository(Produit::class);
-        $produits=$repos->findAll();
+        $produits=$repos->findAllOrderBy($id);
+        dump($produits);
 
         $reposi=$this->getDoctrine()->getRepository(Achat::class);
         $achats=$reposi->findBy(array(), array('commande'=>'ASC'));
@@ -238,6 +243,7 @@ class IndexController extends AbstractController
         $achats=$reposi->findBy(array(), array('commande'=>'ASC'));
 
         $soc='';
+        $soci='';
 
         $tot='';
 
@@ -250,7 +256,8 @@ class IndexController extends AbstractController
             'achats'=>$achats,
             'produits'=>$produits,
             'soc'=>$soc,
-            'tot'=>$tot
+            'tot'=>$tot,
+            'soci'=>$soci
         ]);
 
     }
@@ -272,7 +279,7 @@ class IndexController extends AbstractController
 
 
         $commande->setTotal($panierService->getTotal());
-        $commande->setSociete($societeRepository->find($id));
+        $commande->setSociete($id);
        foreach ($panier as $item) {
 
             $achat = new Achat();
