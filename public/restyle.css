@@ -29,7 +29,6 @@ h2 {
 
 nav {
     position: sticky;
-
     opacity: 0.8;
     max-height: 10vh;
 
@@ -38,11 +37,9 @@ nav {
 .main{
 
     width: 80%;
-
     margin: 0 auto;
 
 }
-
 
 ul{
     display: flex;
@@ -58,7 +55,6 @@ ul>li{ background:aliceblue ;
 }
 
 
-
 .panier{
     width: 40%;
     background-color: white;
@@ -68,12 +64,10 @@ ul>li{ background:aliceblue ;
 
 .navbar {
 
-
     background: black !important;
     margin-top: 15px;
 
     height: 100px;
-
 
 }
 
@@ -90,34 +84,9 @@ a {
 }
 
 
+button {
 
-@media screen and (min-width: 360px) and (max-width: 800px) {
-
-    #media {
-        display: flex;
-        min-height: 200px;
-
-
-        flex-flow:column wrap;
-
-        margin-top:100px ;
-
-    }
-
-
+    background: black;
 }
 
-
-@media screen and (min-width: 560px) and (max-width: 800px) {
-
-    #media {
-        display: flex;
-            min-height: 200px;
-                flex-flow:column wrap;
-                    margin-top:150px ;
-
-    }
-
-
-}
 
