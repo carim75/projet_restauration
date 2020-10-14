@@ -27,6 +27,18 @@ h2 {
 
 }
 
+.burger {
+    background: url("img/kisspng-j-steel-australasia-pty-ltd-arrow-drop-down-list-b-down-arrow-5abd34f27d0ae1.3314361315223492985122.png");
+    border: 1px solid dimgrey;
+
+}
+
+.meteo{
+    width: 400px;
+}
+
+
+
 .main{
 
     width: 80%;
