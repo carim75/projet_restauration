@@ -54,11 +54,14 @@ class Societe
      */
     private $utilisateurs;
 
+
+
     public function __construct()
     {
         $this->produits = new ArrayCollection();
         $this->commandes = new ArrayCollection();
         $this->utilisateurs = new ArrayCollection();
+        $this->commandSoc = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -206,4 +209,13 @@ class Societe
 
         return $this;
     }
+
+    /**
+     * @return Collection|Commande[]
+     */
+    public function getCommandSoc(): Collection
+    {
+        return $this->commandSoc;
+    }
+
 }
