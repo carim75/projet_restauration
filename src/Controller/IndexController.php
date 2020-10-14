@@ -45,22 +45,23 @@ class IndexController extends AbstractController
     }
 
     /**
-     * @Route("/listeprodfourn/{id}")
+     *
+     *@Route("/listeprodfourn/{id}")
+     *
      */
-    public function listeProdFourn($id)
-    {
+    public function listeProdFourn($id) {
+
+
         $rep=$this->getDoctrine()->getRepository(Produit::class);
         $produits=$rep->findAllOrderBy($id);
 
+        return $this->render('listeprodfourn.html.twig',[
+            'produits' => $produits
 
-        return $this->render('listprodfourn.html.twig',[
-            'produits'=>$produits
         ]);
+
+
     }
-
-
-
-
 
     /**
      * @Route ("/listeproduit/{societeid}", defaults={"societeid": ""} )
@@ -175,6 +176,49 @@ class IndexController extends AbstractController
         return $this->render('index/livraisons.html.twig');
     }
 
+    /**
+     * @Route("/commandefourn")
+     */
+    public function commandesFourn()
+    {
+
+        $rep=$this->getDoctrine()->getRepository(Societe::class);
+        $societes=$rep->findAll();
+
+        $repo=$this->getDoctrine()->getRepository(Commande::class);
+        $commandes=$repo->findAll();
+
+        $repos=$this->getDoctrine()->getRepository(Produit::class);
+        $produits=$repos->findAll();
+
+        $reposi=$this->getDoctrine()->getRepository(Achat::class);
+        $achats=$reposi->findBy(array(), array('commande'=>'ASC'));
+
+        $soc='';
+
+        $tot='';
+
+
+
+        return $this->render('index/commandesfourn.html.twig',[
+
+            'societes'=>$societes,
+            'commandes'=>$commandes,
+            'achats'=>$achats,
+            'produits'=>$produits,
+            'soc'=>$soc,
+            'tot'=>$tot
+        ]);
+
+
+
+
+
+    }
+
+
+
+
 
     /**
      * @Route("/commande")
@@ -213,9 +257,9 @@ class IndexController extends AbstractController
 
 
     /**
-     * @Route ("/achat")
+     * @Route ("/achat/{id}")
      */
-    public function commande(PanierService $panierService,EntityManagerInterface $manager)
+    public function commande($id,SocieteRepository $societeRepository,PanierService $panierService,EntityManagerInterface $manager)
     {
 
         $panier=$panierService->getFullPanier();
@@ -228,6 +272,7 @@ class IndexController extends AbstractController
 
 
         $commande->setTotal($panierService->getTotal());
+        $commande->setSociete($societeRepository->find($id));
        foreach ($panier as $item) {
 
             $achat = new Achat();
@@ -280,6 +325,7 @@ class IndexController extends AbstractController
 
         return $this->render('fournisseur/editproduit.html.twig', [
             'FormProduit' => $form->createView(),
+            'idsoc'=>$idsoc
         ]);
 
     }
@@ -324,20 +370,51 @@ class IndexController extends AbstractController
 
 
 
-    /**
-         * @Route ("/promos")
+        /**
+         * @Route ("/promos/{societeid}", defaults={"societeid": ""})
          */
-        public function promos()
+        public function promos(ProduitRepository $produitRepository,SocieteRepository $societeRepository, EntityManagerInterface $manager,Request $request,$societeid)
         {
-
             $repos=$this->getDoctrine()->getRepository(Produit::class);
-            $produits=$repos->findAll();
+            $produitsEnPromo=$repos->findAll();
 
+            $nom=$request->query->all();
+            $repo=$this->getDoctrine()->getRepository(Societe::class);
+            $soc='';
+            $societeid=$repo->findBy([
+                'nom'=> $nom]);
 
             return $this->render('index/promotions.html.twig',[
 
-                'produits'=>$produits,
+                'produits'=>$produitsEnPromo,
+                'societeid'=>$societeid,
+                'soc'=>$soc,
+                'nom'=>$nom
             ]);
+
+        }
+
+        /**
+         *
+         * @Route("/listepromofourn/{id}")
+         *
+         */
+        public function listePromoFourn(Request $request, $id) {
+
+
+            $rep=$this->getDoctrine()->getRepository(Produit::class);
+            $produits=$rep->findAllOrderBy($id);
+
+            $promotion=$request->query->all();
+            $produitsEnPromo = $rep->findBy([
+               'promotion' => $promotion
+            ]);
+
+            return $this->render('listepromofourn.html.twig',[
+                'produits' => $produits,
+                'promotion' => $produitsEnPromo
+            ]);
+
 
         }
 

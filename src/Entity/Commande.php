@@ -36,6 +36,12 @@ class Commande
      */
     private $total;
 
+    /**
+     * @ORM\Column(type="string", length=20)
+     */
+    private $societe;
+
+
     public function __construct()
     {
         $this->achats = new ArrayCollection();
@@ -101,4 +107,17 @@ class Commande
 
         return $this;
     }
+
+    public function getSociete(): ?string
+    {
+        return $this->societe;
+    }
+
+    public function setSociete(string $societe): self
+    {
+        $this->societe = $societe;
+
+        return $this;
+    }
+
 }

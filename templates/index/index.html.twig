@@ -58,7 +58,7 @@
                 </li>
             {% endif %}
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_index_promos') }}">Promotions</a>
+                <a class="nav-link" href="{{ path('app_index_listepromofourn', {'id': app.user.societe.id}) }}">Promotions</a>
             </li>
             {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item">
