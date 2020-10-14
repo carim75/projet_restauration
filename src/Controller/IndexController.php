@@ -176,6 +176,49 @@ class IndexController extends AbstractController
         return $this->render('index/livraisons.html.twig');
     }
 
+    /**
+     * @Route("/commandefourn")
+     */
+    public function commandesFourn()
+    {
+
+        $rep=$this->getDoctrine()->getRepository(Societe::class);
+        $societes=$rep->findAll();
+
+        $repo=$this->getDoctrine()->getRepository(Commande::class);
+        $commandes=$repo->findAll();
+
+        $repos=$this->getDoctrine()->getRepository(Produit::class);
+        $produits=$repos->findAll();
+
+        $reposi=$this->getDoctrine()->getRepository(Achat::class);
+        $achats=$reposi->findBy(array(), array('commande'=>'ASC'));
+
+        $soc='';
+
+        $tot='';
+
+
+
+        return $this->render('index/commandesfourn.html.twig',[
+
+            'societes'=>$societes,
+            'commandes'=>$commandes,
+            'achats'=>$achats,
+            'produits'=>$produits,
+            'soc'=>$soc,
+            'tot'=>$tot
+        ]);
+
+
+
+
+
+    }
+
+
+
+
 
     /**
      * @Route("/commande")
@@ -214,9 +257,9 @@ class IndexController extends AbstractController
 
 
     /**
-     * @Route ("/achat")
+     * @Route ("/achat/{id}")
      */
-    public function commande(PanierService $panierService,EntityManagerInterface $manager)
+    public function commande($id,SocieteRepository $societeRepository,PanierService $panierService,EntityManagerInterface $manager)
     {
 
         $panier=$panierService->getFullPanier();
@@ -229,6 +272,7 @@ class IndexController extends AbstractController
 
 
         $commande->setTotal($panierService->getTotal());
+        $commande->setSociete($societeRepository->find($id));
        foreach ($panier as $item) {
 
             $achat = new Achat();
@@ -281,6 +325,7 @@ class IndexController extends AbstractController
 
         return $this->render('fournisseur/editproduit.html.twig', [
             'FormProduit' => $form->createView(),
+            'idsoc'=>$idsoc
         ]);
 
     }

@@ -3,7 +3,7 @@
 {% block body %}
 
 
-    <main class="main px-4 py-5"style="width: 80%">
+    <main class=" row px-4 py-5">
 
     <ul class="nav nav-tabs">
 
@@ -50,6 +50,8 @@
                     <a class="btn btn-info" href="{{ path('app_index_listeproduit', {'societe': societeid}) }}"><button type="submit">OK</button></a>
                 </form>
             </div>
+
+
             <table class="table table-bordered">
                 <thead class="thead-dark">
                 <tr>
@@ -150,6 +152,7 @@
                 </tr>
                 {% for item in items %}
                     {% if soc != item.produit.societe.nom %}
+
                         {% set soc=item.produit.societe.nom %}
                         <tr ><th colspan="8" class="table-success text-center">{{ soc }}</th></tr>
                     {% endif %}
@@ -164,7 +167,7 @@
             </table>
             <div class="row" style="position: absolute;bottom: 5vh">
                 <div class="col-md-8"><h5>Total de la commande : {{ total }} €</h5></div>
-                <div class="col-md-4"><a href="{{ path('app_index_commande') }}"><button class="btn btn-success">Commander</button></a></div>
+                <div class="col-md-4"><a href="{{ path('app_index_commande', {'id': app.user.societe.id}) }}"><button class="btn btn-success">Commander</button></a></div>
             </div>
         </section>
     </main>

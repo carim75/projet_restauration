@@ -21,7 +21,7 @@
             </li>
             {% if app.user.fonction == 'Fournisseur'  %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_index_editproduit') }}">Ajout de produit</a>
+                    <a class="nav-link" href="{{ path('app_index_editproduit', {'idsoc': app.user.societe.id}) }}">Ajout de produit</a>
                 </li>
             {% endif %}
             <li class="nav-item">
@@ -48,11 +48,12 @@
                 <th class="text-center" scope="col">Description</th>
             </tr>
             </thead>
-            <tbody>
+            {% set soc="" %}
                 {% for produit in produits %}
+                    {% if soc != produit.societe.nom %}
                         {% set soc=produit.societe.nom %}
                         <tr ><th colspan="8" class="table-success text-center">{{ soc }}</th></tr>
-
+                    {% endif %}
                     <tr>
                         <th id="nom" class="text-center" scope="row">{{ produit.nom }}</th>
                         <td class="text-center">{{ produit.categorie }}</td>
