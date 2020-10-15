@@ -66,10 +66,6 @@ class Produit
      */
     private $societe;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Commande::class, mappedBy="produit")
-     */
-    private $commandes;
 
     /**
      * @ORM\OneToMany(targetEntity=Achat::class, mappedBy="produit")
@@ -189,36 +185,6 @@ class Produit
         return $this;
     }
 
-    /**
-     * @return Collection|Commande[]
-     */
-    public function getCommandes(): Collection
-    {
-        return $this->commandes;
-    }
-
-    public function addCommande(Commande $commande): self
-    {
-        if (!$this->commandes->contains($commande)) {
-            $this->commandes[] = $commande;
-            $commande->setProduit($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommande(Commande $commande): self
-    {
-        if ($this->commandes->contains($commande)) {
-            $this->commandes->removeElement($commande);
-            // set the owning side to null (unless already changed)
-            if ($commande->getProduit() === $this) {
-                $commande->setProduit(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|Achat[]

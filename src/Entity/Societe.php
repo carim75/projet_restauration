@@ -44,24 +44,32 @@ class Societe
      */
     private $produits;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Commande::class, mappedBy="societe")
-     */
-    private $commandes;
 
     /**
      * @ORM\OneToMany(targetEntity=Utilisateur::class, mappedBy="societe")
      */
     private $utilisateurs;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Commande::class, mappedBy="restaurateur")
+     */
+    private $commandes;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Commande::class, mappedBy="fournisseur")
+     */
+    private $commandefourn;
+
+
 
 
     public function __construct()
     {
         $this->produits = new ArrayCollection();
-        $this->commandes = new ArrayCollection();
         $this->utilisateurs = new ArrayCollection();
-        $this->commandSoc = new ArrayCollection();
+        $this->commandes = new ArrayCollection();
+        $this->commandefourn = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -148,36 +156,7 @@ class Societe
         return $this;
     }
 
-    /**
-     * @return Collection|Commande[]
-     */
-    public function getCommandes(): Collection
-    {
-        return $this->commandes;
-    }
 
-    public function addCommande(Commande $commande): self
-    {
-        if (!$this->commandes->contains($commande)) {
-            $this->commandes[] = $commande;
-            $commande->setSociete($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommande(Commande $commande): self
-    {
-        if ($this->commandes->contains($commande)) {
-            $this->commandes->removeElement($commande);
-            // set the owning side to null (unless already changed)
-            if ($commande->getSociete() === $this) {
-                $commande->setSociete(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|Utilisateur[]
@@ -213,9 +192,68 @@ class Societe
     /**
      * @return Collection|Commande[]
      */
-    public function getCommandSoc(): Collection
+    public function getCommandes(): Collection
     {
-        return $this->commandSoc;
+        return $this->commandes;
     }
+
+    public function addCommande(Commande $commande): self
+    {
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes[] = $commande;
+            $commande->setRestaurateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commande $commande): self
+    {
+        if ($this->commandes->contains($commande)) {
+            $this->commandes->removeElement($commande);
+            // set the owning side to null (unless already changed)
+            if ($commande->getRestaurateur() === $this) {
+                $commande->setRestaurateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Commande[]
+     */
+    public function getCommandefourn(): Collection
+    {
+        return $this->commandefourn;
+    }
+
+    public function addCommandefourn(Commande $commandefourn): self
+    {
+        if (!$this->commandefourn->contains($commandefourn)) {
+            $this->commandefourn[] = $commandefourn;
+            $commandefourn->setFournisseur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommandefourn(Commande $commandefourn): self
+    {
+        if ($this->commandefourn->contains($commandefourn)) {
+            $this->commandefourn->removeElement($commandefourn);
+            // set the owning side to null (unless already changed)
+            if ($commandefourn->getFournisseur() === $this) {
+                $commandefourn->setFournisseur(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+
+
+
 
 }
