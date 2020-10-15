@@ -28,10 +28,10 @@ h2 {
 }
 
 nav {
-    position: sticky;
 
-    opacity: 0.8;
-    max-height: 10vh;
+
+
+
 
 }
 
@@ -72,7 +72,7 @@ ul>li{ background:aliceblue ;
     background: black !important;
     margin-top: 15px;
 
-    height: 100px;
+    min-height: 10vh;
 
 
 }
@@ -91,33 +91,25 @@ a {
 
 
 
-@media screen and (min-width: 360px) and (max-width: 800px) {
 
+
+
+
+
+@media screen and (min-width: 360px) and (max-width: 1108px) {
     #media {
         display: flex;
-        min-height: 200px;
-
-
         flex-flow:column wrap;
-
-        margin-top:100px ;
-
+        margin-top: 10px;
     }
-
-
+    #burger {
+        position: absolute;
+        top: 7px;
+        right: 3px;
+    }
 }
 
+.mynav {
 
-@media screen and (min-width: 560px) and (max-width: 800px) {
-
-    #media {
-        display: flex;
-            min-height: 200px;
-                flex-flow:column wrap;
-                    margin-top:150px ;
-
-    }
-
-
+    background-color: #916319;
 }
-

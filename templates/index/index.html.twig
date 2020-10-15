@@ -1,43 +1,15 @@
 {% extends 'base.html.twig' %}
 
 
-
-
 {% block body %}
-
-    <script>
-
-        var x =0;
-
-        var textEffect = ".Commandeur.";
-        var container = document.getElementById('effect');
-
-
-        function animate (e) {
-
-            if (x < textEffect.length){
-
-                container.innerHTML+= textEffect.charAt(x);
-
-                x++;
-                setTimeout(animate,70);
-                e.preventDefault();
-            }
-        }
-        animate();
-
-    </script>
-
-
 
     <h3>{{ app.user.pseudo }}</h3>
 
     <main class="main">
 
-        <ul class="nav nav-tabs" id="media">
-
+        <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link active" href="{{ path('app_index_homepage') }}">Accueil</a>
+                <a class="nav-link " href="{{ path('app_index_homepage') }}">Accueil</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('app_index_livraison') }}">Livraison</a>
@@ -46,29 +18,26 @@
                 <a class="nav-link" href="{{ path('app_index_listecommande') }}">Commandes</a>
             </li>
             <li class="nav-item">
-                {% if app.user.fonction == 'Fournisseur' %}
-                    <a class="nav-link " href="{{ path('app_index_listeprodfourn', {'id': app.user.societe.id}) }}">Liste des produits</a>
-                {% else %}
-                    <a class="nav-link" href="{{ path('app_index_listeproduit') }}">Liste des produits</a>
-                {% endif %}
+                <a class="nav-link active" href="{{ path('app_index_listeproduit') }}">Liste des produits</a>
             </li>
-            {% if app.user.fonction == 'Fournisseur'  %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_index_editproduit', {'idsoc': app.user.societe.id}) }}">Ajout de produit</a>
-                </li>
-            {% endif %}
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_index_listepromofourn', {'id': app.user.societe.id}) }}">Promotions</a>
+                <a class="nav-link" href="{{ path('app_index_editproduit') }}">Ajout/Suppression de produit</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_index_promos') }}">Promotions</a>
             </li>
             {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item">
-                    <a  class="nav-link" href="{{ path('app_admin_utilisateur_listeutilisateurs') }}">Liste utilisateurs</a>
+                    <a  class="nav-link" href="{{ path('app_admin_utilisateur_listeutilisateurs') }}">Clients</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a  class="nav-link" href="{{ path('app_utilisateur_connexion') }}">Connexion</a>
                 </li>
             {% endif %}
-                <li class="nav-item">
-                    <a  class="nav-link" href="{{ path('app_utilisateur_deconnexion') }}">Déconnexion</a>
-                </li>
         </ul>
+
+        <h1>Accueil</h1>
 
 
     </main>
