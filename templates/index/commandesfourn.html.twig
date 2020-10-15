@@ -2,9 +2,9 @@
 
 {% block body %}
 
-    <main class="main px-4 py-5" style="width: 80%">
+    <main class="main px-4 py-5" style="width: 80%;background-color: white">
 
-        <ul class="nav nav-tabs"id="media">
+        <ul class="nav nav-tabs" id="media">
             <li class="nav-item">
                 <a class="nav-link " href="{{ path('app_index_homepage') }}">Accueil</a>
             </li>
@@ -12,7 +12,11 @@
                 <a class="nav-link" href="{{ path('app_index_livraison') }}">Livraison</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" href="{{ path('app_index_listecommande') }}">Commandes</a>
+                {% if app.user.fonction == 'Fournisseur' %}
+                <a class="nav-link active" href="{{ path('app_index_commandesfourn', {'id': app.user.societe.id}) }}">Commandes</a>
+                {% else %}
+                    <a class="nav-link active" href="{{ path('app_index_listecommande') }}">Commandes</a>
+                {% endif %}
             </li>
             <li class="nav-item">
                 {% if app.user.fonction == 'Fournisseur' %}
@@ -34,67 +38,60 @@
                     <a  class="nav-link" href="{{ path('app_admin_utilisateur_listeutilisateurs') }}">Liste utilisateurs</a>
                 </li>
             {% endif %}
-            <li class="nav-item">
-                <a  class="nav-link" href="{{ path('app_utilisateur_deconnexion') }}">Déconnexion</a>
-            </li>
-
         </ul>
 
 
 
-        <h1>Vos nouvelles Commandes</h1>
-
-
-
+        <h1>Commandes</h1>
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th class="text-center" scope="col">Nom</th>
+                <th class="text-center" scope="col">Prix</th>
+                <th class="text-center" scope="col">Quantité</th>
+                <th class="text-center" scope="col">Unité</th>
+                <th class="text-center" scope="col">Total</th>
+            </tr>
+            </thead>
+        </table>
 
             {% for commande in commandes %}
-                <section class="card">
-                    <table class="table table-bordered">
-                        <thead class="thead-dark">
+                <table class="table table-bordered">
+                <tbody>
+            {% for achat in achats %}
+                {% if achat.commande.id == commande.id %}
+                    {% if soc != commande.societe %}
+                        {% set soc=commande.societe %}
+                        <tr ><th colspan="5" class="table-success text-center">{{ soc }}</th></tr>
+                    {% endif %}
+                    {% if tot != commande.id %}
+                        {% set tot=commande.id %}
                         <tr>
-                            <th class="text-center" scope="col">Nom</th>
-                            <th class="text-center" scope="col">Prix</th>
-                            <th class="text-center" scope="col">Quantité</th>
-                            <th class="text-center" scope="col">Unité</th>
-                            <th class="text-center" scope="col">Total</th>
+                            <td class="text-center" style="font-weight: bolder"  colspan="5">Commande n° {{ commande.id }} Du {{ commande.date | date("d/m/Y")  }} D'un montant total de {{ commande.total }} €</td>
                         </tr>
-                        </thead>
-
-                {% for achat in achats %}
-                    {% if achat.commande.id == commande.id %}
-                        {% if soc != achat.produit.societe.nom %}
-                            {% set soc=achat.produit.societe.nom %}
-                            <tr ><th colspan="5" class="table-success text-center">{{ soc }}</th></tr>
-                        {% endif %}
-                            <tr><td  class="text-center" colspan="5"> DETAIL </td></tr>
-                        <tr>
-                            <td class="text-center">{{ achat.produit.nom }}</td>
-                            <td class="text-center">{{ achat.prix }} €</td>
-                            <td class="text-center">{{ achat.quantite }}</td>
-                            <td class="text-center">{{ achat.produit.unite }}</td>
-                            {% set prix =achat.prix * achat.quantite %}
-                            <td class="text-center">{{ prix }}</td>
-                        </tr>
-
                     {% endif %}
 
+                    <tr>
+                        <td class="text-center">{{ achat.produit.nom }}</td>
+                        <td class="text-center">{{ achat.prix }} €</td>
+                        <td class="text-center">{{ achat.quantite }}</td>
+                        <td class="text-center">{{ achat.produit.unite }}</td>
+                        {% set prix =achat.prix * achat.quantite %}
+                        <td class="text-center">{{ prix }}</td>
+                    </tr>
 
-                {% endfor %}
-                        <tr>
-                            <td class="text-right" colspan="3">Total de la commande :</td>
-                            <td class="text-center" colspan="2">{{ commande.total }} €</td>
-                        </tr>
-                    </table>
-                    <form action="" method="post">
-                        <label for="date_livraison">Date de livraison</label>
-                        <input type="date">
-                        <button class="btn btn-primary">Valider la commande</button>
-                    </form>
-                </section>
+
+                {% endif %}
             {% endfor %}
-
-
-
+            </tbody>
+                </table>
+                    <div style="width: 70%" class="form-group row">
+                        <label for="example-date-input" class="col-2 col-form-label">Date de livraison prévu : </label>
+                        <div class="col-10">
+                            <input class="form-control" type="date" value="" id="example-date-input">
+                        </div>
+                    </div>
+            {% endfor %}
 
 
 

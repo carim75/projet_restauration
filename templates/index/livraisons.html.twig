@@ -18,7 +18,11 @@
                 <a  class="nav-link active" href="{{ path('app_index_livraison') }}">Livraison</a>
             </li>
             <li class="nav-item">
-                <a  class="nav-link" href="{{ path('app_index_listecommande') }}">Commandes</a>
+                {% if app.user.fonction == 'Fournisseur' %}
+                    <a class="nav-link active" href="{{ path('app_index_commandesfourn', {'id': app.user.societe.id}) }}">Commandes</a>
+                {% else %}
+                    <a class="nav-link active" href="{{ path('app_index_listecommande') }}">Commandes</a>
+                {% endif %}
             </li>
             <li class="nav-item">
                 {% if app.user.fonction == 'Fournisseur' %}
@@ -40,9 +44,7 @@
                     <a  class="nav-link" href="{{ path('app_admin_utilisateur_listeutilisateurs') }}">Liste utilisateurs</a>
                 </li>
             {% endif %}
-                <li class="nav-item">
-                    <a  class="nav-link" href="{{ path('app_utilisateur_deconnexion') }}">Déconnexion</a>
-                </li>
+
         </ul>
 
 

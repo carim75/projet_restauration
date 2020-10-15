@@ -2,7 +2,7 @@
 
 {% block body %}
 
-    <main class="main px-4 py-5" style="width: 80%">
+    <main class="main px-4 py-5" style="width: 80%;background-color: white">
 
         <ul class="nav nav-tabs"id="media">
 
@@ -13,7 +13,11 @@
                 <a class="nav-link" href="{{ path('app_index_livraison') }}">Livraison</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" href="{{ path('app_index_listecommande') }}">Commandes</a>
+                {% if app.user.fonction == 'Fournisseur' %}
+                    <a class="nav-link active" href="{{ path('app_index_commandesfourn', {'id': app.user.societe.id}) }}">Commandes</a>
+                {% else %}
+                    <a class="nav-link active" href="{{ path('app_index_listecommande') }}">Commandes</a>
+                {% endif %}
             </li>
             <li class="nav-item">
                 {% if app.user.fonction == 'Fournisseur' %}
@@ -35,11 +39,6 @@
                     <a  class="nav-link" href="{{ path('app_admin_utilisateur_listeutilisateurs') }}">Liste utilisateurs</a>
                 </li>
             {% endif %}
-
-                <li class="nav-item">
-                    <a  class="nav-link" href="{{ path('app_utilisateur_deconnexion') }}">Déconnexion</a>
-                </li>
-
         </ul>
 
             
@@ -57,23 +56,21 @@
             </thead>
             <tbody>
 
-            {% for societe in societes %}
+
             {% for commande in commandes %}
                 {% for achat in achats %}
-                    {% if achat.commande.id == commande.id and achat.produit.societe.id == societe.id %}
-                        {% if soc != achat.produit.societe.nom %}
-                          {% set soc=achat.produit.societe.nom %}
-                            <tr ><th colspan="5" class="table-success text-center">{{ soc }}</th></tr>
-
+                    {% if achat.commande.id == commande.id  %}
+                        {% if soci != achat.produit.societe.nom %}
+                          {% set soci=achat.produit.societe.nom %}
+                            <tr ><th colspan="5" class="table-success text-center">{{ soci }}</th></tr>
                         {% endif %}
-                        {% if tot != achat.commande.id %}
-                            {% set tot=achat.commande.id %}
+                        {% if tot != commande.id %}
+                            {% set tot=commande.id %}
                             <tr>
-                                <td class="text-right" colspan="3">Total de la commande n° {{ achat.commande.id }} :</td>
-                                <td class="text-center" colspan="2">{{ commande.total }} €</td>
+                                <td class="text-center" style="font-weight: bolder"  colspan="5">Commande n° {{ commande.id }} Du {{ commande.date | date("d/m/Y")  }} D'un montant total de {{ commande.total }} €</td>
                             </tr>
-                            <tr><td  class="text-center" colspan="5"> DETAIL </td></tr>
                         {% endif %}
+
                         <tr>
                             <td class="text-center">{{ achat.produit.nom }}</td>
                             <td class="text-center">{{ achat.prix }} €</td>
@@ -83,16 +80,10 @@
                             <td class="text-center">{{ prix }}</td>
                         </tr>
 
+
                     {% endif %}
-
-
                 {% endfor %}
-
-            {% endfor %}
             </tbody>
-            <tfoot>
-
-            </tfoot>
             {% endfor %}
 
         </table>
