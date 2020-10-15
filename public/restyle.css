@@ -17,6 +17,9 @@ body {
 
 }
 
+deco {width: 10px}
+
+
 
 h2 {
     margin-top: 20px;
@@ -24,12 +27,12 @@ h2 {
     font-size: 70px;
     font-family: 'Monoton', cursive;
 
-
 }
+
 
 nav {
     position: sticky;
-    opacity: 0.8;
+
     max-height: 10vh;
 
 }
@@ -83,10 +86,26 @@ a {
     color: #916319 !important;
 }
 
-
-button {
-
-    background: black;
+.mynav {
+    margin-top: 36px;
+    background-color: #916319;
 }
 
 
+
+
+
+.deco{
+    margin-left: 400px;
+
+}
+
+
+
+@media screen and (min-width: 360px) and (max-width: 1118px) {
+    #media {
+        display: flex;
+        flex-flow:column wrap;
+        margin-top: 150px;
+    }
+}
