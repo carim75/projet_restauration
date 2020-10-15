@@ -85,12 +85,12 @@
             {% endfor %}
         </tbody>
         </table>
-        <form action="">
+        <form action="{{ path('app_index_validlivraison', {'idcom': commande.id}) }}" method="post">
             <div style="width: 70%" class="form-group row">
                 <label for="example-date-input" class="col-2 col-form-label">Date de livraison prévu : </label>
                 <div class="col-10">
                     <input class="form-control" name="date" type="date" value="" id="date">
-                    <a href="{{ path('app_index_livraison', {'id': app.user.societe.id, 'idcom': commande.id}) }}"><button class="btn btn-primary mb-5">Valider</button></a>
+                    <a href="{{ path('app_index_validlivraison', {'idcom': commande.id }) }}"><button class="btn btn-primary mb-5">Valider</button></a>
                 </div>
 
             </div>

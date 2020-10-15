@@ -16,6 +16,7 @@ use App\Repository\UtilisateurRepository;
 use App\Service\Panier\PanierService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
+use http\Client\Curl\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -169,7 +170,7 @@ class IndexController extends AbstractController
 
 
     /**
-     * @Route("/livraison/{idcom}")
+     * @Route("/validlivraison/{idcom}")
      */
     public function validlivraison($idcom, EntityManagerInterface $manager)
     {
@@ -178,13 +179,19 @@ class IndexController extends AbstractController
         $commande = $repo->find($idcom);
 
         $livraison=new Livraison();
+        var_dump($_POST['date']);
 
-        $livraison->setDate($_POST['date']);
+        $livraison->setDate(new \DateTime($_POST['date']) );
         $livraison->setCommande($commande);
         $manager->persist($livraison);
         $manager->flush();
 
-        return $this->render('index/livraisons.html.twig');
+
+
+        return $this->redirectToRoute('app_index_index',[
+
+        ]);
+
     }
 
 
@@ -196,10 +203,10 @@ class IndexController extends AbstractController
         $rep = $this->getDoctrine()->getRepository(Societe::class);
         $societe = $rep->find($id);
 
-
-        return $this->redirectToRoute('app_index_livraison',[
+        return $this->render('index/livraisons.html.twig',[
             'societe'=>$societe
         ]);
+
     }
 
     /**
