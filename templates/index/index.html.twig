@@ -1,45 +1,84 @@
 {% extends 'base.html.twig' %}
 
 
+
+
 {% block body %}
 
-    <h3>{{ app.user.pseudo }}</h3>
+    <script>
 
-    <main class="main">
+        var x =0;
 
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link " href="{{ path('app_index_homepage') }}">Accueil</a>
+        var textEffect = ".Commandeur.";
+        var container = document.getElementById('effect');
+
+
+        function animate (e) {
+
+            if (x < textEffect.length){
+
+                container.innerHTML+= textEffect.charAt(x);
+
+                x++;
+                setTimeout(animate,70);
+                e.preventDefault();
+            }
+        }
+        animate();
+
+    </script>
+
+
+    <nav class=" navbar-expand-lg mt-5 ">
+
+        <button  class="navbar-toggler burger" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+        <div class=" collapse navbar-collapse w-100 justify-content-around" id="navbarColor01">
+        <ul class="nav nav-tabs" id="media">
+
+            <li class="nav-item mr-4">
+                <a class="nav-link active" href="{{ path('app_index_homepage') }}">Accueil</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item mr-4">
                 <a class="nav-link" href="{{ path('app_index_livraison') }}">Livraison</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_index_listecommande') }}">Commandes</a>
+            <li class="nav-item mr-4">
+                {% if app.user.fonction == 'Fournisseur' %}
+                    <a class="nav-link " href="{{ path('app_index_commandesfourn', {'id': app.user.societe.id}) }}">Commandes</a>
+                {% else %}
+                    <a class="nav-link " href="{{ path('app_index_listecommande') }}">Commandes</a>
+                {% endif %}
             </li>
-            <li class="nav-item">
-                <a class="nav-link active" href="{{ path('app_index_listeproduit') }}">Liste des produits</a>
+            <li class="nav-item mr-4">
+                {% if app.user.fonction == 'Fournisseur' %}
+                    <a class="nav-link " href="{{ path('app_index_listeprodfourn', {'id': app.user.societe.id}) }}">Liste des produits</a>
+                {% else %}
+                    <a class="nav-link" href="{{ path('app_index_listeproduit') }}">Liste des produits</a>
+                {% endif %}
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_index_editproduit') }}">Ajout/Suppression de produit</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_index_promos') }}">Promotions</a>
-            </li>
-            {% if is_granted('ROLE_ADMIN') %}
-                <li class="nav-item">
-                    <a  class="nav-link" href="{{ path('app_admin_utilisateur_listeutilisateurs') }}">Clients</a>
-                </li>
-            {% else %}
-                <li class="nav-item">
-                    <a  class="nav-link" href="{{ path('app_utilisateur_connexion') }}">Connexion</a>
+            {% if app.user.fonction == 'Fournisseur'  %}
+                <li class="nav-item mr-4 ">
+                    <a class="nav-link" href="{{ path('app_index_editproduit', {'idsoc': app.user.societe.id}) }}">Ajout de produit</a>
                 </li>
             {% endif %}
+            <li class="nav-item mr-4">
+                <a class="nav-link" href="{{ path('app_index_listepromofourn', {'id': app.user.societe.id}) }}">Promotions</a>
+            </li>
+            {% if is_granted('ROLE_ADMIN') %}
+                <li class="nav-item ">
+                    <a  class="nav-link" href="{{ path('app_admin_utilisateur_listeutilisateurs') }}">Liste utilisateurs</a>
+                </li>
+            {% endif %}
+
         </ul>
 
-        <h1>Accueil</h1>
+        </div>
 
 
-    </main>
+    </nav>
 
 {% endblock %}
