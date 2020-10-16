@@ -17,6 +17,7 @@
 
         <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Monoton&display=swap" rel="stylesheet">
 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
         <link rel="stylesheet" href="{{asset('restyle.css')}}">
 
 
@@ -74,7 +75,9 @@
 
 
 
-        <a href="{{ path('app_utilisateur_deconnexion') }}" id="disconnect"><img class="ml-2 navbar-brand"  src="{{ asset('img/exit_closethesession_close_6317.png') }}" alt=""></a>
+        <a href="{{ path('app_utilisateur_deconnexion') }}" id="disconnect">
+            <span class="fas fa-sign-in-alt"></span>
+        </a>
 
 
 
