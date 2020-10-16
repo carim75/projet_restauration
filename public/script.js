@@ -40,3 +40,6 @@ $(function () {
     });
 });
 
+$('#disconnect').on('click', function () {
+    $('#notice-disconnected).fadeOut(1000);
+});

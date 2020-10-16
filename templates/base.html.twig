@@ -51,7 +51,7 @@
     animate();
 
 </script>
-
+<div class="col-sm-3" id="notice-disconnected"></div>
 <nav class="navbar navbar-dark bg-primary" style="min-height:10vh">
 
     <div><span class="navbar-brand" >{{ app.user.pseudo }}</span></div>
@@ -74,7 +74,7 @@
 
 
 
-        <a href="{{ path('app_utilisateur_deconnexion') }}"><img class="ml-2 navbar-brand"  src="{{ asset('img/exit_closethesession_close_6317.png') }}" alt=""></a>
+        <a href="{{ path('app_utilisateur_deconnexion') }}" id="disconnect"><img class="ml-2 navbar-brand"  src="{{ asset('img/exit_closethesession_close_6317.png') }}" alt=""></a>
 
 
 
