@@ -18,6 +18,11 @@
 
         <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Monoton&display=swap" rel="stylesheet">
 
+
+        <link href="https://fonts.googleapis.com/css2?family=Petit+Formal+Script&display=swap" rel="stylesheet">
+
+        <link href="https://fonts.googleapis.com/css2?family=Poiret+One&display=swap" rel="stylesheet">
+
         <link rel="stylesheet" href="{{asset('restyle.css')}}">
 
 
@@ -29,7 +34,9 @@
 
 <body class="home">
 
+
 <h2 id="effect"></h2>
+
 
 <script>
 
@@ -51,79 +58,141 @@
     }
     animate();
 
+
+    var e = document.getElementById('parent');
+    e.onmouseover = function() {
+        document.getElementById('popup').style.display = 'block';
+    }
+    e.onmouseout = function() {
+        document.getElementById('popup').style.display = 'none';
+    }
+
+
+    var u = document.getElementById('parent2');
+    e.onmouseover = function() {
+        document.getElementById('popup2').style.display = 'block';
+    }
+    e.onmouseout = function() {
+        document.getElementById('popup2').style.display = 'none';
+    }
+
+
+
+
 </script>
+
+
 <div class="col-sm-3" id="notice-disconnected"></div>
-<nav class="navbar navbar-dark bg-primary" style="min-height:10vh">
-
-    <div><span class="navbar-brand" >{{ app.user.pseudo }}</span></div>
-    <div><span class="text-right " style="color: white;font-family: 'Comic Sans MS';font-size: medium"><strong>Le {{ date('')|date('d/m/Y')}} à {{ date('')|date('H') }} H {{ date('')| date('i')}} </strong></span></div>
 
 
+<nav class="navbar " style="min-height:10vh">
+
+    <div><span class="navbar-brand">{{ app.user.pseudo }}</span></div>
+
+    <div><span class="text-right " style="color: white;font-family: 'Poiret One', cursive;;font-size: large"><strong>Le  {{ date('')|date('d/m/Y')}} à {{ date('')|date('H') }} H {{ date('')| date('i')}} </strong></span></div>
 
             <div class="bg-dark border-info meteo">
-            <span class="text-right ml-4 " id="temperature"></span>
+            <span class="text-right ml-4 " id="temperature" style="color: white;font-family: 'Poiret One', cursive;font-size: large">></span>
             </div>
 
 
+    <div id="parent2">
 
-        <a href="{{ path('app_utilisateur_deconnexion') }}" id="disconnect"><img class="ml-2 navbar-brand"  src="{{ asset('img/exit_closethesession_close_6317.png') }}" alt=""></a>
+        {% if is_granted('ROLE_ADMIN') %}
+
+            <div id="popup2">Utilisateurs</div>
+
+            <a href="{{ path('app_admin_utilisateur_listeutilisateurs') }}" id="users"><img src="{{ asset('users.png') }}" alt=""></a>
+
+        {% endif %}
+
+    </div>
 
 
+    <div id="parent">
+
+        <div id="popup">Déconnexion</div>
+
+        <a href="{{ path('app_utilisateur_deconnexion') }}" id="disconnect"><img src="{{ asset('deco.png') }}" alt=""></a>
+
+
+    </div>
 
 
 
 </nav>
 
-<main class="main px-4 py-5" style="width: 80%;background-color: white">
 
-<ul class="nav nav-tabs" id="media">
+<main class="main mx-auto" style="width: 80%;background-color: transparent">
 
-    <li class="nav-item">
+    <nav class="navbar-expand-lg">
+
+<div class="burger1">
+
+        <button class="burger navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+
+            <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+</div>
+
+        <div class="collapse navbar-collapse navigation" id="navbarSupportedContent">
+
+
+            <ul class="nav nav-tabs mt-5" id="media">
+
+    <li class="nav-item mr-2">
         <a class="nav-link " href="{{ path('app_index_homepage') }}">Accueil</a>
     </li>
-    <li class="nav-item">
+
+    <li class="nav-item mr-2">
         {% if app.user.fonction == 'Fournisseur'  %}
-            <a class="nav-link" href="{{ path('app_fournisseurs_livraison', {'id': app.user.societe.id}) }}">Livraison</a>
+            <a class="nav-link" href="{{ path('app_index_livraison', {'id': app.user.societe.id}) }}">Livraison</a>
         {% else %}
-            <a class="nav-link" href="{{ path('app_restaurateurs_livraisonrestaurateur', {'id': app.user.societe.id}) }}">Livraison</a>
+            <a class="nav-link" href="{{ path('app_index_livresto', {'id': app.user.societe.id}) }}">Livraison</a>
         {% endif %}
     </li>
-    <li class="nav-item">
+
+    <li class="nav-item mr-2">
         {% if app.user.fonction == 'Fournisseur' %}
-            <a class="nav-link " href="{{ path('app_fournisseurs_commandesfournisseur', {'id': app.user.societe.id}) }}">Commandes</a>
+            <a class="nav-link " href="{{ path('app_index_commandesfourn', {'id': app.user.societe.id}) }}">Commandes</a>
         {% else %}
             <a class="nav-link" href="{{ path('app_index_listecommande') }}">Commandes</a>
         {% endif %}
     </li>
-    <li class="nav-item">
+
+    <li class="nav-item mr-2">
         {% if app.user.fonction == 'Fournisseur' %}
-            <a class="nav-link" href="{{ path('app_fournisseurs_prodfournisseur', {'id': app.user.societe.id}) }}">Liste des produits</a>
+            <a class="nav-link" href="{{ path('app_index_listeprodfourn', {'id': app.user.societe.id}) }}">Liste des produits</a>
         {% else %}
             <a class="nav-link" href="{{ path('app_index_listeproduit') }}">Liste des produits</a>
         {% endif %}
     </li>
+
     {% if app.user.fonction == 'Fournisseur'  %}
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path('app_fournisseurs_ajouterproduit', {'idsoc': app.user.societe.id}) }}">Ajout de produit</a>
+        <li class="nav-item mr-2">
+            <a class="nav-link" href="{{ path('app_index_editproduit', {'idsoc': app.user.societe.id}) }}">Ajout de produit</a>
         </li>
     {% endif %}
-    {% if app.user.fonction == 'Restaurateur'  %}
-        <li class="nav-item">
+
+
+    {% if app.user.fonction == 'Restaurateur'%}
+        <li class="nav-item mr-2">
             <a class="nav-link" href="{{ path('app_index_promos') }}">Promotions</a>
         </li>
     {% else %}
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path('app_fournisseurs_promosfourn', {'id': app.user.societe.id}) }}">Promotions</a>
+
+        <li class="nav-item mr-2">
+            <a class="nav-link" href="{{ path('app_index_listepromofourn', {'id': app.user.societe.id}) }}">Promotions</a>
         </li>
     {% endif %}
-    {% if is_granted('ROLE_ADMIN') %}
-        <li class="nav-item">
-            <a  class="nav-link" href="{{ path('app_admin_utilisateur_listeutilisateurs') }}">Liste utilisateurs</a>
-        </li>
-    {% endif %}
+
 </ul>
 
+    </div>
 
+</nav>
 
 
 {% for type, messages in app.session.flashBag.all %}
@@ -210,9 +279,6 @@
                     else if (data.weather[0]['main'] == 'Atmosphere') {
                         $('#temperature').append(`<span style="color: white">${data.name} : ${Math.round(data.main.temp)} °C</span><span style="color: white">${Math.round(data.main.temp_min)}</span><span style="color: white">${Math.round(data.main.temp_max)}</span><img class="mb-2" src="{{ asset('img/brouillard.png') }}" alt="meteo brouillard">`)
                     }
-
-
-
 
 
                 }

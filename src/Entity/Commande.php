@@ -51,6 +51,16 @@ class Commande
      */
     private $livraison;
 
+    /**
+     * @ORM\Column(type="string", length=3)
+     */
+    private $checked;
+
+    /**
+     * @ORM\Column(type="string", length=3)
+     */
+    private $checkfourn;
+
     public function __construct()
     {
         $this->achats = new ArrayCollection();
@@ -153,6 +163,30 @@ class Commande
         if ($livraison->getCommande() !== $this) {
             $livraison->setCommande($this);
         }
+
+        return $this;
+    }
+
+    public function getChecked(): ?string
+    {
+        return $this->checked;
+    }
+
+    public function setChecked(string $checked): self
+    {
+        $this->checked = $checked;
+
+        return $this;
+    }
+
+    public function getCheckfourn(): ?string
+    {
+        return $this->checkfourn;
+    }
+
+    public function setCheckfourn(string $checkfourn): self
+    {
+        $this->checkfourn = $checkfourn;
 
         return $this;
     }

@@ -17,53 +17,82 @@ body {
 
 }
 
-
-
 h2 {
     margin-top: 20px;
     margin-left: 10px;
     font-size: 60px;
-     text-shadow: black;
+    color: darkgoldenrod;
+        text-shadow: 1px 1px darkgoldenrod;
+            text-decoration: underline dotted;
+            text-align: justify-all;
+
     font-family: 'Monoton', cursive;
 
-
+}
+.creasociete{
+    width: 80%;
+    margin: 0 auto;
 }
 
+.navigation{
+    width: 100%;
+    justify-content: space-around;
+
+}
 .burger {
+
     background: url("fleche.png")center/cover white;
         border: 2px solid grey;
                 margin-top: 2%;
-                    margin-left: 45%;
-                        padding: 2%;
+                    margin-left: 50%;
+                        padding: 3%;
                                     width: 10%;
+}
+
+#parent #popup {
+    display: none;
+}
+
+#parent:hover #popup {
+    display: inline-block;
+        color: whitesmoke;
+font-size: 20px;
+
+    font-family: 'Poiret One', cursive;
 
 }
 
-.meteo{
 
-       border-radius: 5px 5px 5px;
+#parent2 #popup2 {
+    display: none;
 }
+
+#parent2:hover #popup2 {
+    display: inline-block;
+    color: whitesmoke;
+    font-size: 20px;
+
+    font-family: 'Poiret One', cursive;
+}
+
+
 
 
 .date {
-    font-family: 'Orbitron', sans-serif;
 
+    font-size: 40px;
     border-radius: 5px 5px 5px;
 
-    padding: 15px;
 
 
 }
-
 
 
 .main{
 
     width: 80%;
-
     margin: 0 auto;
 }
-
 
 
 
@@ -129,12 +158,12 @@ h2 {  display: block;
         display: flex;
          flex-direction:column;
 
-
             margin-left: 10%;
             margin-top: 50px;
                 min-height: 100px;
 
     }
+
 
 
     .navbar {
@@ -144,6 +173,8 @@ h2 {  display: block;
                 width: 110%;
                         justify-content: center;
                             align-content:space-between ;
+                                align-items: flex-end;
+
 
     }
 
@@ -156,7 +187,6 @@ h2 {  display: block;
     #effect {
         display: flex;
             flex-flow: row wrap ;
-
 
     }
 
