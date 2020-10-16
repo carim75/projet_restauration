@@ -28,6 +28,10 @@ h2 {
 
 
 }
+.creasociete{
+    width: 80%;
+    margin: 0 auto;
+}
 
 .burger {
     background: url("fleche.png")center/cover white;

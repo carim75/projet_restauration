@@ -9,6 +9,7 @@ use App\Entity\Produit;
 use App\Entity\Societe;
 use App\Entity\Utilisateur;
 use App\Form\ProduitType;
+use App\Form\SocieteType;
 use App\Form\UtilisateurType;
 use App\Repository\ProduitRepository;
 use App\Repository\SocieteRepository;
@@ -327,6 +328,28 @@ class IndexController extends AbstractController
 
 
         return $this->redirectToRoute('app_index_listecommande');
+    }
+
+    /**
+     * @Route("/creasociete")
+     */
+    public function creasociete(SocieteRepository $societeRepository, Request $request, EntityManagerInterface $manager)
+    {
+        $societe= new Societe();
+        $form = $this->createForm(SocieteType::class, $societe);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->persist($societe);
+            $manager->flush();
+            $this->addFlash('success', 'Societe créée avec succès');
+            return $this->redirectToRoute('app_index_index');
+        }
+
+      return $this->render('creasociete.html.twig',[
+          'form' => $form->createView(),
+
+      ]);
     }
 
 
