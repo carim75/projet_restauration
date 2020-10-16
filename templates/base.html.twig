@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html>
 
 <head>
 
     <meta charset="UTF-8">
 
-    <title> {% block title %}bienvenue!!!{% endblock %}</title>
+    <title> {% block title %}Bienvenue sur Commandeur!{% endblock %}</title>
 
     {% block stylesheets %}
 
@@ -59,18 +60,9 @@
 
 
 
-
-
             <div class="bg-dark border-info meteo">
             <span class="text-right ml-4 " id="temperature"></span>
             </div>
-
-
-
-
-
-
-
 
 
 
@@ -82,50 +74,57 @@
 
 </nav>
 
+<main class="main px-4 py-5" style="width: 80%;background-color: white">
+
+<ul class="nav nav-tabs" id="media">
+
+    <li class="nav-item">
+        <a class="nav-link " href="{{ path('app_index_homepage') }}">Accueil</a>
+    </li>
+    <li class="nav-item">
+        {% if app.user.fonction == 'Fournisseur'  %}
+            <a class="nav-link" href="{{ path('app_index_livraison', {'id': app.user.societe.id}) }}">Livraison</a>
+        {% else %}
+            <a class="nav-link" href="{{ path('app_index_livresto', {'id': app.user.societe.id}) }}">Livraison</a>
+        {% endif %}
+    </li>
+    <li class="nav-item">
+        {% if app.user.fonction == 'Fournisseur' %}
+            <a class="nav-link " href="{{ path('app_index_commandesfourn', {'id': app.user.societe.id}) }}">Commandes</a>
+        {% else %}
+            <a class="nav-link" href="{{ path('app_index_listecommande') }}">Commandes</a>
+        {% endif %}
+    </li>
+    <li class="nav-item">
+        {% if app.user.fonction == 'Fournisseur' %}
+            <a class="nav-link" href="{{ path('app_index_listeprodfourn', {'id': app.user.societe.id}) }}">Liste des produits</a>
+        {% else %}
+            <a class="nav-link" href="{{ path('app_index_listeproduit') }}">Liste des produits</a>
+        {% endif %}
+    </li>
+    {% if app.user.fonction == 'Fournisseur'  %}
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('app_index_editproduit', {'idsoc': app.user.societe.id}) }}">Ajout de produit</a>
+        </li>
+    {% endif %}
+    {% if app.user.fonction == 'Restaurateur'  %}
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('app_index_promos') }}">Promotions</a>
+        </li>
+    {% else %}
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('app_index_listepromofourn', {'id': app.user.societe.id}) }}">Promotions</a>
+        </li>
+    {% endif %}
+    {% if is_granted('ROLE_ADMIN') %}
+        <li class="nav-item">
+            <a  class="nav-link" href="{{ path('app_admin_utilisateur_listeutilisateurs') }}">Liste utilisateurs</a>
+        </li>
+    {% endif %}
+</ul>
 
 
 
-{#  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-
-
-    <a class="navbar-brand" href="#">Bienvenue sur Commandeur.</a>
-
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-
-    <div class="collapse navbar-collapse" id="navbarColor01">
-
-
-        <ul class="navbar-nav mr-auto">
-
-            <li class="nav-item active">
-
-                <a class="nav-link" href="#"><span class="text-right mr-5" style="color: white;font-family: 'Comic Sans MS';font-size: large"> Le {{ date('now')|date('d/m/Y') }}</span></a>
-
-            </li>
-
-            <div class="col-md-9">
-
-                <a class="nav-link" href="#"><span class="text-right mr-5" style="color: white;font-family: 'Comic Sans MS';font-size: large">
-
-    <strong> : {{ date('')|date('H:i') }} </strong></span></a>
-
-            </div>
-
-            <form class="col-md-5 form-inline my-2 my-lg-0">
-
-                <input class="form-control mr-sm-2" type="text" placeholder="Search">
-
-            </form>
-
-            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-
-
-</nav>
-
-#}
 
 {% for type, messages in app.session.flashBag.all %}
 
@@ -144,7 +143,7 @@
 
 {% block body %}{% endblock %}
 
-
+</main>
 
 {% block javascripts %}
 
