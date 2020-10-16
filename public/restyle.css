@@ -33,12 +33,11 @@ h2 {
     background: url("fleche.png")center/cover white;
         border: 2px solid grey;
                 margin-top: 2%;
-                    margin-left: 50%;
+                    margin-left: 45%;
                         padding: 2%;
                                     width: 10%;
 
 }
-
 
 .meteo{
 
@@ -132,23 +131,20 @@ h2 {  display: block;
          flex-direction:column;
 
 
-                    width: 100%;
-
+            margin-left: 10%;
             margin-top: 50px;
                 min-height: 100px;
 
     }
+
 
     .navbar {
 
        display: flex;
             flex-flow: row wrap-reverse;
                 width: 110%;
-
-                    justify-content: center;
-        align-content:space-between ;
-
-
+                        justify-content: center;
+                            align-content:space-between ;
 
     }
 
@@ -164,7 +160,6 @@ h2 {  display: block;
 
 
     }
-
 
 
 
