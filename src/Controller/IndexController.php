@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Commande;
 use App\Entity\Achat;
+use App\Entity\Facture;
 use App\Entity\Livraison;
 use App\Entity\Produit;
 use App\Entity\Societe;
@@ -177,10 +178,11 @@ class IndexController extends AbstractController
 
         $repo = $this->getDoctrine()->getRepository(Commande::class);
         $commande = $repo->find($idcom);
-
+        $commande->setCheckfourn('oui');
         $livraison=new Livraison();
         var_dump($_POST['date']);
-
+        $livraison->setCheckfourn('non');
+        $livraison->setChecked('non');
         $livraison->setDate(new \DateTime($_POST['date']) );
         $livraison->setCommande($commande);
         $manager->persist($livraison);
@@ -305,20 +307,22 @@ class IndexController extends AbstractController
 
         $commande->setTotal($panierService->getTotal());
         $commande->setRestaurateur($this->getUser()->getSociete());
+        $commande->setChecked('non');
+        $commande->setCheckfourn('non');
         foreach ($panier as $item) {
 
             $achat = new Achat();
-            $fournisseur = $item['produit']->getSociete();
             $achat->setProduit($item['produit']);
             $achat->setQuantite($item['quantite']);
             $achat->setPrix($item['produit']->getPrix());
+            $commande->setFournisseur( $item['produit']->getSociete());
             $manager->persist($achat);
             $achat->setCommande($commande);
             $panierService->delete($item['produit']->getId());
 
         }
 
-        $commande->setFournisseur($fournisseur);
+
         $commande->setDate(new \DateTime());
 
 
@@ -446,6 +450,50 @@ class IndexController extends AbstractController
 
 
     }
+
+    /**
+     * @Route("facturecrea/{id}")
+     */
+    public function facturecrea($id,Request $request,EntityManagerInterface $manager)
+    {
+        $rep = $this->getDoctrine()->getRepository(Livraison::class);
+        $livraison = $rep->find($id);
+        $fact=$livraison->getCommande()->getId();
+        $reposi=$this->getDoctrine()->getRepository(Commande::class);
+        $commande = $reposi->find($fact);
+        $commande->setCheckfourn('oui');
+        $livraison->setCheckfourn('oui');
+        $livraison->setChecked('oui');
+
+        $facture=new Facture();
+
+      $facture->setLivraison($livraison);
+      $facture->setTva('10%');
+        $manager->persist($facture);
+        $manager->flush();
+        $this->addFlash('success', 'Livraison validée, facture créée avec succès');
+
+        $repo = $this->getDoctrine()->getRepository(Facture::class);
+        $factures = $repo->findAll();
+
+
+       return $this->redirectToRoute("app_index_factures",[
+           'factures'=>$factures
+       ]);
+    }
+
+    /**
+     * @Route("/factures")
+     */
+    public function factures()
+    {
+        $repo = $this->getDoctrine()->getRepository(Facture::class);
+        $factures = $repo->findAll();
+        return $this->render("facture.html.twig",[
+            'factures'=>$factures
+        ]);
+    }
+
 
 
 }

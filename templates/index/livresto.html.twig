@@ -10,8 +10,7 @@
 
         {% for livraison in livraisons  %}
             {% if societe.id == livraison.commande.restaurateur.id %}
-
-
+                {% if livraison.checked == 'non' %}
 
                 <div class="card text-white bg-secondary mb-3 mt-3" >
                     <div class="card-header"><h3>{{ livraison.commande.fournisseur.nom }}</h3></div>
@@ -53,8 +52,9 @@
                         </table>
                     </div>
                 </div>
-                <button class="btn btn-primary"><a href="">Valider</a></button>
+                <button class="btn btn-primary"><a href="{{ path('app_index_facturecrea', {'id': livraison.id}) }}">Valider</a></button>
                 <button class="btn btn-danger"><a href="">Modifier</a></button>
+                {% endif %}
             {% endif %}
         {% endfor %}
 
