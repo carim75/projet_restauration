@@ -6,7 +6,11 @@
             <a class="nav-link " href="{{ path('app_index_homepage') }}">Accueil</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ path('app_index_livraison') }}">Livraison</a>
+            {% if app.user.fonction == 'Fournisseur'  %}
+                <a class="nav-link" href="{{ path('app_index_livraison', {'id': app.user.societe.id}) }}">Livraison</a>
+            {% else %}
+                <a class="nav-link" href="{{ path('app_index_livresto', {'id': app.user.societe.id}) }}">Livraison</a>
+            {% endif %}
         </li>
         <li class="nav-item">
             {% if app.user.fonction == 'Fournisseur' %}
@@ -22,13 +26,20 @@
                 <a class="nav-link active" href="{{ path('app_index_listeproduit') }}">Liste des produits</a>
             {% endif %}
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path('app_index_editproduit') }}">Ajout de produit</a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path('app_index_promos') }}">Promotions</a>
-        </li>
+        {% if app.user.fonction == 'Fournisseur'  %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_index_editproduit', {'idsoc': app.user.societe.id}) }}">Ajout de produit</a>
+            </li>
+        {% endif %}
+        {% if app.user.fonction == 'Restaurateur'  %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_index_promos') }}">Promotions</a>
+            </li>
+        {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_index_listepromofourn', {'id': app.user.societe.id}) }}">Promotions</a>
+            </li>
+        {% endif %}
         {% if is_granted('ROLE_ADMIN') %}
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('app_admin_utilisateur_listeutilisateurs') }}">Liste utilisateurs</a>
@@ -45,7 +56,9 @@
                 <th class="text-center" scope="col">Nom</th>
                 <th class="text-center" scope="col">Catégorie</th>
                 <th class="text-center" scope="col">Prix</th>
+                <th class="text-center" scope="col">Unité</th>
                 <th class="text-center" scope="col">Description</th>
+                <th class="text-center" scope="col">Modifier</th>
             </tr>
             </thead>
             <tbody>
@@ -54,13 +67,16 @@
                 <th colspan="8" class="table-success text-center">{{ app.user.societe.nom }}</th>
             </tr>
             {% for produit in produits %}
+                {% if produit.promotion == 'Oui' %}
                 <tr>
                     <th id="nom" class="text-center" scope="row">{{ produit.nom }}</th>
                     <td class="text-center">{{ produit.categorie }}</td>
                     <td id="prix" class="text-center">{{ produit.prix }}</td>
+                    <td id="prix" class="text-center">{{ produit.unite }}</td>
                     <td class="text-center">{{ produit.description }}</td>
-                    <td><a href="{{ path('redit_produit', {'id': produit.id}) }}"><span class="btn btn-primary">Modifier</span></a></td>
+                        <td class="text-center"><a href="{{ path('redit_produit', {'id': produit.id}) }}"><span class="btn btn-primary">Modifier</span></a></td>
                 </tr>
+                {% endif %}
             {% endfor %}
             </tbody>
         </table>

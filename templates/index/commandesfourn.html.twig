@@ -9,37 +9,52 @@
                 <a class="nav-link " href="{{ path('app_index_homepage') }}">Accueil</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_index_livraison') }}">Livraison</a>
+                {% if app.user.fonction == 'Fournisseur' %}
+                    <a class="nav-link"
+                       href="{{ path('app_index_livraison', {'id': app.user.societe.id}) }}">Livraison</a>
+                {% else %}
+                    <a class="nav-link"
+                       href="{{ path('app_index_livresto', {'id': app.user.societe.id}) }}">Livraison</a>
+                {% endif %}
             </li>
             <li class="nav-item">
                 {% if app.user.fonction == 'Fournisseur' %}
-                <a class="nav-link active" href="{{ path('app_index_commandesfourn', {'id': app.user.societe.id}) }}">Commandes</a>
+                    <a class="nav-link active"
+                       href="{{ path('app_index_commandesfourn', {'id': app.user.societe.id}) }}">Commandes</a>
                 {% else %}
                     <a class="nav-link active" href="{{ path('app_index_listecommande') }}">Commandes</a>
                 {% endif %}
             </li>
             <li class="nav-item">
                 {% if app.user.fonction == 'Fournisseur' %}
-                    <a class="nav-link" href="{{ path('app_index_listeprodfourn', {'id': app.user.societe.id}) }}">Liste des produits</a>
+                    <a class="nav-link" href="{{ path('app_index_listeprodfourn', {'id': app.user.societe.id}) }}">Liste
+                        des produits</a>
                 {% else %}
                     <a class="nav-link" href="{{ path('app_index_listeproduit') }}">Liste des produits</a>
                 {% endif %}
             </li>
-            {% if app.user.fonction == 'Fournisseur'  %}
+            {% if app.user.fonction == 'Fournisseur' %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_index_editproduit', {'idsoc': app.user.societe.id}) }}">Ajout de produit</a>
+                    <a class="nav-link" href="{{ path('app_index_editproduit', {'idsoc': app.user.societe.id}) }}">Ajout
+                        de produit</a>
                 </li>
             {% endif %}
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_index_promos') }}">Promotions</a>
-            </li>
+            {% if app.user.fonction == 'Restaurateur' %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_index_promos') }}">Promotions</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_index_listepromofourn', {'id': app.user.societe.id}) }}">Promotions</a>
+                </li>
+            {% endif %}
             {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item">
-                    <a  class="nav-link" href="{{ path('app_admin_utilisateur_listeutilisateurs') }}">Liste utilisateurs</a>
+                    <a class="nav-link" href="{{ path('app_admin_utilisateur_listeutilisateurs') }}">Liste
+                        utilisateurs</a>
                 </li>
             {% endif %}
         </ul>
-
 
 
         <h1>Commandes</h1>
@@ -55,22 +70,26 @@
             </thead>
         </table>
 
-            {% for commande in commandes %}
-                <table class="table table-bordered">
+
+        {% for commande in societe.commandefourn %}
+            <table class="table table-bordered">
                 <tbody>
-            {% for achat in achats %}
-                {% if achat.commande.id == commande.id %}
-                    {% if soc != commande.societe %}
-                        {% set soc=commande.societe %}
-                        <tr ><th colspan="5" class="table-success text-center">{{ soc }}</th></tr>
+                {% for achat in commande.achats %}
+                    {% if soc != commande.restaurateur.nom %}
+                        {% set soc=commande.restaurateur.nom %}
+                        <tr>
+                            <th colspan="5" class="table-success text-center">{{ soc }}</th>
+                        </tr>
                     {% endif %}
                     {% if tot != commande.id %}
                         {% set tot=commande.id %}
                         <tr>
-                            <td class="text-center" style="font-weight: bolder"  colspan="5">Commande n° {{ commande.id }} Du {{ commande.date | date("d/m/Y")  }} D'un montant total de {{ commande.total }} €</td>
+                            <td class="text-center" style="font-weight: bolder" colspan="5">Commande
+                                n° {{ commande.id }} Du {{ commande.date | date("d/m/Y") }} D'un montant total
+                                de {{ commande.total }} €
+                            </td>
                         </tr>
                     {% endif %}
-
                     <tr>
                         <td class="text-center">{{ achat.produit.nom }}</td>
                         <td class="text-center">{{ achat.prix }} €</td>
@@ -80,20 +99,23 @@
                         <td class="text-center">{{ prix }}</td>
                     </tr>
 
-
-                {% endif %}
-            {% endfor %}
-            </tbody>
-                </table>
-                    <div style="width: 70%" class="form-group row">
-                        <label for="example-date-input" class="col-2 col-form-label">Date de livraison prévu : </label>
-                        <div class="col-10">
-                            <input class="form-control" type="date" value="" id="example-date-input">
-                        </div>
+                {% endfor %}
+                </tbody>
+            </table>
+            <form action="{{ path('app_index_validlivraison', {'idcom': commande.id}) }}" method="post">
+                <div style="width: 70%" class="form-group row">
+                    <label for="example-date-input" class="col-2 col-form-label">Date de livraison prévu : </label>
+                    <div class="col-10">
+                        <input class="form-control" name="date" type="date" value="" id="date">
+                        <a href="{{ path('app_index_validlivraison', {'idcom': commande.id }) }}">
+                            <button class="btn btn-primary mb-5">Valider</button>
+                        </a>
                     </div>
-            {% endfor %}
 
+                </div>
 
+            </form>
+        {% endfor %}
 
 
     </main>

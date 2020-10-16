@@ -14,10 +14,14 @@
             <li class="nav-item">
                 <a  class="nav-link" href="{{ path('app_index_homepage') }}">Accueil</a>
             </li>
-            <li class="nav-item">
-                <a  class="nav-link active" href="{{ path('app_index_livraison') }}">Livraison</a>
+            <li class="nav-item mr-4">
+                {% if app.user.fonction == 'Fournisseur'  %}
+                    <a class="nav-link" href="{{ path('app_index_livraison', {'id': app.user.societe.id}) }}">Livraison</a>
+                {% else %}
+                    <a class="nav-link" href="{{ path('app_index_livresto', {'id': app.user.societe.id}) }}">Livraison</a>
+                {% endif %}
             </li>
-            <li class="nav-item">
+            <li class="nav-item mr-4">
                 {% if app.user.fonction == 'Fournisseur' %}
                     <a class="nav-link active" href="{{ path('app_index_commandesfourn', {'id': app.user.societe.id}) }}">Commandes</a>
                 {% else %}
@@ -36,9 +40,15 @@
                     <a class="nav-link" href="{{ path('app_index_editproduit', {'idsoc': app.user.societe.id}) }}">Ajout de produit</a>
                 </li>
             {% endif %}
+            {% if app.user.fonction == 'Restaurateur'  %}
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('app_index_promos') }}">Promotions</a>
             </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_index_listepromofourn', {'id': app.user.societe.id}) }}">Promotions</a>
+                    </li>
+            {% endif %}
             {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item">
                     <a  class="nav-link" href="{{ path('app_admin_utilisateur_listeutilisateurs') }}">Liste utilisateurs</a>
@@ -49,6 +59,51 @@
 
 
         <h1>Livraisons à venir</h1>
+
+        {% for livraison in livraisons  %}
+            {% if societe.id == livraison.commande.fournisseur.id %}
+
+
+
+        <div class="card text-white bg-secondary mb-3" >
+            <div class="card-header"><h3>{{ livraison.commande.restaurateur.nom }}</h3></div>
+            <div class="card-body">
+              <table class="table table-bordered">
+                  <thead class="thead_dark">
+                  <h5>{{ livraison.date | date('d/m/Y') }}</h5>
+                  <tr>
+                      <th class="text-center" scope="col">Nom</th>
+                      <th class="text-center" scope="col">Prix</th>
+                      <th class="text-center" scope="col">Quantité</th>
+                      <th class="text-center" scope="col">Unité</th>
+                      <th class="text-center" scope="col">Total</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {% for achat in livraison.commande.achats %}
+
+                  <tr>
+                      <td class="text-center">{{ achat.produit.nom }}</td>
+                      <td class="text-center">{{ achat.prix }} €</td>
+                      <td class="text-center">{{ achat.quantite }}</td>
+                      <td class="text-center">{{ achat.produit.unite }}</td>
+                      {% set prix =achat.prix * achat.quantite %}
+                      <td class="text-center">{{ prix }}</td>
+                  </tr>
+                  {% endfor %}
+                  </tbody>
+                  <tfoot>
+                  <tr>
+                      <td colspan="3" class="text-right">Total de la commande :</td>
+                  <td colspan="2" class="text-center">{{ livraison.commande.total }} €</td>
+                  </tr>
+                  </tfoot>
+
+              </table>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
 
     </main>
 

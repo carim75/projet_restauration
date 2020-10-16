@@ -30,6 +30,16 @@ class AchatRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findbyproduit($produits)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.produit = :produit')
+            ->setParameter('produit', $produits)
+            ->orderBy('a.commande', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Achat[] Returns an array of Achat objects
     //  */
