@@ -203,10 +203,31 @@ class IndexController extends AbstractController
         $rep = $this->getDoctrine()->getRepository(Societe::class);
         $societe = $rep->find($id);
 
+        $rep = $this->getDoctrine()->getRepository(Livraison::class);
+        $livraisons = $rep->findAll();
+
         return $this->render('index/livraisons.html.twig',[
-            'societe'=>$societe
+            'societe'=>$societe,
+            'livraisons'=>$livraisons
         ]);
 
+    }
+
+    /**
+     * @Route ("/livresto/{id}")
+     */
+    public function livresto($id)
+    {
+        $rep = $this->getDoctrine()->getRepository(Societe::class);
+        $societe = $rep->find($id);
+
+        $rep = $this->getDoctrine()->getRepository(Livraison::class);
+        $livraisons = $rep->findAll();
+
+       return $this->render('index/livresto.html.twig',[
+           'societe'=>$societe,
+           'livraisons'=>$livraisons
+       ]);
     }
 
     /**

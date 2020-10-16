@@ -12,6 +12,8 @@
             <li class="nav-item">
                 {% if app.user.fonction == 'Fournisseur'  %}
                     <a class="nav-link" href="{{ path('app_index_livraison', {'id': app.user.societe.id}) }}">Livraison</a>
+                {% else %}
+                    <a class="nav-link" href="{{ path('app_index_livresto', {'id': app.user.societe.id}) }}">Livraison</a>
                 {% endif %}
             </li>
             <li class="nav-item">
@@ -33,9 +35,15 @@
                     <a class="nav-link" href="{{ path('app_index_editproduit', {'idsoc': app.user.societe.id}) }}">Ajout de produit</a>
                 </li>
             {% endif %}
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_index_promos') }}">Promotions</a>
-            </li>
+            {% if app.user.fonction == 'Restaurateur'  %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_index_promos') }}">Promotions</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_index_listepromofourn', {'id': app.user.societe.id}) }}">Promotions</a>
+                </li>
+            {% endif %}
             {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item">
                     <a  class="nav-link" href="{{ path('app_admin_utilisateur_listeutilisateurs') }}">Liste utilisateurs</a>
@@ -79,7 +87,7 @@
                             <td class="text-center">{{ achat.quantite }}</td>
                             <td class="text-center">{{ achat.produit.unite }}</td>
                             {% set prix =achat.prix * achat.quantite %}
-                            <td class="text-center">{{ prix }}</td>
+                            <td class="text-center">{{ prix }} €</td>
                         </tr>
 
 
