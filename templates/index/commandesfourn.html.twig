@@ -2,7 +2,7 @@
 
 {% block body %}
 
-
+<main>
         <h1>Commandes</h1>
         <table class="table table-bordered">
             <thead class="thead-dark">
@@ -20,6 +20,8 @@
         {% for commande in societe.commandefourn %}
             <table class="table table-bordered">
                 <tbody>
+                {% if commande.checkfourn == 'non' %}
+
                 {% for achat in commande.achats %}
                     {% if soc != commande.restaurateur.nom %}
                         {% set soc=commande.restaurateur.nom %}
@@ -61,6 +63,7 @@
                 </div>
 
             </form>
+                {% endif %}
         {% endfor %}
 
 
