@@ -18,34 +18,45 @@ body {
 }
 
 
-
 h2 {
     margin-top: 20px;
     margin-left: 10px;
     font-size: 60px;
-     text-shadow: black;
+    text-shadow: black;
     font-family: 'Monoton', cursive;
 
 
 }
-.creasociete{
+
+.creasociete {
     width: 80%;
     margin: 0 auto;
 }
 
 .burger {
-    background: url("fleche.png")center/cover white;
-        border: 2px solid grey;
-                margin-top: 2%;
-                    margin-left: 45%;
-                        padding: 2%;
-                                    width: 10%;
+    background: url("fleche.png") center/cover white;
+    border: 2px solid grey;
+    margin-top: 2%;
+    margin-left: 45%;
+    padding: 2%;
+    width: 10%;
 
 }
 
-.meteo{
+.pagination a.active {
+    background-color: #4CAF50;!important;
+    color: white;!important;
+}
 
-       border-radius: 5px 5px 5px;
+.pagination a:hover:not(.active) {background-color: #ddd;!important;}
+
+.pagin{
+    padding-left: 48%;
+}
+
+.meteo {
+
+    border-radius: 5px 5px 5px;
 }
 
 
@@ -60,8 +71,7 @@ h2 {
 }
 
 
-
-.main{
+.main {
 
     width: 80%;
 
@@ -69,21 +79,19 @@ h2 {
 }
 
 
-
-
-ul>li{ display: flex;
+ul > li {
+    display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
 
-    background:aliceblue ;
+    background: aliceblue;
     border: 1px solid grey;
     list-style: none;
     box-shadow: 2px 3px 6px;
 }
 
 
-
-.panier{
+.panier {
     width: 40%;
     background-color: white;
     opacity: 0.8;
@@ -109,62 +117,58 @@ span.navbar-brand {
     color: #916319 !important;
 }
 
-a{
+a {
     font-size: 20px;
     color: #916319 !important;
 }
 
 
-
-
-
 @media screen and (min-width: 410px)and (max-width: 1000px) {
 
 
-h2 {  display: block;
+    h2 {
+        display: block;
         align-items: center;
 
-    font-size: 42px;
+        font-size: 42px;
 
-}
+    }
 
 
     #media {
         display: flex;
-         flex-direction:column;
+        flex-direction: column;
 
 
-            margin-left: 10%;
-            margin-top: 50px;
-                min-height: 100px;
+        margin-left: 10%;
+        margin-top: 50px;
+        min-height: 100px;
 
     }
 
 
     .navbar {
 
-       display: flex;
-            flex-flow: row wrap-reverse;
-                width: 110%;
-                        justify-content: center;
-                            align-content:space-between ;
+        display: flex;
+        flex-flow: row wrap-reverse;
+        width: 110%;
+        justify-content: center;
+        align-content: space-between;
 
     }
 
     .date {
 
-    margin-right: 20px;
+        margin-right: 20px;
 
     }
 
     #effect {
         display: flex;
-            flex-flow: row wrap ;
+        flex-flow: row wrap;
 
 
     }
-
-
 
 
 }

@@ -25,6 +25,7 @@
                                 <th class="text-center" scope="col">Unité</th>
                                 <th class="text-center" scope="col">Description</th>
                                 <th class="text-center" scope="col">Total</th>
+                                <th class="text-center" scope="col">Modifier</th>
 
                             </tr>
                             </thead>
@@ -39,6 +40,7 @@
                                     <td class="text-center">{{ achat.produit.description }}</td>
                                     {% set prix =achat.prix * achat.quantite %}
                                     <td class="text-center">{{ prix }} €</td>
+                                    <td class="text-center"><button class="btn btn-danger"><a href="{{ path('app_index_facturemodif', {'id': achat.id}) }}">Modifier</a></button></td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -53,7 +55,7 @@
                     </div>
                 </div>
                 <button class="btn btn-primary"><a href="{{ path('app_index_facturecrea', {'id': livraison.id}) }}">Valider</a></button>
-                <button class="btn btn-danger"><a href="">Modifier</a></button>
+
                 {% endif %}
             {% endif %}
         {% endfor %}

@@ -17,8 +17,11 @@ use App\Repository\SocieteRepository;
 use App\Repository\UtilisateurRepository;
 use App\Service\Panier\PanierService;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ObjectManager;
 use http\Client\Curl\User;
+use Knp\Bundle\PaginatorBundle\Definition\PaginatorAwareInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,41 +33,43 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class IndexController extends AbstractController
 {
     /**
-     * @Route("/index")
+     * @Route("/accueil")
      */
     public function index()
     {
+        $rep = $this->getDoctrine()->getRepository(Livraison::class);
+        $livraisons = $rep->findAll();
+
+        $repo = $this->getDoctrine()->getRepository(Commande::class);
+        $commandes = $repo->findAll();
+
+
         return $this->render('index/index.html.twig', [
-            'controller_name' => 'IndexController',
+            'livraisons'=>$livraisons,
+            'commandes'=>$commandes
         ]);
     }
 
 
-    /**
-     * @Route ("/accueil")
-     */
-    public function homepage()
-    {
-        return $this->render('index/index.html.twig');
-    }
+
 
     /**
      *
      * @Route("/listeprodfourn/{id}")
      *
      */
-    public function listeProdFourn($id)
+    public function listeProdFourn($id, Request $request, PaginatorInterface $paginator)
     {
 
 
         $rep = $this->getDoctrine()->getRepository(Produit::class);
-        $produits = $rep->findAllOrderBy($id);
+        $prods = $rep->findAllOrderBy($id);
+
+        $produits = $paginator->paginate($prods, $request->query->getInt('page', 1), 1);
 
         return $this->render('listeprodfourn.html.twig', [
             'produits' => $produits
-
         ]);
-
 
     }
 
@@ -473,6 +478,52 @@ class IndexController extends AbstractController
 
 
     }
+
+    /**
+     * @Route("facturemodif/{id}")
+     */
+    public function facturemodif ($id, Request $request, EntityManagerInterface $manager)
+    {
+        $rep = $this->getDoctrine()->getRepository(Achat::class);
+        $achat = $rep->find($id);
+
+
+
+
+
+        return $this->render("facturemodif.html.twig",[
+            'achat'=>$achat
+        ]);
+    }
+
+    /**
+     * @Route("validmodif/{id}")
+     */
+    public function validmodif($id,EntityManagerInterface $manager, Request $request)
+    {
+        $rep = $this->getDoctrine()->getRepository(Achat::class);
+        $achat = $rep->find($id);
+
+        $request->request->get('quantite');
+        if($request->getMethod() == 'POST')
+
+        {
+            $ach=$request->get('quantite');
+
+            $achat->setQuantite($ach);
+
+        }
+
+        $manager->persist($achat);
+        $manager->flush();
+
+        return $this->redirectToRoute("app_index_livresto");
+
+
+
+    }
+
+
 
     /**
      * @Route("facturecrea/{id}")
