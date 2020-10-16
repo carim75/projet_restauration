@@ -18,15 +18,16 @@
     <link rel="stylesheet" href="{{ asset('css/titles.css') }}">
     <link rel="stylesheet" href="{{ asset('css/visite.css') }}">
 
+
 {% endblock %}
 {% block body %}
-    <div class="container animateanimated animatebackInDown" style="width: 60%">
+    <div class="container animateanimated animatebackInDown bcg" style="width: 60%">
         {% if editMode %}
-            <h1 class="text-left">Modification utilisateur</h1>
+            <h5 class="mt-4 text-center">Modification utilisateur</h5>
         {% else %}
-            <h1 class="text-left">Inscription utilisateur</h1>
+            <h5 class="mt-4 text-center">Inscription utilisateur</h5>
         {% endif %}
-
+        <hr>
         {{ form_start(form) }}
 
         {{ form_row(form.pseudo) }}
@@ -34,13 +35,11 @@
         {{ form_row(form.fonction) }}
         {{ form_row(form.plainMdp) }}
 
-        <button type="submit" class="btn btn-primary">
             {% if editMode %}
-                Mettre à jour
+                <input type="submit" value="Mettre à jour" class="btn btn-dark btn-lg btn-block">
             {% else %}
-                Enregistrer
+                <input type="submit" value="Enregistrer" class="btn btn-dark btn-lg btn-block">
             {% endif %}
-        </button>
 
         {{ form_end(form) }}
     </div>

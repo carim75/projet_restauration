@@ -66,7 +66,10 @@
 
 
 
-        <a href="{{ path('app_utilisateur_deconnexion') }}" id="disconnect"><img class="ml-2 navbar-brand"  src="{{ asset('img/exit_closethesession_close_6317.png') }}" alt=""></a>
+        <a href="{{ path('app_utilisateur_deconnexion') }}" id="disconnect" onclick="return (confirm('Etes-vous sûr de vouloir vous déconnecter ?'))">
+
+            <img class="ml-2 navbar-brand"  src="{{ asset('img/exit.png') }}" alt="">
+        </a>
 
 
 
@@ -238,6 +241,7 @@
         })
     })
 </script>
+
 
 
 </body>
