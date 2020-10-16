@@ -10,7 +10,7 @@
     <label for="quantite"></label>
     <input type="text" name="quantite"  value="{{ achat.quantite }}">
     <h4>{{ achat.produit.unite }}</h4>
-   <a type="submit" class="btn btn-primary" href="{{ path('app_index_validmodif', {'id': achat.id}) }}">Valider</a>
+   <a type="submit" class="btn btn-primary" href="{{ path('app_restaurateurs_validmodif', {'id': achat.id}) }}">Valider</a>
 </form>
 
 

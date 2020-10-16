@@ -19,7 +19,7 @@
                     {% if livraison.checked == 'non' %}
             <table class="table table-bordered">
                 <tbody>
-               <tr><th> <a href="{{ path('app_index_livresto', {'id': app.user.societe.id}) }}">{{ livraison.commande.fournisseur.nom }}</a></th></tr>
+               <tr><th> <a href="{{ path('app_restaurateurs_livraisonrestaurateur', {'id': app.user.societe.id}) }}">{{ livraison.commande.fournisseur.nom }}</a></th></tr>
                 </tbody>
             </table>
                     {% endif %}
@@ -28,7 +28,7 @@
                 {% for commande in commandes %}
                     {% if commande.checkfourn == 'non' %}
                     <table class="table table-bordered">
-                        <tr><a href="{{ path('app_index_commandesfourn', {'id': app.user.societe.id}) }}"><th>{{ commande.restaurateur.nom }}</th></a></tr>
+                        <tr><a href="{{ path('app_fournisseurs_commandesfournisseur', {'id': app.user.societe.id}) }}"><th>{{ commande.restaurateur.nom }}</th></a></tr>
                     </table>
                     {% endif %}
                 {% endfor %}

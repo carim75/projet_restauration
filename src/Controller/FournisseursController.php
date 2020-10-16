@@ -9,6 +9,7 @@ use App\Form\ProduitType;
 use App\Repository\ProduitRepository;
 use App\Repository\SocieteRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -92,23 +93,26 @@ class FournisseursController extends AbstractController
         return $this->redirectToRoute('app_index_listeproduit');
     }
 
+
+
     /**
      *
      * @Route("/produitfournisseur/{id}")
      *
      */
-    public function prodFournisseur($id)
+    public function listeProdFourn($id, Request $request, PaginatorInterface $paginator)
     {
 
 
         $rep = $this->getDoctrine()->getRepository(Produit::class);
-        $produits = $rep->findAllOrderBy($id);
+        $prods = $rep->findAllOrderBy($id);
+
+        $produits = $paginator->paginate($prods, $request->query->getInt('page', 1), 1);
 
         return $this->render('fournisseur/produitsfournisseur.html.twig', [
             'produits' => $produits
 
         ]);
-
 
     }
 

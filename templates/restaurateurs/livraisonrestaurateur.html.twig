@@ -39,7 +39,7 @@
                                     <td class="text-center">{{ achat.produit.description }}</td>
                                     {% set prix =achat.prix * achat.quantite %}
                                     <td class="text-center">{{ prix }} €</td>
-                                    <td class="text-center"><button class="btn btn-danger"><a href="{{ path('app_index_facturemodif', {'id': achat.id}) }}">Modifier</a></button></td>
+                                    <td class="text-center"><button class="btn btn-danger"><a href="{{ path('app_restaurateurs_facturemodif', {'id': achat.id}) }}">Modifier</a></button></td>
                                 </tr>
                             {% endfor %}
                             </tbody>
