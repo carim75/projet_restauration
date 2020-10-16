@@ -24,8 +24,6 @@ class Commande
      */
     private $date;
 
-
-
     /**
      * @ORM\OneToMany(targetEntity=Achat::class, mappedBy="commande")
      */
@@ -37,10 +35,21 @@ class Commande
     private $total;
 
     /**
-     * @ORM\Column(type="string", length=20)
+     * @ORM\ManyToOne(targetEntity=Societe::class, inversedBy="commandes")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $societe;
+    private $restaurateur;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Societe::class, inversedBy="commandefourn")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $fournisseur;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Livraison::class, mappedBy="commande", cascade={"persist", "remove"})
+     */
+    private $livraison;
 
     public function __construct()
     {
@@ -63,7 +72,6 @@ class Commande
 
         return $this;
     }
-
 
     /**
      * @return Collection|Achat[]
@@ -108,16 +116,44 @@ class Commande
         return $this;
     }
 
-    public function getSociete(): ?string
+    public function getRestaurateur(): ?Societe
     {
-        return $this->societe;
+        return $this->restaurateur;
     }
 
-    public function setSociete(string $societe): self
+    public function setRestaurateur(?Societe $restaurateur): self
     {
-        $this->societe = $societe;
+        $this->restaurateur = $restaurateur;
 
         return $this;
     }
 
+    public function getFournisseur(): ?Societe
+    {
+        return $this->fournisseur;
+    }
+
+    public function setFournisseur(?Societe $fournisseur): self
+    {
+        $this->fournisseur = $fournisseur;
+
+        return $this;
+    }
+
+    public function getLivraison(): ?Livraison
+    {
+        return $this->livraison;
+    }
+
+    public function setLivraison(Livraison $livraison): self
+    {
+        $this->livraison = $livraison;
+
+        // set the owning side of the relation if necessary
+        if ($livraison->getCommande() !== $this) {
+            $livraison->setCommande($this);
+        }
+
+        return $this;
+    }
 }

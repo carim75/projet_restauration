@@ -13,7 +13,9 @@
         <a class="nav-link " href="{{ path('app_index_homepage') }}">Accueil</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{ path('app_index_livraison') }}">Livraison</a>
+        {% if app.user.fonction == 'Fournisseur'  %}
+        <a class="nav-link" href="{{ path('app_index_livraison', {'id': app.user.societe.id}) }}">Livraison</a>
+        {% endif %}
     </li>
     <li class="nav-item">
         {% if app.user.fonction == 'Fournisseur' %}

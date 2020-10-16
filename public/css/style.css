@@ -145,3 +145,4 @@ body .formcreate{
 ul.navbar-nav.fontbase{
     margin-top: 2%;
 }
+@media screen and (min-width: 360px) and (max-width: 1024px) {      #media {         display: flex;         flex-flow:column wrap;         margin-top: 130px;      } }

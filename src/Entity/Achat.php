@@ -23,11 +23,6 @@ class Achat
      */
     private $produit;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Commande::class, inversedBy="achats")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $commande;
 
     /**
      * @ORM\Column(type="float")
@@ -38,6 +33,12 @@ class Achat
      * @ORM\Column(type="float")
      */
     private $prix;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Commande::class, inversedBy="achats")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $commande;
 
     public function getId(): ?int
     {
@@ -56,17 +57,7 @@ class Achat
         return $this;
     }
 
-    public function getCommande(): ?Commande
-    {
-        return $this->commande;
-    }
 
-    public function setCommande(?Commande $commande): self
-    {
-        $this->commande = $commande;
-
-        return $this;
-    }
 
     public function getQuantite(): ?float
     {
@@ -88,6 +79,18 @@ class Achat
     public function setPrix(float $prix): self
     {
         $this->prix = $prix;
+
+        return $this;
+    }
+
+    public function getCommande(): ?Commande
+    {
+        return $this->commande;
+    }
+
+    public function setCommande(?Commande $commande): self
+    {
+        $this->commande = $commande;
 
         return $this;
     }
