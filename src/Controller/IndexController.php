@@ -46,30 +46,11 @@ class IndexController extends AbstractController
         return $this->render('index/index.html.twig');
     }
 
-    /**
-     *
-     * @Route("/listeprodfourn/{id}")
-     *
-     */
-    public function listeProdFourn($id)
-    {
-
-
-        $rep = $this->getDoctrine()->getRepository(Produit::class);
-        $produits = $rep->findAllOrderBy($id);
-
-        return $this->render('listeprodfourn.html.twig', [
-            'produits' => $produits
-
-        ]);
-
-
-    }
 
     /**
      * @Route ("/listeproduit/{societeid}", defaults={"societeid": ""} )
      */
-    public function listeproduit(ProduitRepository $produitRepository, SocieteRepository $societeRepository, EntityManagerInterface $manager, Request $request, $societeid, PanierService $panierService)
+    public function listeProduit(ProduitRepository $produitRepository, SocieteRepository $societeRepository, EntityManagerInterface $manager, Request $request, $societeid, PanierService $panierService)
     {
         $rep = $this->getDoctrine()->getRepository(Societe::class);
         $societes = $rep->findAll();
@@ -93,7 +74,7 @@ class IndexController extends AbstractController
         $reposito = $this->getDoctrine()->getRepository(Produit::class);
         $ps = $reposito->findAllOrderBy($so);
 
-        return $this->render('fournisseur/listeproduit.html.twig', [
+        return $this->render('index/listeproduit.html.twig', [
             'items' => $panierService->getFullPanier(),
             'total' => $panierService->getTotal(),
             'produits' => $produits,
@@ -105,67 +86,6 @@ class IndexController extends AbstractController
             'so' => $so,
             'ps' => $ps
         ]);
-    }
-
-
-    /**
-     * @Route ("/add/{id}")
-     *
-     */
-    public function panieradd($id, PanierService $panierService, Request $request, ProduitRepository $produitRepository)
-    {
-
-        $produit = $produitRepository->find($id);
-        $nomSociete = $produit->getSociete()->getNom();
-
-        $panierService->add($id);
-
-        return $this->redirectToRoute('app_index_listeproduit', [
-            'societe' => $nomSociete
-
-        ]);
-
-
-    }
-
-    /**
-     * @Route ("/remove/{id}")
-     *
-     */
-    public function panierremove($id, PanierService $panierService, Request $request, ProduitRepository $produitRepository)
-    {
-
-        $produit = $produitRepository->find($id);
-        $nomSociete = $produit->getSociete()->getNom();
-
-        $panierService->remove($id);
-
-        return $this->redirectToRoute('app_index_listeproduit', [
-            'societe' => $nomSociete
-
-        ]);
-
-
-    }
-
-    /**
-     * @Route ("/delete/{id}")
-     *
-     */
-    public function panierdelete($id, PanierService $panierService, Request $request, ProduitRepository $produitRepository)
-    {
-
-        $produit = $produitRepository->find($id);
-        $nomSociete = $produit->getSociete()->getNom();
-
-        $panierService->delete($id);
-
-        return $this->redirectToRoute('app_index_listeproduit', [
-            'societe' => $nomSociete
-
-        ]);
-
-
     }
 
 
@@ -194,65 +114,6 @@ class IndexController extends AbstractController
 
     }
 
-
-    /**
-     * @Route("/livraison/{id}")
-     */
-    public function livraison($id)
-    {
-        $rep = $this->getDoctrine()->getRepository(Societe::class);
-        $societe = $rep->find($id);
-
-        $rep = $this->getDoctrine()->getRepository(Livraison::class);
-        $livraisons = $rep->findAll();
-
-        return $this->render('index/livraisons.html.twig',[
-            'societe'=>$societe,
-            'livraisons'=>$livraisons
-        ]);
-
-    }
-
-    /**
-     * @Route ("/livresto/{id}")
-     */
-    public function livresto($id)
-    {
-        $rep = $this->getDoctrine()->getRepository(Societe::class);
-        $societe = $rep->find($id);
-
-        $rep = $this->getDoctrine()->getRepository(Livraison::class);
-        $livraisons = $rep->findAll();
-
-       return $this->render('index/livresto.html.twig',[
-           'societe'=>$societe,
-           'livraisons'=>$livraisons
-       ]);
-    }
-
-    /**
-     * @Route("/commandefourn/{id}")
-     */
-    public function commandesFourn($id)
-    {
-
-        $rep = $this->getDoctrine()->getRepository(Societe::class);
-        $societe = $rep->find($id);
-
-        $soc = '';
-
-        $tot = '';
-
-
-        return $this->render('index/commandesfourn.html.twig', [
-
-            'societe' => $societe,
-
-            'soc' => $soc,
-            'tot' => $tot
-        ]);
-
-    }
 
     /**
      * @Route("/commande")
@@ -292,113 +153,6 @@ class IndexController extends AbstractController
 
 
     /**
-     * @Route ("/achat/{id}")
-     */
-    public function commande($id, SocieteRepository $societeRepository, PanierService $panierService, EntityManagerInterface $manager)
-    {
-
-        $panier = $panierService->getFullPanier();
-
-
-        $commande = new Commande();
-
-
-        $commande->setTotal($panierService->getTotal());
-        $commande->setRestaurateur($this->getUser()->getSociete());
-        foreach ($panier as $item) {
-
-            $achat = new Achat();
-            $fournisseur = $item['produit']->getSociete();
-            $achat->setProduit($item['produit']);
-            $achat->setQuantite($item['quantite']);
-            $achat->setPrix($item['produit']->getPrix());
-            $manager->persist($achat);
-            $achat->setCommande($commande);
-            $panierService->delete($item['produit']->getId());
-
-        }
-
-        $commande->setFournisseur($fournisseur);
-        $commande->setDate(new \DateTime());
-
-
-        $manager->persist($commande);
-        $manager->flush();
-
-
-        return $this->redirectToRoute('app_index_listecommande');
-    }
-
-
-    /**
-     *
-     * @Route("/editproduit/{idsoc}")
-     *
-     */
-    public function editProduit($idsoc, Produit $produit = null, Request $request, EntityManagerInterface $manager, ProduitRepository $produitRepository, SocieteRepository $societeRepository)
-    {
-
-
-        $produit = new Produit();
-
-        $form = $this->createForm(ProduitType::class, $produit);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $produit->setSociete($societeRepository->find($idsoc));
-            $manager->persist($produit);
-            $manager->flush();
-            $this->addFlash('success', 'Produit ajouté avec succès');
-            return $this->redirectToRoute('app_index_index');
-        }
-
-        return $this->render('fournisseur/editproduit.html.twig', [
-            'FormProduit' => $form->createView(),
-            'idsoc' => $idsoc
-        ]);
-
-    }
-
-    /**
-     * @Route("/deleteproduit/{id}")
-     */
-    public function deleteProduit(Request $request, Produit $produit)
-    {
-
-        $delete = $this->getDoctrine()->getManager();
-        $delete->remove($produit);
-        $delete->flush();
-        $this->addFlash('success', 'Produit supprimé avec succés');
-        return $this->redirectToRoute('app_index_listeproduit');
-    }
-
-    /**
-     *
-     * @Route("redit/{id}", name="redit_produit")
-     *
-     */
-    public function modifprod(EntityManagerInterface $manager, Request $request, Produit $produit)
-    {
-
-
-        $form = $this->createForm(ProduitType::class, $produit);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $manager->persist($produit);
-            $manager->flush();
-            $this->addFlash('success', 'Produit modifié avec succès');
-            return $this->redirectToRoute('app_index_index');
-        }
-
-        return $this->render('fournisseur/editproduit.html.twig', [
-            'FormProduit' => $form->createView(),
-        ]);
-
-    }
-
-
-    /**
      * @Route ("/promos/{societeid}", defaults={"societeid": ""})
      */
     public function promos(ProduitRepository $produitRepository, SocieteRepository $societeRepository, EntityManagerInterface $manager, Request $request, $societeid)
@@ -419,31 +173,6 @@ class IndexController extends AbstractController
             'soc' => $soc,
             'nom' => $nom
         ]);
-
-    }
-
-    /**
-     *
-     * @Route("/listepromofourn/{id}")
-     *
-     */
-    public function listePromoFourn(Request $request, $id)
-    {
-
-
-        $rep = $this->getDoctrine()->getRepository(Produit::class);
-        $produits = $rep->findAllOrderBy($id);
-
-        $promotion = $request->query->all();
-        $produitsEnPromo = $rep->findBy([
-            'promotion' => $promotion
-        ]);
-
-        return $this->render('listepromofourn.html.twig', [
-            'produits' => $produits,
-            'promotion' => $produitsEnPromo
-        ]);
-
 
     }
 

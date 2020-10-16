@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Commande;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ProduitRepository::class)
@@ -23,11 +24,15 @@ class Produit
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Assert\NotBlank(message="Le nom est manquant.")
+     * @Assert\Length(max="20", maxMessage="Le nom ne peut contenir plus de 20 caractères.")
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Assert\NotBlank(message="La catégorie est manquant.")
+     * @Assert\Length(max="20", maxMessage="La catégorie ne peut contenir plus de 20 caractères.")
      */
     private $categorie;
 
@@ -38,25 +43,25 @@ class Produit
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\NotBlank(message="Le prix est manquant")
+     * @Assert\Positive
      */
     private $prix;
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Assert\NotBlank(message="Veuillez choisir l'unité")
      */
     private $unite;
-
-
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
 
-
-
     /**
      * @ORM\Column(type="string", length=3)
+     * @Assert\NotBlank(message="Veuillez choisir une option")
      */
     private $promotion;
 

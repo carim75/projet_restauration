@@ -2,10 +2,8 @@
 
 {% block body %}
 
-
     <section class="col-md-8 liste">
-
-        <h3>Promotion en cours</h3>
+        <h3>Liste des produits</h3>
         <table class="table table-bordered">
             <thead class="thead-dark">
             <tr>
@@ -13,8 +11,9 @@
                 <th class="text-center" scope="col">Catégorie</th>
                 <th class="text-center" scope="col">Prix</th>
                 <th class="text-center" scope="col">Unité</th>
+                <th class="text-center" scope="col">Promotion</th>
                 <th class="text-center" scope="col">Description</th>
-                <th class="text-center" scope="col">Modifier</th>
+                <th colspan="2" class="text-center" scope="col">Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -23,16 +22,18 @@
                 <th colspan="8" class="table-success text-center">{{ app.user.societe.nom }}</th>
             </tr>
             {% for produit in produits %}
-                {% if produit.promotion == 'Oui' %}
                 <tr>
                     <th id="nom" class="text-center" scope="row">{{ produit.nom }}</th>
                     <td class="text-center">{{ produit.categorie }}</td>
                     <td id="prix" class="text-center">{{ produit.prix }}</td>
-                    <td id="prix" class="text-center">{{ produit.unite }}</td>
+                    <td id="unite" class="text-center">{{ produit.unite }}</td>
+                    <td class="text-center">{{ produit.promotion }}</td>
                     <td class="text-center">{{ produit.description }}</td>
-                        <td class="text-center"><a href="{{ path('redit_produit', {'id': produit.id}) }}"><span class="btn btn-primary">Modifier</span></a></td>
+                    <td><a href="{{ path('app_fournisseurs_modifproduit', {'id': produit.id}) }}"><span
+                                    class="btn btn-primary">Modifier</span></a></td>
+                    <td><a href="{{ path('app_fournisseurs_supprimerproduit', {'id': produit.id}) }}" id="confirm"><span
+                                    class="btn btn-danger">Supprimer</span></a></td>
                 </tr>
-                {% endif %}
             {% endfor %}
             </tbody>
         </table>
@@ -41,6 +42,3 @@
 
 
 {% endblock %}
-
-
-
