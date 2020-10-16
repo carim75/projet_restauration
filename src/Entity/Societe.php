@@ -6,6 +6,7 @@ use App\Repository\SocieteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=SocieteRepository::class)
@@ -21,21 +22,28 @@ class Societe
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Assert\NotBlank(message="Le nom est manquant")
+     * @Assert\Length(max="20", maxMessage="Le nom ne peut contenir plus de 20 caractères.")
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=10)
+     * @Assert\NotBlank(message="Le numéro est manquant")
+     * @Assert\Length(max="10", maxMessage="Le numéro ne peut contenir plus de 10 chiffres.")
      */
     private $tel_societe;
 
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
+     * @Assert\Length(max="10", maxMessage="Le numéro ne peut contenir plus de 10 chiffres.")
      */
     private $tel_patron;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\Email(message = "The email '{{ value }}' is not a valid email.")
+     * @Assert\Length(max="50", maxMessage="L'email ne peut contenir plus de 50 caractères.")
      */
     private $mail;
 

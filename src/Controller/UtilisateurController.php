@@ -3,7 +3,14 @@
 namespace App\Controller;
 
 
+use App\Entity\Commande;
+use App\Entity\Livraison;
+use App\Entity\Societe;
+use App\Repository\ProduitRepository;
+use App\Service\Panier\PanierService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 

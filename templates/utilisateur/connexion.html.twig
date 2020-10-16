@@ -12,11 +12,8 @@
         <link href="https://fonts.googleapis.com/css2?family=Sriracha&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&family=Sriracha&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset('css/login_style.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/create.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/homepage.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/restyle.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/titles.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/visite.css') }}">
+
+
     {% endblock %}
 </head>
 
@@ -59,7 +56,7 @@
                             <input type="password" class="form-control" id="password" name="_password">
                         </div>
 
-                        <input type="hidden" name="_target_path" value="{{ path('app_index_homepage') }}">
+                        <input type="hidden" name="_target_path" value="{{ path('app_index_index') }}">
                         <button type="submit" class="btn btn-primary">Connexion</button>
 
                     </fieldset>

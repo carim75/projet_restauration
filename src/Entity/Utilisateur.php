@@ -20,18 +20,22 @@ class Utilisateur implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\Length(max="50", maxMessage="Le pseudo ne peut contenir plus de 50 caractères.")
+     * @Assert\NotBlank(message="Veuillez indiquer votre pseudo")
      */
     private $pseudo;
 
     /**
      * @ORM\Column(type="string", length=50)
-     *
+     * @Assert\Length(max="50", maxMessage="Le nom ne peut contenir plus de 50 caractères.")
      * @Assert\NotBlank(message="Veuillez indiquer votre prénom et nom")
      */
     private $nomComplet;
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Assert\Length(max="20", maxMessage="La fonction ne peut contenir plus de 20 caractères.")
+     * @Assert\NotBlank(message="Veuillez indiquer votre fonction")
      */
     private $fonction;
 
