@@ -1,4 +1,9 @@
 // DOM ready
+
+
+
+
+
 $(function () {
     $('.btn-delete').click(function (event) {
         // pour ne pas aller directement vers la page de suppression
