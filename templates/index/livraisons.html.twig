@@ -9,6 +9,9 @@
 
         {% for livraison in livraisons  %}
             {% if societe.id == livraison.commande.fournisseur.id %}
+                {% if livraison.checkfourn == 'non' %}
+
+
 
 
 
@@ -50,6 +53,7 @@
             </div>
         </div>
         {% endif %}
+            {% endif %}
         {% endfor %}
 
 
