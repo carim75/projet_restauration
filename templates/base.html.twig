@@ -17,23 +17,24 @@
 
         <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Monoton&display=swap" rel="stylesheet">
 
-
         <link rel="stylesheet" href="{{asset('restyle.css')}}">
 
 
     {% endblock %}
 
+
     <div class=" menu container-fluid">
+
 
 <body class="home">
 
-<div class="titre"><h2 id="effect"></h2></div>
+<h2 id="effect"></h2>
 
 <script>
 
     var x =0;
 
-    var textEffect = " Commandeur.";
+    var textEffect = ".Commandeur.";
     var container = document.getElementById('effect');
 
 
@@ -44,33 +45,44 @@
             container.innerHTML+= textEffect.charAt(x);
 
             x++;
-            setTimeout(animate,60);
+            setTimeout(animate,70);
         }
     }
     animate();
 
 </script>
-
-
+<div class="col-sm-3" id="notice-disconnected"></div>
 <nav class="navbar navbar-dark bg-primary" style="min-height:10vh">
 
-    <div><span class="navbar-brand" >Bonjour {{ app.user.pseudo }}</span></div>
+    <div><span class="navbar-brand" >{{ app.user.pseudo }}</span></div>
+    <div><span class="text-right " style="color: white;font-family: 'Comic Sans MS';font-size: medium"><strong>Le {{ date('')|date('d/m/Y')}} à {{ date('')|date('H') }} H {{ date('')| date('i')}} </strong></span></div>
 
-    <div><span class="date text-right " style="color: white;font-family: 'Comic Sans MS';font-size: medium"><strong>Le {{ date('')|date('d/m/Y')}} à {{ date('')|date('H') }} H {{ date('')| date('i')}} </strong></span></div>
 
 
-            <div class=" meteo ">
 
-            <span class="text-right ml-2 " id="temperature"></span>
 
+            <div class="bg-dark border-info meteo">
+            <span class="text-right ml-4 " id="temperature"></span>
             </div>
 
-<div class="deco"><a href="{{ path('app_utilisateur_deconnexion') }}">
-            <img class="deco ml-2 navbar-brand"  src="{{ asset('img/deco.png') }}" background="white" alt=""></a>
-</div>
+
+
+
+
+
+
+
+
+
+        <a href="{{ path('app_utilisateur_deconnexion') }}" id="disconnect"><img class="ml-2 navbar-brand"  src="{{ asset('img/exit_closethesession_close_6317.png') }}" alt=""></a>
+
+
+
 
 
 </nav>
+
+
 
 
 {#  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -131,6 +143,7 @@
 
 
 {% block body %}{% endblock %}
+
 
 
 {% block javascripts %}
