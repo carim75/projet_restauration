@@ -20,6 +20,25 @@ class AchatRepository extends ServiceEntityRepository
     }
 
 
+    public function findbysociete($produitsoc)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.produit.societe = :produit_societe')
+            ->setParameter('produit_societe', $produitsoc)
+            ->orderBy('a.commande', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findbyproduit($produits)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.produit = :produit')
+            ->setParameter('produit', $produits)
+            ->orderBy('a.commande', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 
     // /**
     //  * @return Achat[] Returns an array of Achat objects

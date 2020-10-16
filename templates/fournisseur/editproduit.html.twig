@@ -4,43 +4,50 @@
 
 {% block body %}
 
-    <main class="main px-4 py-5" style="width: 60%">
-
-        <ul class="nav nav-tabs"id="media">
+    <main class="main px-4 py-5">
+        <ul class="nav nav-tabs" style="width: 60%">
             <li class="nav-item">
                 <a  class="nav-link" href="{{ path('app_index_homepage') }}">Accueil</a>
             </li>
             <li class="nav-item">
-                <a  class="nav-link" href="{{ path('app_index_livraison') }}">Livraison</a>
-            </li>
-            <li class="nav-item">
-                <a  class="nav-link" href="{{ path('app_index_listecommande') }}">Commandes</a>
+                {% if app.user.fonction == 'Fournisseur'  %}
+                    <a class="nav-link" href="{{ path('app_index_livraison', {'id': app.user.societe.id}) }}">Livraison</a>
+                {% endif %}
             </li>
             <li class="nav-item">
                 {% if app.user.fonction == 'Fournisseur' %}
-                    <a class="nav-link " href="{{ path('app_index_listeprodfourn', {'id': app.user.societe.id}) }}">Liste des produits</a>
+                    <a class="nav-link active" href="{{ path('app_index_commandesfourn', {'id': app.user.societe.id}) }}">Commandes</a>
                 {% else %}
-                    <a class="nav-link " href="{{ path('app_index_listeproduit') }}">Liste des produits</a>
+                    <a class="nav-link active" href="{{ path('app_index_listecommande') }}">Commandes</a>
                 {% endif %}
+            </li>
+            <li class="nav-item">
+                <a  class="nav-link" href="{{ path('app_index_listeproduit') }}">Liste des produits</a>
+            </li>
             {% if app.user.fonction == 'Fournisseur'  %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_index_editproduit', {'idsoc': app.user.societe.id}) }}">Ajout de produit</a>
+            </li>
+            {% endif %}
+            {% if app.user.fonction == 'Restaurateur'  %}
                 <li class="nav-item">
-                    <a class="nav-link active" href="{{ path('app_index_editproduit', {'idsoc': app.user.societe.id}) }}">Ajout de produit</a>
+                    <a class="nav-link" href="{{ path('app_index_promos') }}">Promotions</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_index_listepromofourn', {'id': app.user.societe.id}) }}">Promotions</a>
                 </li>
             {% endif %}
-            <li class="nav-item">
-                <a  class="nav-link" href="{{path('app_index_promos')}}">Promotions</a>
-            </li>
             {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item">
                     <a  class="nav-link" href="{{ path('app_admin_utilisateur_listeutilisateurs') }}">Liste utilisateurs</a>
                 </li>
             {% endif %}
-                <li class="nav-item">
-                    <a  class="nav-link" href="{{ path('app_utilisateur_deconnexion') }}">Déconnexion</a>
-                </li>
         </ul>
-        <h1>Création produit</h1>
 
+
+        <h1 class="mt-4 text-center">Création produit</h1>
+        <hr>
         {{ form_start(FormProduit) }}
         {{ form_row(FormProduit.nom,{'label': 'Nom du produit', 'attr': {'placeholder' : 'Nom du produit'}}) }}
         {{ form_row(FormProduit.categorie,{'label': 'Catégorie'}) }}

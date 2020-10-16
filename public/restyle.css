@@ -18,22 +18,45 @@ body {
 }
 
 
+
 h2 {
     margin-top: 20px;
     margin-left: 10px;
-    font-size: 70px;
+    font-size: 60px;
+     text-shadow: black;
     font-family: 'Monoton', cursive;
 
 
 }
 
-nav {
-    position: sticky;
-
-    opacity: 0.8;
-    max-height: 10vh;
+.burger {
+    background: url("fleche.png")center/cover white;
+        border: 2px solid grey;
+                margin-top: 2%;
+                    margin-left: 50%;
+                        padding: 2%;
+                                    width: 10%;
 
 }
+
+
+.meteo{
+
+       border-radius: 5px 5px 5px;
+}
+
+
+.date {
+    font-family: 'Orbitron', sans-serif;
+
+    border-radius: 5px 5px 5px;
+
+    padding: 15px;
+
+
+}
+
+
 
 .main{
 
@@ -44,14 +67,13 @@ nav {
 }
 
 
-ul{
-    display: flex;
-    flex-direction: row;
+
+
+ul>li{ display: flex;
+    flex-flow: row wrap;
     justify-content: space-between;
 
-}
-
-ul>li{ background:aliceblue ;
+    background:aliceblue ;
     border: 1px solid grey;
     list-style: none;
     box-shadow: 2px 3px 6px;
@@ -68,12 +90,9 @@ ul>li{ background:aliceblue ;
 
 .navbar {
 
-
     background: black !important;
     margin-top: 15px;
-
-    height: 100px;
-
+    min-height: 10vh;
 
 }
 
@@ -81,43 +100,76 @@ ul>li{ background:aliceblue ;
 .navbar-brand {
     font-size: 30px !important;
     font-family: 'Fredericka the Great', cursive;
-
 }
 
-a {
+span.navbar-brand {
+    font-size: 20px;
+    color: #916319 !important;
+}
+
+a{
     font-size: 20px;
     color: #916319 !important;
 }
 
 
 
-@media screen and (min-width: 360px) and (max-width: 800px) {
+
+
+@media screen and (min-width: 410px)and (max-width: 1000px) {
+
+
+h2 {  display: block;
+        align-items: center;
+
+    font-size: 42px;
+
+}
+
 
     #media {
         display: flex;
-        min-height: 200px;
+         flex-direction:column;
 
 
-        flex-flow:column wrap;
+                    width: 100%;
 
-        margin-top:100px ;
+            margin-top: 50px;
+                min-height: 100px;
 
     }
+
+    .navbar {
+
+       display: flex;
+            flex-flow: row wrap-reverse;
+                width: 110%;
+
+                    justify-content: center;
+        align-content:space-between ;
+
+
+
+    }
+
+    .date {
+
+    margin-right: 20px;
+
+    }
+
+    #effect {
+        display: flex;
+            flex-flow: row wrap ;
+
+
+    }
+
+
+
 
 
 }
 
 
-@media screen and (min-width: 560px) and (max-width: 800px) {
-
-    #media {
-        display: flex;
-            min-height: 200px;
-                flex-flow:column wrap;
-                    margin-top:150px ;
-
-    }
-
-
-}
 
