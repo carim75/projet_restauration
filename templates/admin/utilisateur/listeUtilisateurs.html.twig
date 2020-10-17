@@ -18,6 +18,9 @@
             <tbody>
 
             {% for utilisateur in utilisateurs %}
+                {% if utilisateur.societe.id == app.user.societe.id %}
+
+
                 <tr>
                     <td class="text-center">{{ utilisateur.pseudo }}</td>
                     <td class="text-center">{{ utilisateur.nomcomplet }}</td>
@@ -30,6 +33,7 @@
                     </td>
 
                 </tr>
+                {% endif %}
             {% endfor %}
 
             </tbody>

@@ -24,6 +24,10 @@ class UtilisateurController extends AbstractController
      */
     public function inscription(Utilisateur $utilisateur = null, Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $manager)
     {
+        $patron=$request->getUser();
+        dump($patron);
+
+
         if (!$utilisateur){
             $creation = true;
             $utilisateur = new Utilisateur();

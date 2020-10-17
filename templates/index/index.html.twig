@@ -16,7 +16,7 @@
 
             {% if app.user.fonction=='Restaurateur' %}
                 {% for livraison in livraisons %}
-                    {% if livraison.checked == 'non' %}
+                    {% if livraison.checked == 'non' and livraison.commande.restaurateur.id == app.user.societe.id %}
             <table class="table table-bordered">
                 <tbody>
                <tr><th> <a href="{{ path('app_restaurateurs_livraisonrestaurateur', {'id': app.user.societe.id}) }}">{{ livraison.commande.fournisseur.nom }}</a></th></tr>
@@ -26,9 +26,9 @@
                 {% endfor %}
             {% else %}
                 {% for commande in commandes %}
-                    {% if commande.checkfourn == 'non' %}
+                    {% if commande.checkfourn == 'non' and commande.fournisseur.id == app.user.societe.id %}
                     <table class="table table-bordered">
-                        <tr><a href="{{ path('app_fournisseurs_commandesfournisseur', {'id': app.user.societe.id}) }}"><th>{{ commande.restaurateur.nom }}</th></a></tr>
+                        <tr><th><a href="{{ path('app_fournisseurs_commandesfournisseur', {'id': app.user.societe.id}) }}">{{ commande.restaurateur.nom }}</a></th></tr>
                     </table>
                     {% endif %}
                 {% endfor %}

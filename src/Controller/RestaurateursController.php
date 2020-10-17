@@ -112,7 +112,7 @@ class RestaurateursController extends AbstractController
         $manager->flush();
 
 
-        return $this->redirectToRoute('app_index_listecommande');
+        return $this->redirectToRoute('app_index_index');
     }
     /**
      * @Route ("/livraisonrestaurateur/{id}")
@@ -123,7 +123,15 @@ class RestaurateursController extends AbstractController
         $societe = $rep->find($id);
 
         $rep = $this->getDoctrine()->getRepository(Livraison::class);
-        $livraisons = $rep->findAll();
+        $livraisons = $rep->findBy(
+            [
+                'date'=> new \DateTime()
+            ],
+            [
+                'id'=> 'ASC'
+            ]
+
+        );
 
         return $this->render('restaurateurs/livraisonrestaurateur.html.twig',[
             'societe'=>$societe,

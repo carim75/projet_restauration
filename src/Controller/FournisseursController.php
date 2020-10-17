@@ -107,7 +107,7 @@ class FournisseursController extends AbstractController
         $rep = $this->getDoctrine()->getRepository(Produit::class);
         $prods = $rep->findAllOrderBy($id);
 
-        $produits = $paginator->paginate($prods, $request->query->getInt('page', 1), 1);
+        $produits = $paginator->paginate($prods, $request->query->getInt('page', 1), 10);
 
         return $this->render('fournisseur/produitsfournisseur.html.twig', [
             'produits' => $produits
@@ -149,7 +149,15 @@ class FournisseursController extends AbstractController
         $societe = $rep->find($id);
 
         $rep = $this->getDoctrine()->getRepository(Livraison::class);
-        $livraisons = $rep->findAll();
+        $livraisons = $rep->findBy(
+            [
+                'date'=> new \DateTime()
+            ],
+            [
+                'id'=> 'ASC'
+            ]
+
+        );
 
         return $this->render('fournisseur/listelivraisonsfournisseur.html.twig',[
             'societe'=>$societe,

@@ -38,10 +38,27 @@ class IndexController extends AbstractController
     public function index()
     {
         $rep = $this->getDoctrine()->getRepository(Livraison::class);
-        $livraisons = $rep->findAll();
+        $livraisons = $rep->findBy(
+            [
+                'date'=> new \DateTime()
+            ],
+            [
+                'id'=> 'ASC'
+            ]
+
+        );
 
         $repo = $this->getDoctrine()->getRepository(Commande::class);
-        $commandes = $repo->findAll();
+        $commandes = $repo->findBy(
+            [
+                'date'=> new \DateTime()
+            ],
+            [
+                'id'=> 'ASC'
+            ]
+
+        );
+
 
 
         return $this->render('index/index.html.twig', [

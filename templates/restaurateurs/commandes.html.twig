@@ -19,19 +19,14 @@
 
 
             {% for commande in commandes %}
-                {% for achat in achats %}
-                    {% if achat.commande.id == commande.id  %}
-                        {% if soci != achat.produit.societe.nom %}
-                          {% set soci=achat.produit.societe.nom %}
-                            <tr ><th colspan="5" class="table-success text-center">{{ soci }}</th></tr>
-                        {% endif %}
-                        {% if tot != commande.id %}
-                            {% set tot=commande.id %}
-                            <tr>
-                                <td class="text-center" style="font-weight: bolder"  colspan="5">Commande n° {{ commande.id }} Du {{ commande.date | date("d/m/Y")  }} D'un montant total de {{ commande.total }} €</td>
-                            </tr>
-                        {% endif %}
+            {% if commande.checked == 'non' %}
 
+
+            <tr ><th colspan="5" class="table-success text-center">{{ commande.fournisseur.nom}}</th></tr>
+            <tr>
+                <td class="text-center" style="font-weight: bolder"  colspan="5">Commande n° {{ commande.id }} Du {{ commande.date | date("d/m/Y")  }} D'un montant total de {{ commande.total }} €</td>
+            </tr>
+                {% for achat in commande.achats %}
                         <tr>
                             <td class="text-center">{{ achat.produit.nom }}</td>
                             <td class="text-center">{{ achat.prix }} €</td>
@@ -41,10 +36,9 @@
                             <td class="text-center">{{ prix }} €</td>
                         </tr>
 
-
-                    {% endif %}
                 {% endfor %}
             </tbody>
+            {% endif %}
             {% endfor %}
 
         </table>
