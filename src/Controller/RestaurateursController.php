@@ -143,7 +143,7 @@ class RestaurateursController extends AbstractController
 
 
     /**
-     * @Route ("/promos/{societeid}", defaults={"societeid": ""})
+     * @Route ("/promos/{societeid}", defaults={"societeid": ""}, name="promoresto")
      */
     public function promos(ProduitRepository $produitRepository, SocieteRepository $societeRepository, EntityManagerInterface $manager, Request $request, $societeid)
     {
@@ -176,7 +176,7 @@ class RestaurateursController extends AbstractController
         $achat = $rep->find($id);
 
 
-        return $this->render("facturemodif.html.twig", [
+        return $this->render("index/facturemodif.html.twig", [
             'achat' => $achat
         ]);
     }

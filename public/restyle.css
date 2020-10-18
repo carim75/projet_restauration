@@ -27,8 +27,10 @@ body {
 
 h1{
 
-    font-size: 40px;
-        color: white;
+    font-style: italic;
+    font-family: "Comic Sans MS";
+    font-weight: bolder;
+
 }
 
 
@@ -190,13 +192,6 @@ footer{
    margin-top: 500px;
 }
 
-    .meteo {
-        width: 100%;
-    }
-
-    .phone1 {
-        width: 100%;
-        margin-left: 0;
 
 @media screen and (min-width: 410px)and (max-width: 1000px) {
 
@@ -208,6 +203,18 @@ h2 {  display: flex;
     font-size: 42px;
 
 }
+    .meteo {
+        width: 100%;
+    }
+
+    #parent2{
+        margin-right: 90px;
+    }
+
+    .phone1 {
+        width: 100%;
+        margin-left: 0;
+    }
 
 
 

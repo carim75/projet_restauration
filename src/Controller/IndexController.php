@@ -93,7 +93,7 @@ class IndexController extends AbstractController
             return $this->redirectToRoute('app_index_index');
         }
 
-      return $this->render('creasociete.html.twig',[
+      return $this->render('admin/creasociete.html.twig',[
           'form' => $form->createView(),
 
       ]);
@@ -128,7 +128,7 @@ class IndexController extends AbstractController
 
 
 
-       return $this->redirectToRoute("app_index_factures",[
+       return $this->redirectToRoute("factures",[
            'factures'=>$factures
        ]);
     }
@@ -140,7 +140,7 @@ class IndexController extends AbstractController
     {
         $repo = $this->getDoctrine()->getRepository(Facture::class);
         $factures = $repo->findby(array(),array('id'=> 'DESC'));
-        return $this->render("facture.html.twig",[
+        return $this->render("index/facture.html.twig",[
             'factures'=>$factures
         ]);
     }

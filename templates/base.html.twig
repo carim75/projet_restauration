@@ -102,7 +102,7 @@
 
             <div id="popup2">Utilisateurs</div>
 
-            <a href="{{ path('app_admin_utilisateur_listeutilisateurs') }}" id="users"><img src="{{ asset('users.png') }}" alt=""></a>
+            <a href="{{ path('app_admin_utilisateur_listeutilisateurs') }}" id="users"><img src="{{ asset('user.png') }}" alt=""></a>
 
         {% endif %}
 
@@ -198,7 +198,7 @@
 
                 {% if app.user.fonction == 'Restaurateur' %}
                     <li class="nav-item mr-2">
-                        <a class="nav-link" href="{{ path('app_restaurateurs_promos') }}">Promotions</a>
+                        <a class="nav-link" href="{{ path('app_restaurateurs_promos', {'societeid': app.user.societe.id}) }}">Promotions</a>
                     </li>
                 {% else %}
 
@@ -231,8 +231,6 @@
 
 
 {% block body %}{% endblock %}
-
-</section>
 
 </main>
 

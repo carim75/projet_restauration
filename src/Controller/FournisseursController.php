@@ -90,7 +90,7 @@ class FournisseursController extends AbstractController
         $delete->remove($produit);
         $delete->flush();
         $this->addFlash('success', 'Produit supprimé avec succés');
-        return $this->redirectToRoute('app_index_listeproduit');
+        return $this->redirectToRoute('app_fournisseurs_listeprodfourn');
     }
 
 
