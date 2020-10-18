@@ -5,9 +5,9 @@
 {% block body %}
 
 
-        <h1>Livraisons à venir</h1>
+    <h1>Livraisons à venir</h1>
     <main style="background-color: white;">
-        {% for livraison in livraisons  %}
+        {% for livraison in livraisons %}
             {% if societe.id == livraison.commande.fournisseur.id %}
                 {% if livraison.checkfourn == 'non' %}
 
@@ -15,44 +15,44 @@
 
 
 
-        <div class="card text-white bg-secondary mb-3" >
-            <div class="card-header"><h3>{{ livraison.commande.restaurateur.nom }}</h3></div>
-            <div class="card-body">
-              <table class="table table-bordered">
-                  <thead class="thead_dark">
-                  <h5>{{ livraison.date | date('d/m/Y') }}</h5>
-                  <tr>
-                      <th class="text-center" scope="col">Nom</th>
-                      <th class="text-center" scope="col">Prix</th>
-                      <th class="text-center" scope="col">Quantité</th>
-                      <th class="text-center" scope="col">Unité</th>
-                      <th class="text-center" scope="col">Total</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  {% for achat in livraison.commande.achats %}
+                    <div class="card text-white bg-secondary mb-3">
+                        <div class="card-header"><h3>{{ livraison.commande.restaurateur.nom }}</h3></div>
+                        <div class="card-body">
+                            <table class="table table-bordered">
+                                <thead class="thead_dark">
+                                <h5>{{ livraison.date | date('d/m/Y') }}</h5>
+                                <tr>
+                                    <th class="text-center" scope="col">Nom</th>
+                                    <th class="text-center" scope="col">Prix</th>
+                                    <th class="text-center" scope="col">Quantité</th>
+                                    <th class="text-center" scope="col">Unité</th>
+                                    <th class="text-center" scope="col">Total</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for achat in livraison.commande.achats %}
 
-                  <tr>
-                      <td class="text-center">{{ achat.produit.nom }}</td>
-                      <td class="text-center">{{ achat.prix }} €</td>
-                      <td class="text-center">{{ achat.quantite }}</td>
-                      <td class="text-center">{{ achat.produit.unite }}</td>
-                      {% set prix =achat.prix * achat.quantite %}
-                      <td class="text-center">{{ prix }}</td>
-                  </tr>
-                  {% endfor %}
-                  </tbody>
-                  <tfoot>
-                  <tr>
-                      <td colspan="3" class="text-right">Total de la commande :</td>
-                  <td colspan="2" class="text-center">{{ livraison.commande.total }} €</td>
-                  </tr>
-                  </tfoot>
+                                    <tr>
+                                        <td class="text-center">{{ achat.produit.nom }}</td>
+                                        <td class="text-center">{{ achat.prix }} €</td>
+                                        <td class="text-center">{{ achat.quantite }}</td>
+                                        <td class="text-center">{{ achat.produit.unite }}</td>
+                                        {% set prix =achat.prix * achat.quantite %}
+                                        <td class="text-center">{{ prix }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="3" class="text-right">Total de la commande :</td>
+                                    <td colspan="2" class="text-center">{{ livraison.commande.total }} €</td>
+                                </tr>
+                                </tfoot>
 
-              </table>
-            </div>
-        </div>
-        {% endif %}
+                            </table>
+                        </div>
+                    </div>
+                {% endif %}
             {% endif %}
         {% endfor %}
 

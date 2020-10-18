@@ -1,17 +1,17 @@
 {% extends '../base.html.twig' %}
 
 {% block body %}
-<h4>Modification Livraison</h4>
+    <h4>Modification Livraison</h4>
 
 
-<form action="{{ path('app_restaurateurs_validmodif', {'id': achat.id}) }}" method="post">
-    <h4>{{ achat.produit.nom }}</h4>
-    <input type="hidden" value="{{ achat.id }}">
-    <label for="quantite"></label>
-    <input type="text" name="quantite"  value="{{ achat.quantite }}">
-    <h4>{{ achat.produit.unite }}</h4>
-   <button type="submit">Valider</button>
-</form>
+    <form action="{{ path('app_restaurateurs_validmodif', {'id': achat.id}) }}" method="post">
+        <h4>{{ achat.produit.nom }}</h4>
+        <input type="hidden" value="{{ achat.id }}">
+        <label for="quantite"></label>
+        <input type="text" name="quantite" value="{{ achat.quantite }}">
+        <h4>{{ achat.produit.unite }}</h4>
+        <button type="submit">Valider</button>
+    </form>
 
 
 {% endblock %}
