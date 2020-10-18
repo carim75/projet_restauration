@@ -5,13 +5,13 @@
 
 
 
-        <h1>Livraisons à venir</h1>
+    <h1>Livraisons à venir</h1>
 
-        {% for livraison in livraisons  %}
-            {% if societe.id == livraison.commande.restaurateur.id %}
-                {% if livraison.checked == 'non' %}
+    {% for livraison in livraisons %}
+        {% if societe.id == livraison.commande.restaurateur.id %}
+            {% if livraison.checked == 'non' %}
 
-                <div class="card text-white bg-secondary mb-3 mt-3" >
+                <div class="card text-white bg-secondary mb-3 mt-3">
 
                     <div class="card-header"><h3>{{ livraison.commande.fournisseur.nom }}</h3></div>
                     <div class="card-body">
@@ -41,25 +41,30 @@
                                     <td class="text-center">{{ achat.produit.description }}</td>
                                     {% set prix =achat.prix * achat.quantite %}
                                     <td class="text-center">{{ prix }} €</td>
-                                    <td class="text-center"><button class="btn btn-danger"><a href="{{ path('app_restaurateurs_facturemodif', {'id': achat.id}) }}">Modifier</a></button></td>
+                                    <td class="text-center">
+                                        <button class="btn btn-danger"><a
+                                                    href="{{ path('app_restaurateurs_facturemodif', {'id': achat.id}) }}">Modifier</a>
+                                        </button>
+                                    </td>
                                 </tr>
                             {% endfor %}
                             </tbody>
                             <tfoot>
                             <tr>
-                                <td colspan="4" class="text-right">Total de la commande :</td>
-                                <td colspan="3" class="text-center">{{ livraison.commande.total }} €</td>
+                                <td colspan="5" class="text-right">Total de la commande :</td>
+                                <td colspan="2" class="text-center">{{ livraison.commande.total }} €</td>
                             </tr>
                             </tfoot>
 
                         </table>
                     </div>
                 </div>
-                <button class="btn btn-primary"><a href="{{ path('app_index_facturecrea', {'id': livraison.id}) }}">Valider</a></button>
+                <button class="btn btn-primary"><a href="{{ path('app_index_facturecrea', {'id': livraison.id}) }}">Valider</a>
+                </button>
 
-                {% endif %}
             {% endif %}
-        {% endfor %}
+        {% endif %}
+    {% endfor %}
 
 
 {% endblock %}

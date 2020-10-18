@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="mt-5 mb-5 creasociete">
+        <div class="creasociete">
+            {{ form_start(form) }}
+            {{ form_row(form.nom) }}
+            {{ form_row(form.tel_patron) }}
+            {{ form_row(form.tel_societe) }}
+            {{ form_row(form.mail) }}
+
+            <button type="submit" class="btn btn-primary">
+                Enregistrer
+            </button>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+{% endblock %}
+
+

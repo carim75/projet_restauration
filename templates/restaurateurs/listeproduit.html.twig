@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 
 <html>
@@ -114,6 +112,19 @@
 
     </div>
 
+    <div id="parent2">
+
+        {% if is_granted('ROLE_ADMIN') %}
+
+            <div id="popup2">Factures</div>
+
+            <a href="{{ path('factures') }}" id="users"><img style="width: 60px;height: 60px"
+                                                             src="{{ asset('img/facture.png') }}" alt=""></a>
+
+        {% endif %}
+
+    </div>
+
 
     <div id="parent">
 
@@ -190,7 +201,8 @@
 
             {% if app.user.fonction == 'Restaurateur' %}
                 <li class="nav-item mr-2">
-                    <a class="nav-link" href="{{ path('app_restaurateurs_promos') }}">Promotions</a>
+                    <a class="nav-link"
+                       href="{{ path('promoresto', {'societeid': app.user.societe.id}) }}">Promotions</a>
                 </li>
             {% else %}
 

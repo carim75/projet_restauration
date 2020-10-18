@@ -24,6 +24,10 @@ class RestaurateursController extends AbstractController
      */
     public function ajoutPanier($id, PanierService $panierService, Request $request, ProduitRepository $produitRepository)
     {
+        /**
+         * fonction utilisant le service panier mis en place dans la session
+         * pour ajouter (quantité du même produit) des produits au panier avant validation de la commande
+         */
 
         $produit = $produitRepository->find($id);
         $nomSociete = $produit->getSociete()->getNom();
@@ -44,6 +48,11 @@ class RestaurateursController extends AbstractController
     public function retirerPanier($id, PanierService $panierService, Request $request, ProduitRepository $produitRepository)
     {
 
+        /**
+         * fonction utilisant le service panier mis en place dans la session
+         * pour retirer ( quantité du même produit )des produits au panier avant validation de la commande
+         */
+
         $produit = $produitRepository->find($id);
         $nomSociete = $produit->getSociete()->getNom();
 
@@ -63,6 +72,12 @@ class RestaurateursController extends AbstractController
     public function supprimerPanier($id, PanierService $panierService, Request $request, ProduitRepository $produitRepository)
     {
 
+        /**
+         * fonction utilisant le service panier mis en place dans la session
+         * pour supprimer intégralement la ligne de produit déja ajoutée au panier avant validation de la commande
+         */
+
+
         $produit = $produitRepository->find($id);
         $nomSociete = $produit->getSociete()->getNom();
 
@@ -78,8 +93,14 @@ class RestaurateursController extends AbstractController
     /**
      * @Route ("/achat")
      */
-    public function commande( SocieteRepository $societeRepository, PanierService $panierService, EntityManagerInterface $manager)
+    public function commande(SocieteRepository $societeRepository, PanierService $panierService, EntityManagerInterface $manager)
     {
+
+        /**
+         * fonction appelant le service panier afin de le transformer en commande,
+         * ainsi chaques produits avec leur quantité enregistrés dans le panier correspondra à un achat.
+         * le cumul de tout ces achats aura un seule et même id de commande et créera donc une commande reliée par l'id aux achats, eux mêmes reliés aux produits en bdd
+         */
 
         $panier = $panierService->getFullPanier();
 
@@ -89,6 +110,13 @@ class RestaurateursController extends AbstractController
 
         $commande->setTotal($panierService->getTotal());
         $commande->setRestaurateur($this->getUser()->getSociete());
+        /**
+         * on set les check pour restaurateur et fournisseurs à 'non' afin qu'ils
+         * restent affiché dans la liste des commandes restaurateur et fournisseurs
+         * jusqu'à temps d'être setter à 'oui' lors de la validation de la commande par le fournisseur.
+         * ainsi le status livraison commencera
+         */
+
         $commande->setChecked('non');
         $commande->setCheckfourn('non');
         foreach ($panier as $item) {
@@ -121,6 +149,12 @@ class RestaurateursController extends AbstractController
      */
     public function livraisonRestaurateur()
     {
+
+        /**
+         * fonction permettant de checker les livraisons du jour,
+         * les modifier ou les valider
+         */
+
         $rep = $this->getDoctrine()->getRepository(Societe::class);
         $societe = $rep->find($this->getUser()->getSociete());
 
@@ -143,10 +177,14 @@ class RestaurateursController extends AbstractController
 
 
     /**
-     * @Route ("/promos/{societeid}", defaults={"societeid": ""})
+     * @Route ("/promos/{societeid}", defaults={"societeid": ""}, name="promoresto")
      */
     public function promos(ProduitRepository $produitRepository, SocieteRepository $societeRepository, EntityManagerInterface $manager, Request $request, $societeid)
     {
+        /**
+         * affichage de tout les produits classés par les fournisseurs en promotion. triés par fournisseurs
+         */
+
         $repos = $this->getDoctrine()->getRepository(Produit::class);
         $produitsEnPromo = $repos->findAll();
 
@@ -156,7 +194,7 @@ class RestaurateursController extends AbstractController
         $societeid = $repo->findBy([
             'nom' => $nom]);
 
-        return $this->render('index/promotions.html.twig', [
+        return $this->render('restaurateurs/promotions.html.twig', [
 
             'produits' => $produitsEnPromo,
             'societeid' => $societeid,
@@ -172,11 +210,15 @@ class RestaurateursController extends AbstractController
      */
     public function facturemodif($id, Request $request, EntityManagerInterface $manager)
     {
+        /**
+         *recupère l'achat à modifier lors de la livraison car non conforme
+         */
+
         $rep = $this->getDoctrine()->getRepository(Achat::class);
         $achat = $rep->find($id);
 
 
-        return $this->render("facturemodif.html.twig", [
+        return $this->render("index/facturemodif.html.twig", [
             'achat' => $achat
         ]);
     }
@@ -187,6 +229,14 @@ class RestaurateursController extends AbstractController
      */
     public function validmodif($id, EntityManagerInterface $manager, Request $request)
     {
+        /**
+         * cette fonction permet d'enregistrer la modification de l'achat lors de la livraison (problème de quantité ou de qualité du produit qui serait alors renvoyer et remet à jour le montant de la ligne de commande mais
+         * aussi le montant total de la livraison afin de pouvoir valider directement cette livraison et la transmettre
+         * à la facturation
+         *
+         */
+
+
         $rep = $this->getDoctrine()->getRepository(Achat::class);
         $achat = $rep->find($id);
         $societe = $this->getUser()->getSociete()->getId();
@@ -219,6 +269,12 @@ class RestaurateursController extends AbstractController
      */
     public function listeProduit(ProduitRepository $produitRepository, SocieteRepository $societeRepository, EntityManagerInterface $manager, Request $request, $societeid, PanierService $panierService)
     {
+
+        /**
+         * fonction permettant d'afficher tout les produits par fournisseur et de les commander (les ajouter au panier) lors de l'ajout d'un produit au panier, la liste des produits du même fournisseur est la seule présente
+         * dans l'affichage afin de faciliter la commande. Il est de même mis à disposition du restaurateur la selection directe du fournisseur chez lequel il souhaite commander
+         */
+
         $rep = $this->getDoctrine()->getRepository(Societe::class);
         $societes = $rep->findAll();
 
@@ -258,12 +314,17 @@ class RestaurateursController extends AbstractController
      */
     public function listeCommande()
     {
+
+        /**
+         * fonction permettant d'afficher toutes les commandes du jour effectuées
+         */
+
         $rep = $this->getDoctrine()->getRepository(Societe::class);
         $societes = $rep->findAll();
 
         $repo = $this->getDoctrine()->getRepository(Commande::class);
         $commandes = $repo->findBy([
-            'date'=> new \DateTime()
+            'date' => new \DateTime()
         ]);
 
         $repos = $this->getDoctrine()->getRepository(Produit::class);

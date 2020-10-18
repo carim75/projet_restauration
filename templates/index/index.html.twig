@@ -5,31 +5,39 @@
 
     <div class="card">
         <div class="card-header">
-           <h1>Votre Journée :</h1>
+            <h1>Votre Journée :</h1>
         </div>
         <div class="card-body">
             {% if app.user.fonction=='Restaurateur' %}
                 <h4 class="card-title">Livraisons </h4>
-                {% else %}
-                    <h4 class="card-title">Commandes </h4>
+            {% else %}
+                <h4 class="card-title">Commandes </h4>
             {% endif %}
 
             {% if app.user.fonction=='Restaurateur' %}
                 {% for livraison in livraisons %}
                     {% if livraison.checked == 'non' and livraison.commande.restaurateur.id == app.user.societe.id %}
-            <table class="table table-bordered">
-                <tbody>
-               <tr><th> <a href="{{ path('app_restaurateurs_livraisonrestaurateur', {'id': app.user.societe.id}) }}">{{ livraison.commande.fournisseur.nom }}</a></th></tr>
-                </tbody>
-            </table>
+                        <table class="table table-bordered">
+                            <tbody>
+                            <tr>
+                                <th>
+                                    <a href="{{ path('app_restaurateurs_livraisonrestaurateur', {'id': app.user.societe.id}) }}">{{ livraison.commande.fournisseur.nom }}</a>
+                                </th>
+                            </tr>
+                            </tbody>
+                        </table>
                     {% endif %}
                 {% endfor %}
             {% else %}
                 {% for commande in commandes %}
                     {% if commande.checkfourn == 'non' and commande.fournisseur.id == app.user.societe.id %}
-                    <table class="table table-bordered">
-                        <tr><th><a href="{{ path('app_fournisseurs_commandesfournisseur', {'id': app.user.societe.id}) }}">{{ commande.restaurateur.nom }}</a></th></tr>
-                    </table>
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>
+                                    <a href="{{ path('app_fournisseurs_commandesfournisseur', {'id': app.user.societe.id}) }}">{{ commande.restaurateur.nom }}</a>
+                                </th>
+                            </tr>
+                        </table>
                     {% endif %}
                 {% endfor %}
             {% endif %}

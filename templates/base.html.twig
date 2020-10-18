@@ -102,7 +102,8 @@
 
             <div id="popup2">Utilisateurs</div>
 
-            <a href="{{ path('app_admin_utilisateur_listeutilisateurs') }}" id="users"><img src="{{ asset('user.png') }}" alt=""></a>
+            <a href="{{ path('app_admin_utilisateur_listeutilisateurs') }}" id="users"><img
+                        src="{{ asset('user.png') }}" alt=""></a>
 
         {% endif %}
 
@@ -115,7 +116,7 @@
             <div id="popup2">Factures</div>
 
             <a href="{{ path('factures') }}" id="users"><img style="width: 60px;height: 60px"
-                                                        src="{{ asset('img/facture.png') }}" alt=""></a>
+                                                             src="{{ asset('img/facture.png') }}" alt=""></a>
 
         {% endif %}
 
@@ -125,7 +126,8 @@
 
         <div id="popup">Déconnexion</div>
 
-        <a href="{{ path('app_utilisateur_deconnexion') }}" id="disconnect"><img src="{{ asset('deco.png') }}" alt=""></a>
+        <a href="{{ path('app_utilisateur_deconnexion') }}" id="disconnect"><img src="{{ asset('deco.png') }}"
+                                                                                 alt=""></a>
 
 
     </div>
@@ -232,8 +234,6 @@
 
 {% block body %}{% endblock %}
 
-</section>
-
 </main>
 
 {% block javascripts %}
@@ -251,13 +251,9 @@
             integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
             crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-
     <script src="{{asset('script.js')}}"></script>
 
 {% endblock %}
-
-
 <script>
 
 
@@ -312,22 +308,6 @@
         )
 
 
-        $("#searchbar").autocomplete({
-            source: function (request, response) {
-                $.get({
-                    url: "{{ path('app_search_autocomplete') }}",
-                    data: {
-                        query: request.term,
-                    },
-                    dataType: 'json',
-                    method: 'get'
-                }).done(function (data) {
-                    response(data);
-                });
-            },
-            delay: 100,
-            minLength: 2
-        })
     })
 </script>
 
@@ -341,6 +321,7 @@
 
 
         <p><span class="text-right " style="color: white;font-family: 'Poiret One', cursive;font-size: large"><strong>{{ date('')|date('Y')}} </strong></span>&copy;Commandeur.com<p>
+
 
 
     </nav>

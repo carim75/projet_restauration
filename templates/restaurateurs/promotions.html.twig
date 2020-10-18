@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+    <h1>Promotions en cours</h1>
+
+    <table class="table table-light table-hover" style="border-radius: 5px">
+        <thead class="thead-dark">
+        <tr>
+            <th class="text-center" scope="col">Nom</th>
+            <th class="text-center" scope="col">Catégorie</th>
+            <th class="text-center" scope="col">Prix</th>
+            <th class="text-center" scope="col">Unité</th>
+            <th class="text-center" scope="col">Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% set soc="" %}
+        {% for produit in produits %}
+            {% if soc != produit.societe.nom %}
+                {% set soc=produit.societe.nom %}
+                <tr>
+                    <th colspan="8" class="table-success text-center">{{ soc }}</th>
+                </tr>
+            {% endif %}
+            {% if produit.promotion == 'Oui' %}
+
+
+                <tr>
+                    <th id="nom" class="text-center" scope="row">{{ produit.nom }}</th>
+                    <td class="text-center">{{ produit.categorie }}</td>
+                    <td id="prix" class="text-center">{{ produit.prix }}</td>
+                    <td id="prix" class="text-center">{{ produit.unite }}</td>
+                    <td class="text-center">{{ produit.description }}</td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
