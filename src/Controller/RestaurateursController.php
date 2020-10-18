@@ -76,9 +76,9 @@ class RestaurateursController extends AbstractController
     }
 
     /**
-     * @Route ("/achat/{id}")
+     * @Route ("/achat")
      */
-    public function commande($id, SocieteRepository $societeRepository, PanierService $panierService, EntityManagerInterface $manager)
+    public function commande( SocieteRepository $societeRepository, PanierService $panierService, EntityManagerInterface $manager)
     {
 
         $panier = $panierService->getFullPanier();
@@ -97,7 +97,7 @@ class RestaurateursController extends AbstractController
             $achat->setProduit($item['produit']);
             $achat->setQuantite($item['quantite']);
             $achat->setPrix($item['produit']->getPrix());
-            $commande->setFournisseur( $item['produit']->getSociete());
+            $commande->setFournisseur($item['produit']->getSociete());
             $manager->persist($achat);
             $achat->setCommande($commande);
             $panierService->delete($item['produit']->getId());
@@ -110,32 +110,34 @@ class RestaurateursController extends AbstractController
 
         $manager->persist($commande);
         $manager->flush();
+        $this->addFlash('success', 'Commande validée');
 
 
         return $this->redirectToRoute('app_index_index');
     }
+
     /**
-     * @Route ("/livraisonrestaurateur/{id}")
+     * @Route ("/livraisonrestaurateur")
      */
-    public function livraisonRestaurateur($id)
+    public function livraisonRestaurateur()
     {
         $rep = $this->getDoctrine()->getRepository(Societe::class);
-        $societe = $rep->find($id);
+        $societe = $rep->find($this->getUser()->getSociete());
 
         $rep = $this->getDoctrine()->getRepository(Livraison::class);
         $livraisons = $rep->findBy(
             [
-                'date'=> new \DateTime()
+                'date' => new \DateTime()
             ],
             [
-                'id'=> 'ASC'
+                'id' => 'ASC'
             ]
 
         );
 
-        return $this->render('restaurateurs/livraisonrestaurateur.html.twig',[
-            'societe'=>$societe,
-            'livraisons'=>$livraisons
+        return $this->render('restaurateurs/livraisonrestaurateur.html.twig', [
+            'societe' => $societe,
+            'livraisons' => $livraisons
         ]);
     }
 
@@ -168,17 +170,14 @@ class RestaurateursController extends AbstractController
     /**
      * @Route("facturemodif/{id}")
      */
-    public function facturemodif ($id, Request $request, EntityManagerInterface $manager)
+    public function facturemodif($id, Request $request, EntityManagerInterface $manager)
     {
         $rep = $this->getDoctrine()->getRepository(Achat::class);
         $achat = $rep->find($id);
 
 
-
-
-
-        return $this->render("facturemodif.html.twig",[
-            'achat'=>$achat
+        return $this->render("facturemodif.html.twig", [
+            'achat' => $achat
         ]);
     }
 
@@ -186,27 +185,32 @@ class RestaurateursController extends AbstractController
     /**
      * @Route("validmodif/{id}")
      */
-    public function validmodif($id,EntityManagerInterface $manager, Request $request)
+    public function validmodif($id, EntityManagerInterface $manager, Request $request)
     {
         $rep = $this->getDoctrine()->getRepository(Achat::class);
         $achat = $rep->find($id);
+        $societe = $this->getUser()->getSociete()->getId();
+        $acha = $request->request->get('quantite');
 
-        $request->request->get('quantite');
-        if($request->getMethod() == 'POST')
 
-        {
-            $ach=$request->get('quantite');
-
-            $achat->setQuantite($ach);
-
-        }
-
+        $achat->setQuantite($acha);
         $manager->persist($achat);
         $manager->flush();
+        $commande = $achat->getCommande();
+        $achats = $commande->getAchats();
+        $tot = 0;
+        foreach ($achats as $ach) {
+            $tot = $tot + ($ach->getPrix() * $ach->getQuantite());
+        }
+        $commande->setTotal($tot);
+        $manager->persist($commande);
+        $manager->flush();
+        $this->addFlash('success', 'Modification effectuée');
 
-        return $this->redirectToRoute("app_restaurateurs_livraisonrestaurateur");
 
-
+        return $this->redirectToRoute('app_restaurateurs_livraisonrestaurateur', [
+            'id' => $societe
+        ]);
 
     }
 
@@ -219,9 +223,7 @@ class RestaurateursController extends AbstractController
         $societes = $rep->findAll();
 
         $nom = $request->query->all();
-        dump($nom);
 
-        dump($panierService->getFullPanier());
 
         $soc = '';
         $societeid = $rep->findBy([
@@ -250,6 +252,7 @@ class RestaurateursController extends AbstractController
             'ps' => $ps
         ]);
     }
+
     /**
      * @Route("/commande")
      */
@@ -259,7 +262,9 @@ class RestaurateursController extends AbstractController
         $societes = $rep->findAll();
 
         $repo = $this->getDoctrine()->getRepository(Commande::class);
-        $commandes = $repo->findAll();
+        $commandes = $repo->findBy([
+            'date'=> new \DateTime()
+        ]);
 
         $repos = $this->getDoctrine()->getRepository(Produit::class);
         $produits = $repos->findAll();

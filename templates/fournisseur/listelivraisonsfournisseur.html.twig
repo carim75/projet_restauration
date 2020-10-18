@@ -6,7 +6,7 @@
 
 
         <h1>Livraisons à venir</h1>
-
+    <main style="background-color: white;">
         {% for livraison in livraisons  %}
             {% if societe.id == livraison.commande.fournisseur.id %}
                 {% if livraison.checkfourn == 'non' %}
@@ -56,6 +56,6 @@
             {% endif %}
         {% endfor %}
 
-
+    </main>
 
 {% endblock %}

@@ -2,42 +2,36 @@
 
 {% block body %}
 
-<main>
-        <h1>Commandes</h1>
-        <table class="table table-bordered">
-            <thead class="thead-dark">
-            <tr>
-                <th class="text-center" scope="col">Nom</th>
-                <th class="text-center" scope="col">Prix</th>
-                <th class="text-center" scope="col">Quantité</th>
-                <th class="text-center" scope="col">Unité</th>
-                <th class="text-center" scope="col">Total</th>
-            </tr>
-            </thead>
-        </table>
+
+    <h1>Commandes</h1>
+    <main style="background-color: white;">
 
 
         {% for commande in societe.commandefourn %}
             <table class="table table-bordered">
-                <tbody>
-                {% if commande.checkfourn == 'non' %}
 
+            {% if commande.checkfourn == 'non' %}
+
+                <tr>
+                    <th colspan="5" class="table-success text-center">{{ commande.restaurateur.nom }}</th>
+                </tr>
+                <tr>
+                    <td class="text-center table-info" style="font-weight: bolder" colspan="5">Commande
+                        n° {{ commande.id }} Du {{ commande.date | date("d/m/Y") }} D'un montant total
+                        de {{ commande.total }} €
+                    </td>
+                </tr>
+
+                <tr class="thead-dark">
+                    <th class="text-center" scope="col">Nom</th>
+                    <th class="text-center" scope="col">Prix</th>
+                    <th class="text-center" scope="col">Quantité</th>
+                    <th class="text-center" scope="col">Unité</th>
+                    <th class="text-center" scope="col">Total</th>
+                </tr>
+
+                <tbody>
                 {% for achat in commande.achats %}
-                    {% if soc != commande.restaurateur.nom %}
-                        {% set soc=commande.restaurateur.nom %}
-                        <tr>
-                            <th colspan="5" class="table-success text-center">{{ soc }}</th>
-                        </tr>
-                    {% endif %}
-                    {% if tot != commande.id %}
-                        {% set tot=commande.id %}
-                        <tr>
-                            <td class="text-center" style="font-weight: bolder" colspan="5">Commande
-                                n° {{ commande.id }} Du {{ commande.date | date("d/m/Y") }} D'un montant total
-                                de {{ commande.total }} €
-                            </td>
-                        </tr>
-                    {% endif %}
                     <tr>
                         <td class="text-center">{{ achat.produit.nom }}</td>
                         <td class="text-center">{{ achat.prix }} €</td>
@@ -46,27 +40,26 @@
                         {% set prix =achat.prix * achat.quantite %}
                         <td class="text-center">{{ prix }}</td>
                     </tr>
-
                 {% endfor %}
                 </tbody>
-            </table>
-            <form action="{{ path('app_index_validlivraison', {'idcom': commande.id}) }}" method="post">
-                <div style="width: 70%" class="form-group row">
-                    <label for="example-date-input" class="col-2 col-form-label">Date de livraison prévu : </label>
-                    <div class="col-10">
-                        <input class="form-control" name="date" type="date" value="" id="date">
-                        <a href="{{ path('app_index_validlivraison', {'idcom': commande.id }) }}">
-                            <button class="btn btn-primary mb-5">Valider</button>
-                        </a>
+                </table>
+
+                <form action="{{ path('app_index_validlivraison', {'idcom': commande.id}) }}" method="post">
+                    <div style="width: 70%" class="form-group row">
+                        <label for="example-date-input" class="col-2 col-form-label">Date de livraison prévu : </label>
+                        <div class="col-10">
+                            <input class="form-control" name="date" type="date" value="" id="date">
+                            <a href="{{ path('app_index_validlivraison', {'idcom': commande.id }) }}">
+                                <button class="btn btn-primary mb-5">Valider</button>
+                            </a>
+                        </div>
+
                     </div>
-
-                </div>
-
-            </form>
-                {% endif %}
+                </form>
+            {% endif %}
         {% endfor %}
 
-
+    </main>
 
 
 {% endblock %}
