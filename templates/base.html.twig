@@ -102,7 +102,7 @@
 
             <div id="popup2">Utilisateurs</div>
 
-            <a href="{{ path('app_admin_utilisateur_listeutilisateurs') }}" id="users"><img src="{{ asset('users.png') }}" alt=""></a>
+            <a href="{{ path('app_admin_utilisateur_listeutilisateurs') }}" id="users"><img src="{{ asset('user.png') }}" alt=""></a>
 
         {% endif %}
 
@@ -251,9 +251,13 @@
             integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
             crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
     <script src="{{asset('script.js')}}"></script>
 
 {% endblock %}
+
+
 <script>
 
 
@@ -333,15 +337,11 @@
 
 <footer>
 
-    <nav class="footer navbar navbar-expand-lg navbar-dark bg-dark">
-
-        <a class="" href="#">Navbar</a>
+    <nav class="footer navbar mx-auto justify-content-center navbar-expand-lg navbar-dark bg-dark">
 
 
-        <div class="collapse navbar-collapse" id="navbarColor02">
+        <p><span class="text-right " style="color: white;font-family: 'Poiret One', cursive;font-size: large"><strong>{{ date('')|date('Y')}} </strong></span>&copy;Commandeur.com<p>
 
-
-        </div>
 
     </nav>
 

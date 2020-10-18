@@ -1,7 +1,7 @@
 * {
     box-sizing: border-box;
 }
-
+/* Permet de contenir le conteneur dans une taille globale établie */
 
 body {
     margin: 0 auto;
@@ -10,6 +10,8 @@ body {
 
 }
 
+/* Empecher les éléments  de s'étirer sur toute la largeur de leur conteneur. */
+
 
 .home, .bcg {
 
@@ -17,19 +19,32 @@ body {
 
 }
 
+/* La photo CHEF de fond trouvée sur un site de restauration */
+
+
 .pagin{
     padding-left: 48%;
     text-align: center;
     margin-bottom: 4vh;
 
 }
+/* Le CSS de la pagination  */
 
 
 h1{
+    font-size: 50px;
+        font-weight: bold;
+            border: 2px solid grey;
+            border: black;
+                background-color: white;
 
-    font-size: 40px;
-        color: white;
+        color: black;
+
+    font-family: 'Poiret One' ;
 }
+
+/* Les éléments d'habillage des H1 d'onglets en onglets */
+
 
 
 h2 {
@@ -43,6 +58,13 @@ h2 {
     font-family: 'Monoton', cursive;
 
 }
+
+/* Les différentes fonctions liées au COMMANDEUR titre et son animation en JS */
+
+
+
+
+
 .listeprodcont{
     display: flex;
     justify-content: space-between;
@@ -65,6 +87,10 @@ h2 {
     justify-content: space-around;
 
 }
+
+/* Les différentes fonctions de dimmensions liées au différents onglets    */
+
+
 .burger {
 
     background: url("fleche.png")center/cover white;
@@ -75,6 +101,11 @@ h2 {
                                     width: 10%;
 }
 
+
+/* Les gestion de l'habillage du Burger pour son placement et également son positionnement */
+
+
+
 .pseudo
 
 {
@@ -84,6 +115,8 @@ h2 {
 }
 
 
+/* Le style du pseudo de l'utilisateur */
+
 #parent #popup {
     display: none;
 
@@ -92,7 +125,7 @@ h2 {
 #parent:hover #popup {
     display: inline-block;
 
-        color: red;
+        color: #ff0000;
 font-size: 20px;
     border: 1px solid white;
         padding: 3px;
@@ -120,6 +153,10 @@ font-size: 20px;
 }
 
 
+/* Le style et le positionnement des animations relatives au message du png liste utlisateur, factures et éconnexon  */
+
+
+
 
 
 .date {
@@ -127,9 +164,10 @@ font-size: 20px;
     font-size: 40px;
     border-radius: 5px 5px 5px;
 
-
-
 }
+
+/* L'habillage et la mise en valeur de la date */
+
 
 
 .main{
@@ -138,6 +176,8 @@ font-size: 20px;
     margin: 0 auto;
     margin-bottom: 4vh;
 }
+
+/* La gestion principale du MAIN de page en page avec un conteneur de 80% sur chaques pages */
 
 
 
@@ -154,11 +194,20 @@ ul>li{ display: flex;
 }
 
 
+/* L'habillage et le positionnement des différents onglets en fonction du profil connecté, Il s'agissait de faire ressortir ceux ci avec une légère teinte bleutée sans pour autant trop denoter du disign global, le tout en responsive  */
+
+
+
+
+
 .panier{
     width: 40%;
     background-color: white;
     opacity: 0.8;
 }
+
+/* L'assemblage du panier avec sa taille et son opacité */
+
 
 
 .navbar {
@@ -166,42 +215,64 @@ ul>li{ display: flex;
     background: black !important;
     margin-top: 15px;
     min-height: 10vh;
+        width: 100%;
+
 
 }
 
 
-.navbar-brand {
-    font-size: 30px !important;
-    font-family: 'Fredericka the Great', cursive;
-}
+
+/* La navbar globale avec son background, son positionement en page ainsi que sas dimensions minimales en fonction */
+
 
 span.navbar-brand {
     font-size: 20px;
+
+    font-size: 30px !important;
+    font-family: 'Fredericka the Great', cursive;
     color: #916319 !important;
 }
+
+/* La police et le design du Pseudo utilisateur */
+
 
 a{
     font-size: 20px;
     color: #916319 !important;
 }
+/*  */
 
 footer{
 
-   margin-top: 500px;
+
+   margin-top: 600px;
+
 }
 
-    .meteo {
-        width: 100%;
-    }
 
-    .phone1 {
-        width: 100%;
-        margin-left: 0;
+p { display: flex;
+
+    justify-content: center;
+        align-items: center;
+
+    color: white;
+
+        font-size: medium;
+    font-family: 'Poiret One'
+
+}
+
+
+/* Le positionnement de la navigation du Footer*/
+
 
 @media screen and (min-width: 410px)and (max-width: 1000px) {
 
 
-h2 {  display: flex;
+    /* En Media query ici toutes les balises necessitant d'etre réadaptées en fonction du passage en tablette ou mobile*/
+
+
+    h2 {  display: flex;
         justify-content: center;
         align-items: center;
 
@@ -209,6 +280,20 @@ h2 {  display: flex;
 
 }
 
+    #parent2 {
+
+        margin-right: 90px;
+
+    }
+
+
+    .meteo {
+        width: 100%;
+    }
+
+    .phone1 {
+        width: 100%;
+        margin-left: 0; }
 
 
 
