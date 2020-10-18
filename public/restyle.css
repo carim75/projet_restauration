@@ -24,9 +24,16 @@ body {
 
 }
 
+
+h1{
+
+    font-size: 40px;
+        color: white;
+}
+
+
 h2 {
-    margin-top: 20px;
-    margin-left: 10px;
+
     font-size: 60px;
     color: darkgoldenrod;
         text-shadow: 1px 1px darkgoldenrod;
@@ -36,6 +43,10 @@ h2 {
     font-family: 'Monoton', cursive;
 
 }
+
+
+
+
 .creasociete{
     width: 80%;
     margin: 0 auto;
@@ -56,40 +67,55 @@ h2 {
                                     width: 10%;
 }
 
+.pseudo
+
+{
+    border: 1px solid white;
+    padding: 3px;
+
+}
+
+
 #parent #popup {
     display: none;
+
 }
 
 #parent:hover #popup {
     display: inline-block;
-        color: whitesmoke;
-font-size: 20px;
 
-    font-family: 'Poiret One', cursive;
+        color: red;
+font-size: 20px;
+    border: 1px solid white;
+        padding: 3px;
+                font-family: 'Poiret One', cursive;
 
 }
-
 
 #parent2 #popup2 {
     display: none;
+        position: absolute;
+            margin-left: 50px;
 }
 
 #parent2:hover #popup2 {
-    display: inline-block;
+    display: inline-flex;
+
+
     color: whitesmoke;
-    font-size: 20px;
+        border: 1px solid white;
+            padding: 3px;
+                font-size: 20px;
+
 
     font-family: 'Poiret One', cursive;
 }
-
-
 
 
 .date {
 
     font-size: 40px;
     border-radius: 5px 5px 5px;
-
 
 
 }
@@ -107,13 +133,14 @@ font-size: 20px;
 ul>li{ display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
+        margin-top: 15px;
 
     background:aliceblue ;
     border: 1px solid grey;
+
     list-style: none;
     box-shadow: 2px 3px 6px;
 }
-
 
 
 .panier{
@@ -147,19 +174,25 @@ a{
     color: #916319 !important;
 }
 
+footer{
 
+   margin-top: 500px;
+}
 
 
 
 @media screen and (min-width: 410px)and (max-width: 1000px) {
 
 
-h2 {  display: block;
+h2 {  display: flex;
+        justify-content: center;
         align-items: center;
 
     font-size: 42px;
 
 }
+
+
 
 
     #media {
@@ -173,16 +206,15 @@ h2 {  display: block;
     }
 
 
-
     .navbar {
 
        display: flex;
             flex-flow: row wrap-reverse;
-                width: 110%;
+                width: 100%;
+                padding: 25px;
                         justify-content: center;
                             align-content:space-between ;
                                 align-items: flex-end;
-
 
     }
 

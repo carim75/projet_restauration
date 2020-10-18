@@ -60,13 +60,11 @@ class IndexController extends AbstractController
         );
 
 
-
         return $this->render('index/index.html.twig', [
             'livraisons'=>$livraisons,
             'commandes'=>$commandes
         ]);
     }
-
 
 
     /**
@@ -88,14 +86,11 @@ class IndexController extends AbstractController
         $manager->flush();
 
 
-
         return $this->redirectToRoute('app_index_index',[
 
         ]);
 
     }
-
-
 
 
     /**
@@ -121,13 +116,10 @@ class IndexController extends AbstractController
     }
 
 
-
-
-
-
     /**
      * @Route("facturecrea/{id}")
      */
+
     public function facturecrea($id,Request $request,EntityManagerInterface $manager)
     {
         $rep = $this->getDoctrine()->getRepository(Livraison::class);

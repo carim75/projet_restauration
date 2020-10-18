@@ -87,12 +87,13 @@
 
 <nav class="navbar " style="min-height:10vh">
 
-    <div><span class="navbar-brand">{{ app.user.pseudo }}</span></div>
+    <div><span class="pseudo navbar-brand">{{ app.user.pseudo }}</span></div>
 
     <div><span class="text-right " style="color: white;font-family: 'Poiret One', cursive;;font-size: large"><strong>Le  {{ date('')|date('d/m/Y')}} à {{ date('')|date('H') }} H {{ date('')| date('i')}} </strong></span></div>
 
             <div class="bg-dark border-info meteo">
-            <span class="text-right ml-4 " id="temperature" style="color: white;font-family: 'Poiret One', cursive;font-size: large">></span>
+
+            <span class="text-right ml-3 " id="temperature" style="color: white;font-family: 'Poiret One', cursive;font-size: large">></span>
             </div>
 
 
@@ -102,12 +103,11 @@
 
             <div id="popup2">Utilisateurs</div>
 
-            <a href="{{ path('app_admin_utilisateur_listeutilisateurs') }}" id="users"><img src="{{ asset('users.png') }}" alt=""></a>
+            <a href="{{ path('app_admin_utilisateur_listeutilisateurs') }}" id="users"><img src="{{ asset('user.png') }}" alt=""></a>
 
         {% endif %}
 
     </div>
-
 
     <div id="parent">
 
@@ -210,7 +210,9 @@
 
 
 
-{% block body %}{% endblock %}
+{% block body %}
+
+{% endblock %}
 
 </section>
 
@@ -309,5 +311,23 @@
 
 
 </body>
+
+
+<footer>
+
+    <nav class="footer navbar navbar-expand-lg navbar-dark bg-dark">
+
+        <a class="" href="#">Navbar</a>
+
+
+        <div class="collapse navbar-collapse" id="navbarColor02">
+
+
+        </div>
+
+    </nav>
+
+
+</footer>
 
 </html>
