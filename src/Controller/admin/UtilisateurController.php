@@ -3,7 +3,9 @@
 
 namespace App\Controller\admin;
 
+use App\Entity\Societe;
 use App\Entity\Utilisateur;
+use App\Form\PatronType;
 use App\Form\UtilisateurType;
 use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,8 +26,6 @@ class UtilisateurController extends AbstractController
      */
     public function inscription(Utilisateur $utilisateur = null, Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $manager)
     {
-        $patron=$request->getUser();
-        dump($patron);
 
 
         if (!$utilisateur){
@@ -35,6 +35,61 @@ class UtilisateurController extends AbstractController
 
 
         $form = $this->createForm(UtilisateurType::class, $utilisateur);
+
+        $repo = $this->getDoctrine()->getRepository(Societe::class);
+        $societe = $repo->find($this->getUser()->getSociete()->getId());
+        dump($societe);
+
+        $fonction=$this->getUser()->getFonction();
+        dump($fonction);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted()){
+
+                $utilisateur->setSociete($societe);
+                $utilisateur->setFonction($fonction);
+                $utilisateur->setPassword($encoder->encodePassword(
+                    $utilisateur,
+                    $utilisateur->getPlainMdp()
+                ));
+
+                $manager->persist($utilisateur);
+                $manager->flush();
+
+                if (isset($creation)){
+                    $this->addFlash('success', 'L\'utilisateur a bien été ajouté');
+                }else{
+                    $this->addFlash('update', 'L\'utilisateur a été mis à jour');
+                }
+
+
+
+                return $this->redirectToRoute('app_utilisateur_connexion', [
+                    'id' => $utilisateur->getId()
+                ]);
+
+        }
+
+        return $this->render('admin/utilisateur/inscription.html.twig', [
+            'form' => $form->createView(),
+            'editMode'=> $utilisateur->getId() !== null
+        ]);
+
+    }
+
+    /**
+     * @Route("/patron")
+     *
+     */
+    public function inscriptionPatron(Utilisateur $utilisateur = null, Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $manager)
+    {
+
+
+
+            $utilisateur = new Utilisateur();
+
+
+        $form = $this->createForm(PatronType::class,$utilisateur);
 
         $form->handleRequest($request);
 
@@ -50,11 +105,9 @@ class UtilisateurController extends AbstractController
                 $manager->persist($utilisateur);
                 $manager->flush();
 
-                if (isset($creation)){
+
                     $this->addFlash('success', 'L\'utilisateur a bien été ajouté');
-                }else{
-                    $this->addFlash('update', 'L\'utilisateur a été mis à jour');
-                }
+
 
                 return $this->redirectToRoute('app_utilisateur_connexion', [
                     'id' => $utilisateur->getId()
@@ -66,9 +119,9 @@ class UtilisateurController extends AbstractController
 
         }
 
-        return $this->render('admin/utilisateur/inscription.html.twig', [
-            'form' => $form->createView(),
-            'editMode'=> $utilisateur->getId() !== null
+        return $this->render('admin/utilisateur/inscriptionpatron.html.twig',[
+            'form' => $form->createView()
+
         ]);
 
     }

@@ -92,8 +92,7 @@
     <div><span class="text-right " style="color: white;font-family: 'Poiret One', cursive;;font-size: large"><strong>Le  {{ date('')|date('d/m/Y')}} à {{ date('')|date('H') }} H {{ date('')| date('i')}} </strong></span></div>
 
             <div class="bg-dark border-info meteo">
-
-            <span class="text-right ml-3 " id="temperature" style="color: white;font-family: 'Poiret One', cursive;font-size: large">></span>
+            <span class="text-right ml-4 " id="temperature" style="color: white;font-family: 'Poiret One', cursive;font-size: large">></span>
             </div>
 
 
@@ -103,7 +102,20 @@
 
             <div id="popup2">Utilisateurs</div>
 
-            <a href="{{ path('app_admin_utilisateur_listeutilisateurs') }}" id="users"><img src="{{ asset('user.png') }}" alt=""></a>
+            <a href="{{ path('app_admin_utilisateur_listeutilisateurs') }}" id="users"><img src="{{ asset('users.png') }}" alt=""></a>
+
+        {% endif %}
+
+    </div>
+
+    <div id="parent2">
+
+        {% if is_granted('ROLE_ADMIN') %}
+
+            <div id="popup2">Factures</div>
+
+            <a href="{{ path('factures') }}" id="users"><img style="width: 60px;height: 60px"
+                                                        src="{{ asset('img/facture.png') }}" alt=""></a>
 
         {% endif %}
 
@@ -142,77 +154,83 @@
 
             <ul class="nav nav-tabs mt-5" id="media">
 
-    <li class="nav-item mr-2">
-        <a class="nav-link " href="{{ path('app_index_index') }}">Accueil</a>
-    </li>
+                <li class="nav-item mr-2">
+                    <a class="nav-link " href="{{ path('app_index_index') }}">Accueil</a>
+                </li>
 
-    <li class="nav-item mr-2">
-        {% if app.user.fonction == 'Fournisseur'  %}
-            <a class="nav-link" href="{{ path('app_fournisseurs_livraison', {'id': app.user.societe.id}) }}">Livraison</a>
-        {% else %}
-            <a class="nav-link" href="{{ path('app_restaurateurs_livraisonrestaurateur', {'id': app.user.societe.id}) }}">Livraison</a>
-        {% endif %}
-    </li>
+                <li class="nav-item mr-2">
+                    {% if app.user.fonction == 'Fournisseur' %}
+                        <a class="nav-link"
+                           href="{{ path('app_fournisseurs_livraison', {'id': app.user.societe.id}) }}">Livraison</a>
+                    {% else %}
+                        <a class="nav-link"
+                           href="{{ path('app_restaurateurs_livraisonrestaurateur') }}">Livraison</a>
+                    {% endif %}
+                </li>
 
-    <li class="nav-item mr-2">
-        {% if app.user.fonction == 'Fournisseur' %}
-            <a class="nav-link " href="{{ path('app_fournisseurs_commandesfournisseur', {'id': app.user.societe.id}) }}">Commandes</a>
-        {% else %}
-            <a class="nav-link" href="{{ path('app_restaurateurs_listecommande') }}">Commandes</a>
-        {% endif %}
-    </li>
+                <li class="nav-item mr-2">
+                    {% if app.user.fonction == 'Fournisseur' %}
+                        <a class="nav-link "
+                           href="{{ path('app_fournisseurs_commandesfournisseur', {'id': app.user.societe.id}) }}">Commandes</a>
+                    {% else %}
+                        <a class="nav-link" href="{{ path('app_restaurateurs_listecommande') }}">Commandes</a>
+                    {% endif %}
+                </li>
 
-    <li class="nav-item mr-2">
-        {% if app.user.fonction == 'Fournisseur' %}
-            <a class="nav-link" href="{{ path('app_fournisseurs_listeprodfourn', {'id': app.user.societe.id}) }}">Liste des produits</a>
-        {% else %}
-            <a class="nav-link" href="{{ path('app_restaurateurs_listeproduit') }}">Liste des produits</a>
-        {% endif %}
-    </li>
+                <li class="nav-item mr-2">
+                    {% if app.user.fonction == 'Fournisseur' %}
+                        <a class="nav-link"
+                           href="{{ path('app_fournisseurs_listeprodfourn', {'id': app.user.societe.id}) }}">Liste des
+                            produits</a>
+                    {% else %}
+                        <a class="nav-link" href="{{ path('app_restaurateurs_listeproduit') }}">Liste des produits</a>
+                    {% endif %}
+                </li>
 
-    {% if app.user.fonction == 'Fournisseur'  %}
-        <li class="nav-item mr-2">
-            <a class="nav-link" href="{{ path('app_fournisseurs_ajouterproduit', {'idsoc': app.user.societe.id}) }}">Ajout de produit</a>
-        </li>
-    {% endif %}
+                {% if app.user.fonction == 'Fournisseur' %}
+                    <li class="nav-item mr-2">
+                        <a class="nav-link"
+                           href="{{ path('app_fournisseurs_ajouterproduit', {'idsoc': app.user.societe.id}) }}">Ajout de
+                            produit</a>
+                    </li>
+                {% endif %}
 
 
-    {% if app.user.fonction == 'Restaurateur'%}
-        <li class="nav-item mr-2">
-            <a class="nav-link" href="{{ path('app_restaurateurs_promos') }}">Promotions</a>
-        </li>
-    {% else %}
+                {% if app.user.fonction == 'Restaurateur' %}
+                    <li class="nav-item mr-2">
+                        <a class="nav-link" href="{{ path('app_restaurateurs_promos') }}">Promotions</a>
+                    </li>
+                {% else %}
 
-        <li class="nav-item mr-2">
-            <a class="nav-link" href="{{ path('app_fournisseurs_promosfourn', {'id': app.user.societe.id}) }}">Promotions</a>
-        </li>
-    {% endif %}
+                    <li class="nav-item mr-2">
+                        <a class="nav-link"
+                           href="{{ path('app_fournisseurs_promosfourn', {'id': app.user.societe.id}) }}">Promotions</a>
+                    </li>
+                {% endif %}
 
-</ul>
+            </ul>
 
-    </div>
-
-</nav>
-<section style="background-color: white">
-
-{% for type, messages in app.session.flashBag.all %}
-
-    {% if type == 'error' %}
-        {% set type='danger' %}
-    {% endif %}
-    {% for message in messages %}
-        <div class="alert alert-{{ type }} mt-2">
-            {{ message | raw }}
         </div>
-    {% endfor %}
 
-{% endfor %}
+    </nav>
+    <section style="background-color: white">
+
+        {% for type, messages in app.session.flashBag.all %}
+
+            {% if type == 'error' %}
+                {% set type='danger' %}
+            {% endif %}
+            {% for message in messages %}
+                <div class="alert alert-{{ type }} mt-2">
+                    {{ message | raw }}
+                </div>
+            {% endfor %}
+
+        {% endfor %}
+    </section>
 
 
-
-{% block body %}
-
-{% endblock %}
+{% block body %}{% endblock %}
 
 </section>
 

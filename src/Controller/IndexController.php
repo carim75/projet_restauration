@@ -3,32 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\Commande;
-use App\Entity\Achat;
 use App\Entity\Facture;
 use App\Entity\Livraison;
-use App\Entity\Produit;
 use App\Entity\Societe;
-use App\Entity\Utilisateur;
-use App\Form\ProduitType;
 use App\Form\SocieteType;
-use App\Form\UtilisateurType;
-use App\Repository\ProduitRepository;
 use App\Repository\SocieteRepository;
-use App\Repository\UtilisateurRepository;
-use App\Service\Panier\PanierService;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Tools\Pagination\Paginator;
-use Doctrine\Persistence\ObjectManager;
-use http\Client\Curl\User;
-use Knp\Bundle\PaginatorBundle\Definition\PaginatorAwareInterface;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+
 
 class IndexController extends AbstractController
 {
@@ -140,7 +124,8 @@ class IndexController extends AbstractController
         $this->addFlash('success', 'Livraison validée, facture créée avec succès');
 
         $repo = $this->getDoctrine()->getRepository(Facture::class);
-        $factures = $repo->findAll();
+        $factures = $repo->findby(array(),array('id'=> 'DESC'));
+
 
 
        return $this->redirectToRoute("app_index_factures",[
@@ -149,12 +134,12 @@ class IndexController extends AbstractController
     }
 
     /**
-     * @Route("/factures")
+     * @Route("/factures", name="factures")
      */
     public function factures()
     {
         $repo = $this->getDoctrine()->getRepository(Facture::class);
-        $factures = $repo->findAll();
+        $factures = $repo->findby(array(),array('id'=> 'DESC'));
         return $this->render("facture.html.twig",[
             'factures'=>$factures
         ]);

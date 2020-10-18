@@ -5,24 +5,31 @@
 
     <h1>Factures</h1>
 
-    {% for facture in factures  %}
-        {% if app.user.societe.id == facture.livraison.commande.restaurateur.id %}
+    {% for facture in factures %}
+        {% if app.user.societe.id == facture.livraison.commande.restaurateur.id or app.user.societe.id == facture.livraison.commande.fournisseur.id  %}
 
 
 
-            <div class="card text-white bg-secondary mb-3" >
+            <div class="card text-white bg-secondary mb-3">
+                {% if app.user.fonction == "Restaurateur" %}
+
                 <div class="card-header"><h3>{{ facture.livraison.commande.fournisseur.nom }}</h3></div>
+                    {% else %}
+                        <div class="card-header"><h3>{{ facture.livraison.commande.restaurateur.nom }}</h3></div>
+                {% endif %}
                 <div class="card-body">
                     <table class="table table-bordered">
                         <thead class="thead_dark">
-                        <h5>{{ facture.livraison.date | date('d/m/Y') }}</h5>
+                        <h5>Facture N° : {{ facture.livraison.id}} du : {{ facture.livraison.date | date('d/m/Y') }}</h5>
+
                         <tr>
                             <th class="text-center" scope="col">Nom</th>
                             <th class="text-center" scope="col">Prix</th>
                             <th class="text-center" scope="col">Quantité</th>
                             <th class="text-center" scope="col">Unité</th>
                             <th class="text-center" scope="col">T.V.A</th>
-                            <th class="text-center" scope="col">Total</th>
+                            <th class="text-center" scope="col">Total H.T</th>
+                            <th class="text-center" scope="col">Total TTC</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -33,16 +40,23 @@
                                 <td class="text-center">{{ achat.prix }} €</td>
                                 <td class="text-center">{{ achat.quantite }}</td>
                                 <td class="text-center">{{ achat.produit.unite }}</td>
-                                <td class="text-center">{{ facture.tva }}</td>
                                 {% set prix =achat.prix * achat.quantite %}
-                                <td class="text-center">{{ prix }} € TTC</td>
+                                {% set tva= prix/11 %}
+                                {% set ht= prix - tva %}
+                                <td class="text-center">{{ tva|round(2) }} €</td>
+                                <td class="text-center">{{ ht|round(2) }} €</td>
+                                <td class="text-center">{{ prix|round(2) }} € TTC</td>
                             </tr>
                         {% endfor %}
                         </tbody>
                         <tfoot>
                         <tr>
                             <td colspan="4" class="text-right">Total de la commande :</td>
-                            <td colspan="2" class="text-center">{{ facture.livraison.commande.total }} € TTC</td>
+                            {% set tvatot= facture.livraison.commande.total/11 %}
+                            {% set httot= facture.livraison.commande.total - tvatot %}
+                            <td colspan="1" class="text-center">{{ tvatot|round(2) }} € T.V.A</td>
+                            <td colspan="1" class="text-center">{{ httot|round(2) }} € H.T</td>
+                            <td colspan="1" class="text-center">{{ facture.livraison.commande.total }} € TTC</td>
                         </tr>
                         </tfoot>
 

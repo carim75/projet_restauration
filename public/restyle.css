@@ -43,11 +43,19 @@ h2 {
     font-family: 'Monoton', cursive;
 
 }
+.listeprodcont{
+    display: flex;
+    justify-content: space-between;
+}
 
+.listeproduit{
+    width: 68%;
+}
+.commande{
+    width: 28%;
+}
 
-
-
-.creasociete{
+.creasociete {
     width: 80%;
     margin: 0 auto;
 }
@@ -92,6 +100,7 @@ font-size: 20px;
 
 }
 
+
 #parent2 #popup2 {
     display: none;
         position: absolute;
@@ -107,15 +116,17 @@ font-size: 20px;
             padding: 3px;
                 font-size: 20px;
 
-
     font-family: 'Poiret One', cursive;
 }
+
+
 
 
 .date {
 
     font-size: 40px;
     border-radius: 5px 5px 5px;
+
 
 
 }
@@ -179,7 +190,13 @@ footer{
    margin-top: 500px;
 }
 
+    .meteo {
+        width: 100%;
+    }
 
+    .phone1 {
+        width: 100%;
+        margin-left: 0;
 
 @media screen and (min-width: 410px)and (max-width: 1000px) {
 
@@ -204,6 +221,20 @@ h2 {  display: flex;
                 min-height: 100px;
 
     }
+    .listeprodcont{
+        display: flex;
+        flex-flow: column;
+    }
+
+
+    .listeproduit{
+        width: 100%;
+    }
+
+
+    .commande{
+        width: 100%;
+    }
 
 
     .navbar {
@@ -215,6 +246,7 @@ h2 {  display: flex;
                         justify-content: center;
                             align-content:space-between ;
                                 align-items: flex-end;
+
 
     }
 
