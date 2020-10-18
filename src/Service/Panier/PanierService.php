@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class PanierService
 {
+
     protected $session;
     protected $produitRepository;
 
@@ -19,9 +20,15 @@ class PanierService
     }
 
 
+
     public function add(int $id)
     {
 
+        /**
+         * déclaration en session d'un panier qui charge les produit par id
+         * et quantifie le nombre de fois que le même produit a été ajouté
+         * via l'ajout de l'id
+         */
         $panier= $this->session->get('panier', []);
         if(!empty($panier[$id])){
             $panier[$id]++;
@@ -33,6 +40,12 @@ class PanierService
 
     public function remove(int $id)
     {
+
+        /**
+         * decharge les produit du panier par id
+         * et requantifie le nombre de fois que le même produit a été retiré
+         * via la décrémentation de l'id
+         */
 
         $panier= $this->session->get('panier', []);
         if(!empty($panier[$id] )&& $panier[$id]>1){
@@ -46,6 +59,10 @@ class PanierService
 
     public function delete(int $id)
     {
+
+        /**
+         *Vide totalement la ligne du produit appelé via son id
+         */
         $panier=$this->session->get('panier', []);
         if(!empty($panier[$id])){
             unset($panier[$id]);
@@ -57,6 +74,12 @@ class PanierService
 
     public function getFullPanier() : array
     {
+
+        /**
+         * boucle permettant de synthétiser l'intégralité
+         * des ajout effectués sur le panier et la quantité de chaques ajouts
+         */
+
         $panier = $this->session->get('panier', []);
 
         $panierDetail=[];
@@ -70,19 +93,17 @@ class PanierService
         return $panierDetail;
     }
 
-    public function getEmptyPanier()
-    {
-        $panier = $this->session->get('panier', []);
-        unset($panier);
 
-        return "Commande ok!";
-
-    }
 
 
     public function getTotal() : float
     {
         $total=0;
+        /**
+         * fonction permettant d'avoir le montant total
+         * du panier au fur et à mesure des ajouts retraits ou suppression.
+         * Même montant qui va être setter lors de l'envoie de la commande
+         */
 
         foreach ($this->getFullPanier() as $item){
 

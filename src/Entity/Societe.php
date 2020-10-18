@@ -34,11 +34,7 @@ class Societe
      */
     private $tel_societe;
 
-    /**
-     * @ORM\Column(type="string", length=10, nullable=true)
-     * @Assert\Length(max="10", maxMessage="Le numéro ne peut contenir plus de 10 chiffres.")
-     */
-    private $tel_patron;
+
 
     /**
      * @ORM\Column(type="string", length=50)
@@ -67,6 +63,11 @@ class Societe
      * @ORM\OneToMany(targetEntity=Commande::class, mappedBy="fournisseur")
      */
     private $commandefourn;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $adresse;
 
 
 
@@ -109,17 +110,7 @@ class Societe
         return $this;
     }
 
-    public function getTelPatron(): ?string
-    {
-        return $this->tel_patron;
-    }
 
-    public function setTelPatron(?string $tel_patron): self
-    {
-        $this->tel_patron = $tel_patron;
-
-        return $this;
-    }
 
     public function getMail(): ?string
     {
@@ -255,6 +246,18 @@ class Societe
                 $commandefourn->setFournisseur(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAdresse(): ?string
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(string $adresse): self
+    {
+        $this->adresse = $adresse;
 
         return $this;
     }

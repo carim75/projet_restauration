@@ -1,17 +1,32 @@
-{% extends '../base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block body %}
-    <h4>Modification Livraison</h4>
+    <h1>Modification Livraison</h1>
 
-
-    <form action="{{ path('app_restaurateurs_validmodif', {'id': achat.id}) }}" method="post">
-        <h4>{{ achat.produit.nom }}</h4>
-        <input type="hidden" value="{{ achat.id }}">
-        <label for="quantite"></label>
-        <input type="text" name="quantite" value="{{ achat.quantite }}">
-        <h4>{{ achat.produit.unite }}</h4>
-        <button type="submit">Valider</button>
+    <form class="mt-5" style="background-color: white;padding: 30px" action="{{ path('app_restaurateurs_validmodif', {'id': achat.id}) }}" method="post">
+        <div class="row">
+            <div class="col">
+                <label for="produit">Produit modifié</label>
+                <h4>{{ achat.produit.nom }}</h4>
+                <input type="hidden" value="{{ achat.id }}">
+            </div>
+            <div class="col">
+                <label for="quantite">Quantité</label>
+                <input type="text" name="quantite" value="{{ achat.quantite }}">
+            </div>
+            <div class="col">
+                <label for="unite">Unité du produit</label>
+                <h4>{{ achat.produit.unite }}</h4>
+            </div>
+            <div class="col">
+                <label for="description">Conditionnement et/ou origine</label>
+                <h4>{{ achat.produit.description }}</h4>
+            </div>
+        </div>
+        <button class="btn btn-primary mt-3" type="submit">Valider</button>
     </form>
+
+
 
 
 {% endblock %}

@@ -93,7 +93,7 @@ class RestaurateursController extends AbstractController
     /**
      * @Route ("/achat")
      */
-    public function commande( SocieteRepository $societeRepository, PanierService $panierService, EntityManagerInterface $manager)
+    public function commande(SocieteRepository $societeRepository, PanierService $panierService, EntityManagerInterface $manager)
     {
 
         /**
@@ -211,7 +211,7 @@ class RestaurateursController extends AbstractController
     public function facturemodif($id, Request $request, EntityManagerInterface $manager)
     {
         /**
-         *
+         *recupère l'achat à modifier lors de la livraison car non conforme
          */
 
         $rep = $this->getDoctrine()->getRepository(Achat::class);
@@ -229,6 +229,14 @@ class RestaurateursController extends AbstractController
      */
     public function validmodif($id, EntityManagerInterface $manager, Request $request)
     {
+        /**
+         * cette fonction permet d'enregistrer la modification de l'achat lors de la livraison (problème de quantité ou de qualité du produit qui serait alors renvoyer et remet à jour le montant de la ligne de commande mais
+         * aussi le montant total de la livraison afin de pouvoir valider directement cette livraison et la transmettre
+         * à la facturation
+         *
+         */
+
+
         $rep = $this->getDoctrine()->getRepository(Achat::class);
         $achat = $rep->find($id);
         $societe = $this->getUser()->getSociete()->getId();
@@ -261,6 +269,12 @@ class RestaurateursController extends AbstractController
      */
     public function listeProduit(ProduitRepository $produitRepository, SocieteRepository $societeRepository, EntityManagerInterface $manager, Request $request, $societeid, PanierService $panierService)
     {
+
+        /**
+         * fonction permettant d'afficher tout les produits par fournisseur et de les commander (les ajouter au panier) lors de l'ajout d'un produit au panier, la liste des produits du même fournisseur est la seule présente
+         * dans l'affichage afin de faciliter la commande. Il est de même mis à disposition du restaurateur la selection directe du fournisseur chez lequel il souhaite commander
+         */
+
         $rep = $this->getDoctrine()->getRepository(Societe::class);
         $societes = $rep->findAll();
 
@@ -300,12 +314,17 @@ class RestaurateursController extends AbstractController
      */
     public function listeCommande()
     {
+
+        /**
+         * fonction permettant d'afficher toutes les commandes du jour effectuées
+         */
+
         $rep = $this->getDoctrine()->getRepository(Societe::class);
         $societes = $rep->findAll();
 
         $repo = $this->getDoctrine()->getRepository(Commande::class);
         $commandes = $repo->findBy([
-            'date'=> new \DateTime()
+            'date' => new \DateTime()
         ]);
 
         $repos = $this->getDoctrine()->getRepository(Produit::class);
