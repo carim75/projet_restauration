@@ -16,14 +16,15 @@
 
         <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">
 
-        <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Monoton&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Monoton&display=swap"
+              rel="stylesheet">
 
 
         <link href="https://fonts.googleapis.com/css2?family=Petit+Formal+Script&display=swap" rel="stylesheet">
 
         <link href="https://fonts.googleapis.com/css2?family=Poiret+One&display=swap" rel="stylesheet">
 
-        <link rel="stylesheet" href="{{asset('restyle.css')}}">
+        <link rel="stylesheet" href="{{ asset('restyle.css') }}">
 
 
     {% endblock %}
@@ -40,43 +41,42 @@
 
 <script>
 
-    var x =0;
+    var x = 0;
 
     var textEffect = ".Commandeur.";
     var container = document.getElementById('effect');
 
 
-    function animate () {
+    function animate() {
 
-        if (x < textEffect.length){
+        if (x < textEffect.length) {
 
-            container.innerHTML+= textEffect.charAt(x);
+            container.innerHTML += textEffect.charAt(x);
 
             x++;
-            setTimeout(animate,70);
+            setTimeout(animate, 70);
         }
     }
+
     animate();
 
 
     var e = document.getElementById('parent');
-    e.onmouseover = function() {
+    e.onmouseover = function () {
         document.getElementById('popup').style.display = 'block';
     }
-    e.onmouseout = function() {
+    e.onmouseout = function () {
         document.getElementById('popup').style.display = 'none';
     }
 
 
     var u = document.getElementById('parent2');
-    e.onmouseover = function() {
+    e.onmouseover = function () {
         document.getElementById('popup2').style.display = 'block';
     }
-    e.onmouseout = function() {
+    e.onmouseout = function () {
         document.getElementById('popup2').style.display = 'none';
     }
-
-
 
 
 </script>
@@ -89,11 +89,14 @@
 
     <div><span class="pseudo navbar-brand">{{ app.user.pseudo }}</span></div>
 
-    <div><span class="text-right " style="color: white;font-family: 'Poiret One', cursive;;font-size: large"><strong>Le  {{ date('')|date('d/m/Y')}} à {{ date('')|date('H') }} H {{ date('')| date('i')}} </strong></span></div>
+    <div><span class="text-right "
+               style="color: white;font-family: 'Poiret One', cursive;;font-size: large"><strong>Le  {{ date('')|date('d/m/Y') }} à {{ date('')|date('H') }} H {{ date('')| date('i') }} </strong></span>
+    </div>
 
-            <div class="bg-dark border-info meteo">
-            <span class="text-right ml-4 " id="temperature" style="color: white;font-family: 'Poiret One', cursive;font-size: large">></span>
-            </div>
+    <div class="bg-dark border-info meteo">
+        <span class="text-right ml-4 " id="temperature"
+              style="color: white;font-family: 'Poiret One', cursive;font-size: large">></span>
+    </div>
 
 
     <div id="parent2">
@@ -133,7 +136,6 @@
     </div>
 
 
-
 </nav>
 
 
@@ -141,15 +143,17 @@
 
     <nav class="navbar-expand-lg">
 
-<div class="burger1">
+        <div class="burger1">
 
-        <button class="burger navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="burger navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
 
-            <span class="navbar-toggler-icon"></span>
+                <span class="navbar-toggler-icon"></span>
 
             </button>
 
-</div>
+        </div>
 
         <div class="collapse navbar-collapse navigation" id="navbarSupportedContent">
 
@@ -200,7 +204,7 @@
 
                 {% if app.user.fonction == 'Restaurateur' %}
                     <li class="nav-item mr-2">
-                        <a class="nav-link" href="{{ path('app_restaurateurs_promos') }}">Promotions</a>
+                        <a class="nav-link" href="{{ path('promoresto') }}">Promotions</a>
                     </li>
                 {% else %}
 
@@ -232,7 +236,7 @@
     </section>
 
 
-{% block body %}{% endblock %}
+    {% block body %}{% endblock %}
 
 </main>
 
@@ -242,7 +246,8 @@
             integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
             crossorigin="anonymous"></script>
 
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
             integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
@@ -251,7 +256,7 @@
             integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
             crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="{{asset('script.js')}}"></script>
+    <script src="{{ asset('script.js') }}"></script>
 
 {% endblock %}
 <script>
@@ -280,25 +285,15 @@
                         $('#temperature').append(`<span style="color: white">${data.name} : ${Math.round(data.main.temp)} °C / </span><span style="color: white"> Min: ${Math.round(data.main.temp_min)} °C</span><spans style="color: white"> Max: ${Math.round(data.main.temp_max)} °C </span><img class="mb-2" src="{{ asset('img/nunu.png') }}" alt="meteo nuage et soleil">`)
                     } else if (data.weather[0]['main'] == 'Clear') {
                         $('#temperature').append(`<span style="color: white">${data.name} : ${Math.round(data.main.temp)} °C</span><span style="color: white">${Math.round(data.main.temp_min)}</span><span style="color: white">${Math.round(data.main.temp_max)}</span><img class="mb-2" src="{{ asset('img/clear.png') }}" alt="soleil">`)
-                    }
-
-                    else if (data.weather[0]['main'] == 'Thunderstorm') {
+                    } else if (data.weather[0]['main'] == 'Thunderstorm') {
                         $('#temperature').append(`<span style="color: white">${data.name} : ${Math.round(data.main.temp)} °C</span><span style="color: white">${Math.round(data.main.temp_min)}</span><span style="color: white">${Math.round(data.main.temp_max)}</span><img class="mb-2" src="{{ asset('img/orage.png') }}" alt="meteo orage">`)
-                    }
-
-                    else if (data.weather[0]['main'] == 'Drizzle') {
+                    } else if (data.weather[0]['main'] == 'Drizzle') {
                         $('#temperature').append(`<span style="color: white">${data.name} : ${Math.round(data.main.temp)} °C</span><span style="color: white">${Math.round(data.main.temp_min)}</span><span style="color: white">${Math.round(data.main.temp_max)}</span><img class="mb-2" src="{{ asset('img/pluie.png') }}" alt="meteo plui">`)
-                    }
-
-                    else if (data.weather[0]['main'] == 'Rain') {
+                    } else if (data.weather[0]['main'] == 'Rain') {
                         $('#temperature').append(`<span style="color: white">${data.name} : ${Math.round(data.main.temp)} °C</span><span style="color: white">${Math.round(data.main.temp_min)}</span><span style="color: white">${Math.round(data.main.temp_max)}</span><img class="mb-2" src="{{ asset('img/moit.png') }}" alt=" meteo plui soleil">`)
-                    }
-
-                    else if (data.weather[0]['main'] == 'Snow') {
+                    } else if (data.weather[0]['main'] == 'Snow') {
                         $('#temperature').append(`<span style="color: white">${data.name} : ${Math.round(data.main.temp)} °C</span><span style="color: white">${Math.round(data.main.temp_min)}</span><span style="color: white">${Math.round(data.main.temp_max)}</span><img class="mb-2" src="{{ asset('img/neige.png') }}" alt="meteo neige">`)
-                    }
-
-                    else if (data.weather[0]['main'] == 'Atmosphere') {
+                    } else if (data.weather[0]['main'] == 'Atmosphere') {
                         $('#temperature').append(`<span style="color: white">${data.name} : ${Math.round(data.main.temp)} °C</span><span style="color: white">${Math.round(data.main.temp_min)}</span><span style="color: white">${Math.round(data.main.temp_max)}</span><img class="mb-2" src="{{ asset('img/brouillard.png') }}" alt="meteo brouillard">`)
                     }
 
@@ -320,8 +315,9 @@
     <nav class="footer navbar mx-auto justify-content-center navbar-expand-lg navbar-dark bg-dark">
 
 
-        <p><span class="text-right " style="color: white;font-family: 'Poiret One', cursive;font-size: large"><strong>{{ date('')|date('Y')}} </strong></span>&copy;Commandeur.com<p>
-
+        <p><span class="text-right "
+                 style="color: white;font-family: 'Poiret One', cursive;font-size: large"><strong>{{ date('')|date('Y') }} </strong></span>&copy;Commandeur.com
+        <p>
 
 
     </nav>

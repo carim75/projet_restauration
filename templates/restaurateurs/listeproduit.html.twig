@@ -24,10 +24,11 @@
 
         <link href="https://fonts.googleapis.com/css2?family=Poiret+One&display=swap" rel="stylesheet">
 
-        <link rel="stylesheet" href="{{ asset('restyle.css') }}">
+
 
 
     {% endblock %}
+    <link rel="stylesheet" href="{{ asset('restyle.css') }}">
 
 
     <div class=" menu container-fluid">
@@ -106,7 +107,7 @@
             <div id="popup2">Utilisateurs</div>
 
             <a href="{{ path('app_admin_utilisateur_listeutilisateurs') }}" id="users"><img
-                        src="{{ asset('users.png') }}" alt=""></a>
+                        src="{{ asset('user.png') }}" alt=""></a>
 
         {% endif %}
 
@@ -459,22 +460,7 @@
         )
 
 
-        $("#searchbar").autocomplete({
-            source: function (request, response) {
-                $.get({
-                    url: "{{ path('app_search_autocomplete') }}",
-                    data: {
-                        query: request.term,
-                    },
-                    dataType: 'json',
-                    method: 'get'
-                }).done(function (data) {
-                    response(data);
-                });
-            },
-            delay: 100,
-            minLength: 2
-        })
+
     })
 </script>
 
