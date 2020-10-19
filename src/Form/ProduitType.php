@@ -49,10 +49,6 @@ class ProduitType extends AbstractType
 
 
                 ])
-            ->add('photo',TextType::class,
-                [
-                    'required'=>false
-                ])
             ->add('prix',NumberType::class,
                 [
                     'label'=>'Prix',
