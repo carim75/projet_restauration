@@ -148,17 +148,13 @@ class FournisseursController extends AbstractController
         $rep = $this->getDoctrine()->getRepository(Societe::class);
         $societe = $rep->find($id);
 
-        $soc = '';
-
-        $tot = '';
 
 
         return $this->render('fournisseur/commandesfournisseur.html.twig', [
 
             'societe' => $societe,
 
-            'soc' => $soc,
-            'tot' => $tot
+
         ]);
 
     }

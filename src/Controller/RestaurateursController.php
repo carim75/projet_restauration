@@ -132,10 +132,7 @@ class RestaurateursController extends AbstractController
 
         }
 
-
         $commande->setDate(new \DateTime());
-
-
         $manager->persist($commande);
         $manager->flush();
         $this->addFlash('success', 'Commande validée');
@@ -188,18 +185,12 @@ class RestaurateursController extends AbstractController
         $repos = $this->getDoctrine()->getRepository(Produit::class);
         $produitsEnPromo = $repos->findAll();
 
-        $nom = $request->query->all();
-        $repo = $this->getDoctrine()->getRepository(Societe::class);
-        $soc = '';
-        $societeid = $repo->findBy([
-            'nom' => $nom]);
+
 
         return $this->render('restaurateurs/promotions.html.twig', [
 
             'produits' => $produitsEnPromo,
-            'societeid' => $societeid,
-            'soc' => $soc,
-            'nom' => $nom
+
         ]);
 
     }
@@ -285,15 +276,14 @@ class RestaurateursController extends AbstractController
         $societeid = $rep->findBy([
             'nom' => $nom]);
 
-        $so = '';
+
         $repo = $this->getDoctrine()->getRepository(Produit::class);
         $prods = $repo->findAllOrderBy($societeid);
 
         $reposi = $this->getDoctrine()->getRepository(Produit::class);
         $produits = $reposi->findAll();
 
-        $reposito = $this->getDoctrine()->getRepository(Produit::class);
-        $ps = $reposito->findAllOrderBy($so);
+
 
         return $this->render('restaurateurs/listeproduit.html.twig', [
             'items' => $panierService->getFullPanier(),
@@ -304,8 +294,7 @@ class RestaurateursController extends AbstractController
             'societeid' => $societeid,
             'soc' => $soc,
             'prods' => $prods,
-            'so' => $so,
-            'ps' => $ps
+
         ]);
     }
 

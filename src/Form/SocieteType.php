@@ -14,7 +14,7 @@ class SocieteType extends AbstractType
         $builder
             ->add('nom')
             ->add('tel_societe')
-            ->add('tel_patron')
+            ->add('adresse')
             ->add('mail')
         ;
     }

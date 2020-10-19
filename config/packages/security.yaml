@@ -38,5 +38,20 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-       # - { path: ^/admin, roles: ROLE_ADMIN }
-
+        - { path: ^/factures, roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/admin/liste_utilisateurs, roles: ROLE_ADMIN  }
+        - { path: ^/admin/inscription, roles: ROLE_ADMIN }
+        - { path: ^/creasociete, roles: ROLE_ADMIN  }
+        - { path: ^/patron, roles: ROLE_ADMIN  }
+        - { path: ^/facturemodif, roles: [ROLE_USER, ROLE_ADMIN ]}
+        - { path: ^/accueil, roles: [ROLE_USER, ROLE_ADMIN ] }
+        - { path: ^/livraisonrestaurateur, roles: [ROLE_USER, ROLE_ADMIN ] }
+        - { path: ^/commande, roles: [ROLE_USER, ROLE_ADMIN ] }
+        - { path: ^/listeproduit, roles: [ROLE_USER, ROLE_ADMIN ] }
+        - { path: ^/promos, roles: [ROLE_USER, ROLE_ADMIN ] }
+        - { path: ^/livraison, roles: [ROLE_USER, ROLE_ADMIN ] }
+        - { path: ^/commandefournisseur, roles: [ROLE_USER, ROLE_ADMIN ] }
+        - { path: ^/produitfournisseur, roles: [ROLE_USER, ROLE_ADMIN ] }
+        - { path: ^/ajouterproduit, roles: [ROLE_USER, ROLE_ADMIN ] }
+        - { path: ^/promosfournisseur, roles: [ROLE_USER, ROLE_ADMIN ] }
