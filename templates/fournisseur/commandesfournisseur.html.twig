@@ -8,10 +8,10 @@
 
 
         {% for commande in societe.commandefourn %}
-            <table class="table table-bordered">
+
 
             {% if commande.checkfourn == 'non' %}
-
+                <table class="table table-bordered">
                 <tr>
                     <th colspan="5" class="table-success text-center">{{ commande.restaurateur.nom }}</th>
                 </tr>
